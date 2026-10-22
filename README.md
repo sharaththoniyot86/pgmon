@@ -20,6 +20,16 @@ with dependency resolution and upgrade/removal tracking); and
 [packaging/windows/](packaging/windows/README.md) builds an MSI that
 installs it as a Windows service on a plain Windows machine.
 
+## Screenshots
+
+| Details | Performance Hub |
+|---|---|
+| ![Details tab](docs/screenshots/details.jpg) | ![Performance Hub tab](docs/screenshots/performance-hub.jpg) |
+
+| AI Assistant |
+|---|
+| ![AI Assistant tab](docs/screenshots/ai-assistant.jpg) |
+
 ## Navigation
 
 The app is database-centric: **Databases** is the home screen — a list of
