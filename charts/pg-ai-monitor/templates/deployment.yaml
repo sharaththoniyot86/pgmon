@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pg-ai-monitor.fullname" . }}
+  namespace: {{ include "pg-ai-monitor.namespace" . }}
+  labels:
+    {{- include "pg-ai-monitor.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "pg-ai-monitor.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "pg-ai-monitor.selectorLabels" . | nindent 8 }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      serviceAccountName: {{ include "pg-ai-monitor.serviceAccountName" . }}
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "pg-ai-monitor.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: ANTHROPIC_MODEL
+              value: {{ .Values.ai.anthropicModel | quote }}
+            - name: BASE_PATH
+              value: {{ .Values.basePath | quote }}
+            - name: POLL_INTERVAL_SECONDS
+              value: {{ .Values.poll.intervalSeconds | quote }}
+            - name: SNAPSHOT_RETENTION_HOURS
+              value: {{ .Values.poll.snapshotRetentionHours | quote }}
+            - name: USERS_DB_PATH
+              value: "/data/pgmon_users.db"
+            - name: PGMON_NAMESPACE
+              value: {{ include "pg-ai-monitor.namespace" . | quote }}
+            - name: PGMON_DEPLOYMENT
+              value: {{ include "pg-ai-monitor.fullname" . | quote }}
+            {{- if .Values.physicalRestore.enabled }}
+            - name: PHYSICAL_RESTORE_NAMESPACE
+              value: {{ required "physicalRestore.namespace is required when physicalRestore.enabled is true" .Values.physicalRestore.namespace | quote }}
+            - name: PHYSICAL_RESTORE_STATEFULSET
+              value: {{ required "physicalRestore.statefulSet is required when physicalRestore.enabled is true" .Values.physicalRestore.statefulSet | quote }}
+            - name: PHYSICAL_RESTORE_PVC
+              value: {{ required "physicalRestore.pvc is required when physicalRestore.enabled is true" .Values.physicalRestore.pvc | quote }}
+            - name: PHYSICAL_RESTORE_MOUNT_PATH
+              value: {{ .Values.physicalRestore.mountPath | quote }}
+            {{- if .Values.physicalRestore.walArchivePath }}
+            - name: PHYSICAL_RESTORE_WAL_ARCHIVE_PATH
+              value: {{ .Values.physicalRestore.walArchivePath | quote }}
+            {{- end }}
+            - name: PHYSICAL_RESTORE_STORAGE_CLASS
+              value: {{ .Values.physicalRestore.storageClass | default .Values.persistence.storageClassName | quote }}
+            - name: PHYSICAL_RESTORE_TEMP_INSTANCE_IMAGE
+              value: {{ .Values.physicalRestore.tempInstanceImage | quote }}
+            - name: PHYSICAL_RESTORE_WORKER_IMAGE
+              value: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            {{- end }}
+          envFrom:
+            - secretRef:
+                name: {{ include "pg-ai-monitor.fullname" . }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: tmp
+              mountPath: /tmp
+          readinessProbe:
+            # Always plain /healthz, never basePath-prefixed -- kubelet
+            # hits the pod directly, bypassing whatever Ingress/proxy is
+            # what actually strips that prefix for real browser requests
+            # (see app/main.py: incoming requests never carry BASE_PATH).
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "pg-ai-monitor.fullname" . }}-data
+        - name: tmp
+          emptyDir: {}

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pgmon &mdash; AI based Postgres database monitoring tool &mdash; sign in</title>
+  <script>try{if(localStorage.getItem("pgmon-theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+  <link rel="stylesheet" href="{{ base_path }}/static/css/style.css?v={{ asset_v.css }}">
+</head>
+<body class="auth-body">
+  <svg class="auth-elephant" viewBox="0 0 100 100" aria-hidden="true">
+    <ellipse cx="66" cy="40" rx="17" ry="19" fill="#2b5a7d"/>
+    <ellipse cx="64" cy="40" rx="9" ry="11" fill="#1f4560" opacity="0.6"/>
+    <ellipse cx="42" cy="64" rx="27" ry="21" fill="#336791"/>
+    <circle cx="70" cy="44" r="18" fill="#336791"/>
+    <path d="M84 48 C 94 52, 96 64, 90 72 C 86 78, 78 78, 76 72 C 75 68, 79 67, 81 63 C 83 58, 82 52, 84 48 Z" fill="#336791"/>
+    <rect x="22" y="80" width="10" height="16" rx="5" fill="#2b5a7d"/>
+    <rect x="58" y="80" width="10" height="16" rx="5" fill="#2b5a7d"/>
+    <rect x="40" y="82" width="10" height="16" rx="5" fill="#336791"/>
+    <path d="M16 58 C 8 60, 6 68, 10 74" stroke="#336791" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="9" cy="76" r="3" fill="#336791"/>
+    <circle cx="75" cy="40" r="2.2" fill="#0d1424"/>
+  </svg>
+
+  <main class="auth-card">
+    <div class="auth-logo">
+      <div>
+        <h1>pgmon</h1>
+        <p class="auth-subtitle">AI-powered PostgreSQL monitoring</p>
+      </div>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    {% if notice %}
+    <div class="alert alert-success">{{ notice }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ base_path }}/login" class="auth-form" autocomplete="on">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+
+      <label for="password">Password</label>
+      <div class="pw-field">
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Show password">Show</button>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    </form>
+
+    <div class="auth-footer">
+      <details class="disclosure">
+        <summary>Forgot your password?</summary>
+        <div class="disclosure-body">
+          {% if deployment_mode == "standalone" %}
+          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs root access to the server pgmon runs on instead:</p>
+          <ol>
+            <li>Open a terminal (SSH or console) on the server pgmon is installed on.</li>
+            <li>Run, with your username filled in: <code>sudo pgmon-reset-password &lt;username&gt;</code></li>
+            <li>Enter a new password (8+ characters) when prompted.</li>
+            <li>Sign in above with the new password.</li>
+          </ol>
+          <p>If that username doesn't exist, this creates it fresh as an admin instead of failing &mdash; so it also covers losing every account, not just forgetting one password.</p>
+          {% elif deployment_mode == "standalone-windows" %}
+          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs administrator access to the server pgmon runs on instead:</p>
+          <ol>
+            <li>Open an elevated PowerShell prompt (Run as Administrator) on the server pgmon is installed on.</li>
+            <li>Run, with your username filled in: <code>pgmon-reset-password.ps1 &lt;username&gt;</code></li>
+            <li>Enter a new password (8+ characters) when prompted.</li>
+            <li>Sign in above with the new password.</li>
+          </ol>
+          <p>If that username doesn't exist, this creates it fresh as an admin instead of failing &mdash; so it also covers losing every account, not just forgetting one password.</p>
+          {% else %}
+          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs <code>kubectl</code> access to the cluster instead:</p>
+          <ol>
+            <li>Open a terminal with <code>kubectl</code> access to this cluster.</li>
+            <li>Pick a new password (8+ characters).</li>
+            <li>Run this, with your username and new password filled in:
+              <code>kubectl exec -n {{ pgmon_namespace }} deployment/{{ pgmon_deployment }} -- python -m app.create_user &lt;username&gt; '&lt;new-password&gt;' --update</code>
+            </li>
+            <li>Sign in above with the new password.</li>
+          </ol>
+          <p>Already signed in as an admin? Account page &rarr; Users table has a "Reset password&hellip;" button that builds this command for you, with the username and password already filled in.</p>
+          {% endif %}
+        </div>
+      </details>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("pw-toggle").addEventListener("click", function () {
+      const input = document.getElementById("password");
+      const showing = input.type === "text";
+      input.type = showing ? "password" : "text";
+      this.textContent = showing ? "Show" : "Hide";
+      this.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+    });
+  </script>
+</body>
+</html>

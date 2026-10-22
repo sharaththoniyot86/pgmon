@@ -1,0 +1,131 @@
+# Default values for pg-ai-monitor.
+# Every value below with a comment marked REQUIRED must be set explicitly
+# for your cluster -- e.g. `helm install pg-ai-monitor . -f my-values.yaml`
+# or a series of `--set key=value` flags. Everything else has a sane
+# default and can be left alone for a first install.
+
+image:
+  # REQUIRED: where you pushed the image built from this repo's Dockerfile
+  # (see README.md "Building and publishing the image"). There is no public
+  # image for this app -- it has to be your own build.
+  repository: pg-ai-monitor
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+  # Only needed if `repository` is in a private registry your cluster
+  # can't already pull from anonymously.
+  pullSecrets: []
+  # - name: my-registry-credentials
+
+# Leave empty to use the Helm release's own namespace.
+namespaceOverride: ""
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 80
+
+persistence:
+  # Holds the SQLite databases this app keeps for its own bookkeeping:
+  # login accounts, the registered-databases list, audit log, backup
+  # schedules. Losing this volume means re-registering every database and
+  # re-creating every login from scratch -- it is NOT a copy of anything in
+  # the Postgres servers being monitored.
+  size: 256Mi
+  # REQUIRED: your cluster's StorageClass for a ReadWriteOnce volume (e.g.
+  # "longhorn", "standard", "gp2", "managed-premium", ...). Leave empty to
+  # use the cluster's default StorageClass, if it has one.
+  storageClassName: ""
+
+# Mounted under this path behind whatever's in front of the Service (an
+# Ingress, or your own reverse proxy) -- e.g. "/pgmonitor" if it shares a
+# host with other apps. Leave empty to serve at "/".
+basePath: ""
+
+ingress:
+  enabled: false
+  # Your ingress controller's IngressClass (e.g. "nginx", "traefik"). Leave
+  # empty to use the cluster's default IngressClass.
+  className: ""
+  host: ""
+  annotations: {}
+  tls: []
+  # - secretName: pg-ai-monitor-tls
+  #   hosts: ["pgmonitor.example.com"]
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# Hardened enough to pass the Kubernetes "restricted" Pod Security Standard
+# out of the box -- several Rancher/RKE2 clusters enforce this at the
+# namespace level, and a chart that can't be admitted under it is a common
+# source of "why won't this deploy" support tickets. The image already runs
+# as uid/gid 10001 (see Dockerfile's `USER appuser`), so none of this
+# changes runtime behavior; readOnlyRootFilesystem is covered by the
+# emptyDir this chart mounts at /tmp for the two code paths (WAL restore
+# staging, ora2pg scratch files) that write outside /data.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
+
+# REQUIRED: signs session cookies. Generate one with `openssl rand -hex 32`
+# and keep it stable across upgrades (changing it logs everyone out).
+# Passed via a Secret, never committed to values.yaml in real use --
+# override with --set sessionSecret=... or --set-file, not by editing this
+# file, so it doesn't end up in version control.
+sessionSecret: ""
+
+ai:
+  # Optional -- enables the AI Query Optimizer / AI review buttons across
+  # the app. Leave empty to run without them (every deterministic feature,
+  # including the Tuning Advisor, works regardless).
+  anthropicApiKey: ""
+  anthropicModel: "claude-sonnet-5"
+
+poll:
+  intervalSeconds: 30
+  snapshotRetentionHours: 48
+
+# Optional, advanced: lets the Backup & Recovery tab's physical/incremental
+# restore automation scale a specific Postgres StatefulSet and drive
+# short-lived worker/temp-instance pods against a specific PVC. Off by
+# default -- logical (pg_dump) backup/restore works with no configuration
+# either way. Only turn this on for ONE specific StatefulSet you want that
+# automation to target; see k8s/rbac.yaml in the repo (the
+# pg-ai-monitor-physical-restore Role) for the exact permissions it needs
+# in that StatefulSet's namespace, which this chart does NOT create for you
+# since it lives in a different namespace than this release.
+physicalRestore:
+  enabled: false
+  namespace: ""
+  statefulSet: ""
+  pvc: ""
+  mountPath: /bitnami/postgresql
+  walArchivePath: ""
+  storageClass: ""
+  tempInstanceImage: "bitnami/postgresql:latest"
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+podAnnotations: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}

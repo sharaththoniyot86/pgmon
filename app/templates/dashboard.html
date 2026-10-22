@@ -1,0 +1,1632 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pgmon &mdash; AI based Postgres database monitoring tool</title>
+  <script>try{if(localStorage.getItem("pgmon-theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+  <link rel="stylesheet" href="{{ base_path }}/static/css/style.css?v={{ asset_v.css }}">
+  <!-- Vendored, not CDN-loaded: this page has to render in air-gapped
+       deployments too, where a browser on the same restricted network
+       can't reach cdnjs any more than the cluster can. -->
+  <script src="{{ base_path }}/static/vendor/chart.umd.min.js?v={{ asset_v.vendor_chart }}"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a href="#" id="home-link" class="sidebar-brand">
+        <span class="logo-mark small">pg</span>
+        <span class="sidebar-brand-text">
+          <strong>pgmon</strong>
+          <span class="sidebar-brand-tagline">AI based Postgres monitoring tool</span>
+        </span>
+      </a>
+      <nav class="sidebar-nav tab-strip hidden" id="sidebar-detail-nav">
+        <button class="tab-strip-item active" data-dtab="details">Details</button>
+        <button class="tab-strip-item" data-dtab="alerts">Alerts <span id="alerts-tab-badge" class="badge hidden"></span></button>
+        <button class="tab-strip-item" data-dtab="sql-performance">SQL Performance</button>
+        <button class="tab-strip-item" data-dtab="backup">Backup &amp; Recovery</button>
+        <button class="tab-strip-item" data-dtab="security">Security</button>
+        <button class="tab-strip-item" data-dtab="extensions">Extensions</button>
+        <button class="tab-strip-item" data-dtab="connections">Connections</button>
+        <button class="tab-strip-item" data-dtab="performance">Performance Hub</button>
+        <button class="tab-strip-item" data-dtab="schema">Schema</button>
+        <button class="tab-strip-item" data-dtab="administration">Administration</button>
+        <button class="tab-strip-item" data-dtab="migration">Migration</button>
+        <button class="tab-strip-item tab-strip-item-ai" data-dtab="assistant">✦ AI Assistant</button>
+      </nav>
+    </aside>
+
+    <div class="app-main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span id="breadcrumb" class="topbar-db hidden"></span>
+      </div>
+      <div class="topbar-right">
+        {% if not ai_enabled %}
+        <span class="badge badge-muted ai-disabled-notice" title="Set up an AI provider from the AI Assistant tab, or set ANTHROPIC_API_KEY">AI features disabled</span>
+        {% endif %}
+        <div class="account-menu" id="account-menu">
+          <button type="button" class="account-menu-trigger" id="account-menu-trigger" aria-haspopup="true" aria-expanded="false">
+            <span class="account-avatar">{{ username[0] }}</span>
+            <span>{{ username }}</span>
+            <span class="account-menu-caret">&#9660;</span>
+          </button>
+          <div class="account-menu-dropdown hidden" id="account-menu-dropdown" role="menu">
+            <button type="button" class="account-menu-item" id="btn-toggle-theme" role="menuitem">
+              <span id="theme-toggle-label">Switch to dark theme</span>
+            </button>
+            <div class="account-menu-divider"></div>
+            <a href="{{ base_path }}/account" class="account-menu-item" role="menuitem">Change password</a>
+            <div class="account-menu-divider"></div>
+            <form method="post" action="{{ base_path }}/logout">
+              <button type="submit" class="account-menu-item account-menu-item-danger" role="menuitem">Log out</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content content-wide">
+
+      <!-- ========================= SCREEN 1: DATABASES LIST ========================= -->
+      <section id="screen-databases" class="screen active">
+        <div class="panel-header">
+          <h2>Databases</h2>
+          <button type="button" id="btn-open-add-db" class="btn btn-primary btn-sm">+ Add database</button>
+        </div>
+        <p class="hint-text hint-text-nowrap" style="margin-top:-0.5rem;">Status, connections, cache hit %, and TPS auto-refresh every 15s. Click a row to open its details.</p>
+        <div class="table-wrap">
+          <table class="data-table data-table-clickable" id="table-databases">
+            <thead><tr>
+              <th>Name</th><th>Host</th><th>Port</th><th>Database</th><th>Version</th><th>Status</th><th>Alerts</th><th>Uptime</th>
+              <th>Connections</th><th>Cache hit</th><th>TPS</th><th></th>
+            </tr></thead>
+            <tbody id="db-grid"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ===================== ADD DATABASE MODAL ===================== -->
+      <div id="add-db-modal" class="modal-overlay hidden">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Add a database</h3>
+            <button type="button" id="btn-close-add-db" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <form id="add-db-form" class="add-db-form">
+            <div class="form-row">
+              <label for="db-name">Label</label>
+              <input id="db-name" name="name" type="text" placeholder="e.g. orders-prod" required>
+            </div>
+            <div class="form-row">
+              <label for="db-host">Host</label>
+              <input id="db-host" name="host" type="text" placeholder="postgres-postgresql.postgres.svc.cluster.local" required>
+            </div>
+            <div class="form-row form-row-split">
+              <div>
+                <label for="db-port">Port</label>
+                <input id="db-port" name="port" type="number" value="5432" required>
+              </div>
+              <div>
+                <label for="db-dbname">Database name</label>
+                <input id="db-dbname" name="dbname" type="text" placeholder="appdb" required>
+              </div>
+            </div>
+            <div class="form-row form-row-split">
+              <div>
+                <label for="db-username">Username</label>
+                <input id="db-username" name="username" type="text" placeholder="postgres" required>
+              </div>
+              <div>
+                <label for="db-password">Password</label>
+                <input id="db-password" name="password" type="password" required>
+              </div>
+            </div>
+            <label class="checkbox-label">
+              <input type="checkbox" id="db-enable-replication-hba" checked>
+              <span>Also allow replication connections for this user (<span class="mono">pg_hba.conf</span>) &mdash; needed before physical/incremental backups, PITR, or WAL mining will work. Safe: only adds a rule if one doesn't already cover it, no restart.</span>
+            </label>
+            <div class="form-actions">
+              <button type="button" id="btn-test-db" class="btn btn-ghost">Test connection</button>
+              <button type="submit" class="btn btn-primary">Test &amp; add database</button>
+            </div>
+            <div id="add-db-status" class="add-db-status"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ===================== VACUUM MODAL ===================== -->
+      <div id="vacuum-modal" class="modal-overlay hidden">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Vacuum <span id="vacuum-target" class="mono"></span></h3>
+            <button type="button" id="btn-close-vacuum" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="vacuum-form">
+            <label class="checkbox-label">
+              <input type="checkbox" id="vacuum-opt-analyze" checked>
+              <span><strong>ANALYZE</strong> &mdash; refresh the planner's statistics for this table (recommended, safe, runs alongside normal reads/writes).</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="vacuum-opt-freeze">
+              <span><strong>FREEZE</strong> &mdash; aggressively freeze old row versions now instead of leaving it to autovacuum. Safe to run live, just more I/O up front.</span>
+            </label>
+            <label class="checkbox-label checkbox-label-danger">
+              <input type="checkbox" id="vacuum-opt-full">
+              <span><strong>FULL</strong> &mdash; rewrites the entire table to reclaim disk space back to the OS. Takes an <strong>ACCESS EXCLUSIVE lock</strong>, blocking all reads and writes on this table until it finishes. Only use during a maintenance window.</span>
+            </label>
+            <div id="vacuum-full-warning" class="hint-text stat-bad hidden">⚠ FULL is selected &mdash; this table will be completely inaccessible to every other session until the VACUUM finishes.</div>
+            <div class="form-actions">
+              <button type="button" id="btn-run-vacuum" class="btn btn-primary">Run VACUUM</button>
+            </div>
+            <div id="vacuum-status" class="add-db-status"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== EDIT SETTING MODAL ===================== -->
+      <div id="setting-modal" class="modal-overlay hidden">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Edit <span id="setting-target" class="mono"></span></h3>
+            <button type="button" id="btn-close-setting" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="vacuum-form">
+            <p class="hint-text" id="setting-desc"></p>
+            <div class="form-row">
+              <label>Current value</label>
+              <div id="setting-current" class="mono"></div>
+            </div>
+            <div class="form-row">
+              <label for="setting-value-input">New value</label>
+              <div id="setting-value-wrap"></div>
+            </div>
+            <div id="setting-impact-note" class="hint-text"></div>
+            <div class="form-actions">
+              <button type="button" id="btn-reset-setting" class="btn btn-ghost">Reset to default</button>
+              <button type="button" id="btn-apply-setting" class="btn btn-primary">Apply</button>
+            </div>
+            <div id="setting-status" class="add-db-status"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== OPTIMIZE DATABASE MODAL ===================== -->
+      <div id="optimize-modal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+          <div class="modal-header">
+            <h3>Optimize database</h3>
+            <button type="button" id="btn-close-optimize" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <p class="hint-text">Recommends server parameter values from your hardware specs, using the same formula-based methodology as the community <code>pgtune</code> calculator &mdash; a deterministic calculation, not an AI guess, so it works whether or not AI features are configured.</p>
+
+          <div id="optimize-form-section">
+            <div class="form-row-split">
+              <div><label for="opt-cpu">CPU cores</label><input type="number" id="opt-cpu" min="1" step="1" placeholder="e.g. 4"></div>
+              <div><label for="opt-ram">RAM (GB)</label><input type="number" id="opt-ram" min="0.25" step="0.5" placeholder="e.g. 16"></div>
+            </div>
+            <div class="form-row-split">
+              <div>
+                <label for="opt-db-type">Workload type</label>
+                <select id="opt-db-type">
+                  <option value="web">Web application</option>
+                  <option value="oltp">OLTP / transactional</option>
+                  <option value="dw">Data warehousing / analytics</option>
+                  <option value="mixed" selected>Mixed workload</option>
+                  <option value="desktop">Desktop / dev machine</option>
+                </select>
+              </div>
+              <div>
+                <label for="opt-storage">Storage type</label>
+                <select id="opt-storage">
+                  <option value="ssd" selected>SSD / NVMe</option>
+                  <option value="hdd">Spinning HDD</option>
+                  <option value="san">SAN / network storage</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row" style="max-width:220px;">
+              <label for="opt-max-conn">Max connections (optional)</label>
+              <input type="number" id="opt-max-conn" min="1" step="1" placeholder="auto by workload">
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-get-recommendations" class="btn btn-primary">Get recommendations</button>
+            </div>
+            <div id="optimize-status" class="add-db-status"></div>
+          </div>
+
+          <div id="optimize-results-section" class="hidden">
+            <div class="panel-header" style="margin-top:1.5rem;">
+              <h3>Recommended values</h3>
+              <button type="button" id="btn-optimize-back" class="btn btn-ghost btn-sm">&larr; Change inputs</button>
+            </div>
+            <div class="table-wrap settings-table-wrap">
+              <table class="data-table" id="table-optimize-results">
+                <thead><tr><th>Parameter</th><th>Current</th><th>Recommended</th><th>Why</th><th></th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== QUERY PLAN / TUNING ADVISOR MODAL ===================== -->
+      <div id="plan-modal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+          <div class="modal-header">
+            <h3>Query plan &amp; tuning advice</h3>
+            <button type="button" id="btn-close-plan" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <pre id="plan-query-text" class="log-box" style="max-height:6rem;"></pre>
+          <div id="plan-substituted-note" class="hint-text hidden"></div>
+          <div class="form-row-split" style="align-items:flex-end;">
+            <label class="checkbox-label"><input type="checkbox" id="plan-analyze-checkbox"><span>Actually run it (EXPLAIN ANALYZE) for real timing/row counts &mdash; SELECT/WITH only</span></label>
+            <div style="display:flex; gap:0.5rem;">
+              <button type="button" id="btn-plan-refresh" class="btn btn-sm">View plan</button>
+              <button type="button" id="btn-plan-tuning-advice" class="btn btn-primary btn-sm">Get tuning advice</button>
+            </div>
+          </div>
+          <div id="plan-status" class="hint-text"></div>
+          <div id="plan-unresolved-actions" class="hidden">
+            <button type="button" id="btn-plan-edit-manually" class="btn btn-ghost btn-sm">Edit with real values in the AI Query Optimizer box below&hellip;</button>
+          </div>
+
+          <div id="plan-advice-section" class="hidden">
+            <div class="panel-header" style="margin-top:1rem;"><h3>Tuning advice</h3></div>
+            <div id="plan-advice-list"></div>
+          </div>
+
+          <details class="raw-plan" id="plan-raw-wrap" style="margin-top:1rem;">
+            <summary>Raw EXPLAIN plan (JSON)</summary>
+            <pre id="plan-raw-json"></pre>
+          </details>
+        </div>
+      </div>
+
+      <!-- ===================== RESTORE CONFIRMATION MODAL ===================== -->
+      <div id="restore-modal" class="modal-overlay hidden">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Restore backup</h3>
+            <button type="button" id="btn-close-restore" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+
+          <div id="restore-logical-warning">
+            <p class="hint-text">Restoring <strong id="restore-filename" class="mono"></strong>:</p>
+            <label class="checkbox-label">
+              <input type="radio" name="restore-target-mode" value="same" id="restore-mode-same" checked>
+              <span>Into <strong id="restore-dbname" class="mono"></strong> (overwrites existing data)</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="restore-target-mode" value="new" id="restore-mode-new">
+              <span>Into a new database (current data untouched)</span>
+            </label>
+
+            <div class="form-row">
+              <label for="restore-scope-select">Scope</label>
+              <select id="restore-scope-select">
+                <option value="whole" selected>Whole backup</option>
+                <option value="schemas">Selected schemas</option>
+              </select>
+            </div>
+            <div id="restore-scope-schemas-row" class="hidden">
+              <label for="restore-scope-schemas-select">Schemas to restore (Ctrl/Cmd-click for multiple)</label>
+              <select id="restore-scope-schemas-select" multiple size="5"></select>
+            </div>
+            <div id="restore-scope-tables-row" class="hidden">
+              <div class="settings-toolbar" style="margin-top:0;">
+                <input type="text" id="restore-scope-tables-filter" placeholder="Filter tables...">
+                <label class="checkbox-label" style="margin-bottom:0;">
+                  <input type="checkbox" id="restore-scope-tables-select-all" checked>
+                  <span>Whole schema (every table)</span>
+                </label>
+              </div>
+              <p class="hint-text">Uncheck "Whole schema" to restore specific tables instead -- only tables actually present in this backup are listed.</p>
+              <div class="table-wrap settings-table-wrap">
+                <table class="data-table" id="table-restore-scope-tables">
+                  <thead><tr><th></th><th>Table</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="restore-same-db-section">
+              <p class="hint-text">This will drop and recreate every object <span id="restore-scope-warning-text">the backup contains</span>, replacing their current data in <strong id="restore-dbname-2" class="mono"></strong>. This cannot be undone.</p>
+              <div class="form-row">
+                <label for="restore-confirm-input">Type the database name (<span id="restore-dbname-3" class="mono"></span>) to confirm</label>
+                <input type="text" id="restore-confirm-input" autocomplete="off">
+              </div>
+            </div>
+            <div id="restore-new-db-section" class="hidden">
+              <p class="hint-text">Creates a new, empty database and restores into it. <strong id="restore-dbname-4" class="mono"></strong> is never touched.</p>
+              <div class="form-row">
+                <label for="restore-new-db-name">New database name</label>
+                <input type="text" id="restore-new-db-name" autocomplete="off" placeholder="e.g. appdb_restored">
+              </div>
+            </div>
+
+            <details class="disclosure" id="restore-advanced-disclosure">
+              <summary>Advanced restore options</summary>
+              <div class="disclosure-body">
+                <div class="form-row">
+                  <label for="restore-opt-content">Content</label>
+                  <select id="restore-opt-content">
+                    <option value="all" selected>Schema + data (the whole backup)</option>
+                    <option value="schema">Schema only (<span class="mono">-s</span>) -- structure, no data</option>
+                    <option value="data">Data only (<span class="mono">-a</span>) -- load rows into an existing schema</option>
+                  </select>
+                </div>
+                <div class="form-row" id="restore-opt-exclude-schemas-row">
+                  <label for="restore-opt-exclude-schemas">Exclude schema(s) (<span class="mono">-N</span>, Ctrl/Cmd-click for multiple)</label>
+                  <select id="restore-opt-exclude-schemas" multiple size="4"></select>
+                </div>
+                <div class="form-row-split">
+                  <div>
+                    <label for="restore-opt-section">Section (<span class="mono">--section</span>)</label>
+                    <select id="restore-opt-section">
+                      <option value="" selected>All sections</option>
+                      <option value="pre-data">pre-data only</option>
+                      <option value="data">data only</option>
+                      <option value="post-data">post-data only</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="restore-opt-jobs">Parallel jobs (<span class="mono">-j</span>)</label>
+                    <input type="number" id="restore-opt-jobs" min="1" step="1" placeholder="1">
+                  </div>
+                </div>
+                <div class="form-row-split">
+                  <div>
+                    <label for="restore-opt-transaction-size">Commit every N objects (<span class="mono">--transaction-size</span>)</label>
+                    <input type="number" id="restore-opt-transaction-size" min="1" step="1" placeholder="unset">
+                  </div>
+                  <div></div>
+                </div>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-exit-on-error">
+                  <span>Abort on first error (<span class="mono">--exit-on-error</span>) -- default is to continue past errors</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-single-transaction">
+                  <span>Restore as a single transaction (<span class="mono">-1</span>) -- all-or-nothing, rolls back entirely on any error</span>
+                </label>
+                <label class="checkbox-label hidden" id="restore-opt-disable-triggers-row">
+                  <input type="checkbox" id="restore-opt-disable-triggers">
+                  <span>Disable triggers during the data load (<span class="mono">--disable-triggers</span>)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-no-comments">
+                  <span>Skip comments (<span class="mono">--no-comments</span>)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-no-security-labels">
+                  <span>Skip security labels (<span class="mono">--no-security-labels</span>)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-no-publications">
+                  <span>Skip publications (<span class="mono">--no-publications</span>)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-no-subscriptions">
+                  <span>Skip subscriptions (<span class="mono">--no-subscriptions</span>)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-no-table-access-method">
+                  <span>Skip table access methods (<span class="mono">--no-table-access-method</span>)</span>
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-no-tablespaces">
+                  <span>Skip tablespace assignments (<span class="mono">--no-tablespaces</span>)</span>
+                </label>
+
+                <div class="panel-header" style="margin-top:1rem;"><h4>Ownership</h4></div>
+                <label class="checkbox-label">
+                  <input type="checkbox" id="restore-opt-preserve-ownership">
+                  <span>Preserve original ownership from the dump instead of <span class="mono">--no-owner</span> -- the exact role names recorded in the dump must already exist here</span>
+                </label>
+                <label class="checkbox-label hidden" id="restore-opt-use-ssa-row">
+                  <input type="checkbox" id="restore-opt-use-ssa">
+                  <span>Use <span class="mono">SET SESSION AUTHORIZATION</span> instead of <span class="mono">ALTER OWNER</span> (<span class="mono">--use-set-session-authorization</span>)</span>
+                </label>
+
+                <div id="restore-opt-reassign-section">
+                  <p class="hint-text">Or, reassign everything just restored to a chosen role afterward (only with the default <span class="mono">--no-owner</span> above) -- this is the practical "drop and create a new user account for the restored data" path.</p>
+                  <div class="form-row-split">
+                    <div>
+                      <label for="restore-opt-reassign-role">Reassign ownership to role</label>
+                      <input type="text" id="restore-opt-reassign-role" list="restore-opt-role-datalist" autocomplete="off" placeholder="leave blank to skip">
+                      <datalist id="restore-opt-role-datalist"></datalist>
+                    </div>
+                    <div>
+                      <label for="restore-opt-reassign-provision">If it doesn't exist / already exists</label>
+                      <select id="restore-opt-reassign-provision">
+                        <option value="none" selected>Use as-is (must already exist)</option>
+                        <option value="create_if_missing">Create it if missing</option>
+                        <option value="recreate">Drop and recreate it clean</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row" id="restore-opt-reassign-password-row">
+                    <label for="restore-opt-reassign-password">Password for the new role (optional)</label>
+                    <input type="password" id="restore-opt-reassign-password" autocomplete="new-password">
+                  </div>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div id="restore-physical-warning" class="hidden">
+            <label class="checkbox-label">
+              <input type="radio" name="restore-physical-mode" value="inplace" id="restore-physical-mode-inplace" checked>
+              <span>Restore in place (replaces the live server)</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="restore-physical-mode" value="new-instance" id="restore-physical-mode-new">
+              <span>Create a new temporary instance (doesn't touch the live server)</span>
+            </label>
+            <label class="checkbox-label hidden" id="restore-physical-mode-pitr-row">
+              <input type="radio" name="restore-physical-mode" value="pitr" id="restore-physical-mode-pitr">
+              <span>Restore to a point in time (new temporary instance, replays archived WAL)</span>
+            </label>
+
+            <div id="restore-physical-inplace-section">
+              <div class="alert alert-error">
+                This restores the <strong>entire Postgres server</strong> (every database, not just this one) from <strong id="restore-physical-filename" class="mono"></strong>. Postgres will be <strong>taken offline for the duration of the restore</strong> (usually a minute or two), and every change made since this backup was taken will be permanently lost. This cannot be undone.
+              </div>
+              <div class="form-row">
+                <label for="restore-confirm-input-physical">Type RESTORE (all caps) to confirm</label>
+                <input type="text" id="restore-confirm-input-physical" autocomplete="off">
+              </div>
+              <details class="disclosure">
+                <summary>Advanced: tablespace mapping</summary>
+                <div class="disclosure-body">
+                  <p class="hint-text">Only needed if this backup's source server used custom tablespaces (rare) -- one <span class="mono">oid=/new/path</span> per line, mapping each tablespace referenced in the backup to a path on this cluster. Leave blank for a backup with no custom tablespaces (the common case).</p>
+                  <textarea id="restore-inplace-tablespace-mapping" rows="3" placeholder="16401=/data/tablespaces/ts1"></textarea>
+                </div>
+              </details>
+            </div>
+            <div id="restore-physical-newinstance-section" class="hidden">
+              <p class="hint-text">Spins up a separate, temporary Postgres instance from <strong id="restore-physical-filename-2" class="mono"></strong> so you can inspect or extract data without touching the live server. You'll get connection details below once it's ready &mdash; find it later, or delete it, from the Temporary instances list.</p>
+              <details class="disclosure">
+                <summary>Advanced: tablespace mapping</summary>
+                <div class="disclosure-body">
+                  <p class="hint-text">Only needed if this backup's source server used custom tablespaces (rare) -- one <span class="mono">oid=/new/path</span> per line. Leave blank for a backup with no custom tablespaces (the common case).</p>
+                  <textarea id="restore-newinstance-tablespace-mapping" rows="3" placeholder="16401=/data/tablespaces/ts1"></textarea>
+                </div>
+              </details>
+            </div>
+            <div id="restore-physical-pitr-section" class="hidden">
+              <p class="hint-text">Restores this backup to a new temporary instance, then replays archived WAL toward the target below &mdash; never touches the live server. If the target is later than what's been archived, it replays as much as it can and stops there instead.</p>
+              <div class="form-row-split">
+                <div>
+                  <label for="restore-pitr-target-type">Recover to</label>
+                  <select id="restore-pitr-target-type">
+                    <option value="time" selected>A timestamp</option>
+                    <option value="lsn">An exact WAL location (LSN)</option>
+                    <option value="xid">Just before a transaction ID</option>
+                    <option value="name">A named restore point</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="restore-pitr-action">On reaching the target</label>
+                  <select id="restore-pitr-action">
+                    <option value="promote" selected>Auto-promote</option>
+                    <option value="pause">Pause for inspection (promote manually later)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row" id="restore-pitr-target-time-row">
+                <label for="restore-pitr-target-time">Target time (UTC)</label>
+                <input type="datetime-local" id="restore-pitr-target-time" step="1">
+              </div>
+              <div class="form-row hidden" id="restore-pitr-target-value-row">
+                <label for="restore-pitr-target-value" id="restore-pitr-target-value-label">Target value</label>
+                <input type="text" id="restore-pitr-target-value" autocomplete="off">
+              </div>
+              <div class="form-row-split">
+                <div>
+                  <label for="restore-pitr-timeline">Timeline</label>
+                  <input type="text" id="restore-pitr-timeline" value="latest" autocomplete="off">
+                </div>
+                <div>
+                  <label class="checkbox-label" style="margin-top:1.4rem;">
+                    <input type="checkbox" id="restore-pitr-inclusive" checked>
+                    <span>Include the target itself (<span class="mono">recovery_target_inclusive</span>)</span>
+                  </label>
+                </div>
+              </div>
+              <details class="disclosure">
+                <summary>Advanced: tablespace mapping</summary>
+                <div class="disclosure-body">
+                  <p class="hint-text">Only needed if this backup's source server used custom tablespaces (rare) -- one <span class="mono">oid=/new/path</span> per line. Leave blank for a backup with no custom tablespaces (the common case).</p>
+                  <textarea id="restore-pitr-tablespace-mapping" rows="3" placeholder="16401=/data/tablespaces/ts1"></textarea>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="btn-confirm-restore" class="btn btn-danger" disabled>Restore</button>
+          </div>
+          <div id="restore-modal-status" class="add-db-status"></div>
+        </div>
+      </div>
+
+      <!-- ===================== PARTITION CONVERSION MODAL ===================== -->
+      <div id="partition-convert-modal" class="modal-overlay hidden">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Convert <span id="partition-convert-target" class="mono"></span> to a partitioned table</h3>
+            <button type="button" id="btn-close-partition-convert" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <p class="hint-text">Partitioning by <span id="partition-convert-technique" class="mono"></span> on <span id="partition-convert-column" class="mono"></span>. There is no in-place Postgres command for this: a new partitioned table is built alongside the original, then -- inside one transaction, with the original <strong>locked against all reads and writes for the duration</strong> -- every row is copied across and the tables are swapped. The original is renamed aside afterward (e.g. <span class="mono">table__pre_partition_...</span>), never dropped -- verify the result, then drop it yourself once satisfied.</p>
+          <div id="partition-convert-check-status" class="hint-text"></div>
+          <div id="partition-convert-notices"></div>
+          <div id="partition-convert-blocking" class="alert alert-error hidden"></div>
+          <div id="partition-convert-confirm-section" class="hidden">
+            <div class="form-row">
+              <label for="partition-convert-confirm-input">Type the table name (<span id="partition-convert-name-echo" class="mono"></span>) to confirm</label>
+              <input type="text" id="partition-convert-confirm-input" autocomplete="off">
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-confirm-partition-convert" class="btn btn-danger" disabled>Convert</button>
+            </div>
+          </div>
+          <div id="partition-convert-job-section" class="hidden">
+            <div id="partition-convert-job-summary" class="hint-text"></div>
+            <pre id="partition-convert-job-log" class="log-box"></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================ ROLE MODALS ================================ -->
+      <div id="role-modal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+          <div class="modal-header">
+            <h3 id="role-modal-title">Create role</h3>
+            <button type="button" id="btn-close-role" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+
+          <div class="form-row">
+            <label for="role-name-input">Role name</label>
+            <input type="text" id="role-name-input" autocomplete="off" placeholder="e.g. reporting_user">
+          </div>
+          <div id="role-rename-row" class="form-row hidden">
+            <label for="role-rename-input">Rename to (leave blank to keep current name)</label>
+            <input type="text" id="role-rename-input" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <label for="role-password-input"><span id="role-password-label">Password</span> (leave blank <span id="role-password-hint-create">for no password</span><span id="role-password-hint-edit" class="hidden">to keep the current one</span>)</label>
+            <input type="password" id="role-password-input" autocomplete="new-password">
+          </div>
+          <div class="form-row-split">
+            <div>
+              <label for="role-connlimit-input">Connection limit</label>
+              <input type="number" id="role-connlimit-input" value="-1" min="-1" step="1">
+            </div>
+            <div>
+              <label for="role-validuntil-input">Valid until (blank = never expires)</label>
+              <input type="text" id="role-validuntil-input" placeholder="e.g. 2027-01-31 or infinity" autocomplete="off">
+            </div>
+          </div>
+
+          <p class="hint-text" style="margin-top:0.5rem;">Attributes</p>
+          <div class="form-row-split">
+            <div>
+              <label class="checkbox-label"><input type="checkbox" id="role-attr-login" checked><span>Can login (role vs. plain group)</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="role-attr-inherit" checked><span>Inherit privileges of roles it's a member of</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="role-attr-createdb"><span>Can create databases</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="role-attr-createrole"><span>Can create/alter other roles</span></label>
+            </div>
+            <div>
+              <label class="checkbox-label checkbox-label-danger"><input type="checkbox" id="role-attr-superuser"><span>Superuser (bypasses <em>all</em> permission checks)</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="role-attr-replication"><span>Replication</span></label>
+              <label class="checkbox-label"><input type="checkbox" id="role-attr-bypassrls"><span>Bypass row-level security</span></label>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="role-memberof-select">Member of (grants membership in these roles)</label>
+            <select id="role-memberof-select" multiple size="5"></select>
+            <span class="hint-text">Ctrl/Cmd-click to select multiple. To make other roles members of <em>this</em> one, edit those roles instead.</span>
+          </div>
+
+          <div id="role-self-warning" class="alert alert-info hidden">This is the role the app itself is connected as &mdash; renaming it or revoking its login is blocked here to avoid locking the app's own connection out.</div>
+
+          <div class="form-actions">
+            <button type="button" id="btn-save-role" class="btn btn-primary">Save</button>
+          </div>
+          <div id="role-modal-status" class="add-db-status"></div>
+        </div>
+      </div>
+
+      <div id="role-grants-modal" class="modal-overlay hidden">
+        <div class="modal modal-lg">
+          <div class="modal-header">
+            <h3>Grants for <span id="role-grants-rolname" class="mono"></span></h3>
+            <button type="button" id="btn-close-role-grants" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+
+          <div class="panel-header" style="margin-top:0;"><h2>Active sessions</h2></div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-role-sessions">
+              <thead><tr><th>PID</th><th>Database</th><th>Client</th><th>State</th><th>Since</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="btn-terminate-role-sessions" class="btn btn-ghost btn-sm">Terminate all sessions for this role</button>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h2>Current object privileges</h2></div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-role-grants">
+              <thead><tr><th>Type</th><th>Schema</th><th>Object</th><th>Privilege</th><th>Grantable</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h2>Grant a new privilege</h2></div>
+          <div class="form-row-split">
+            <div>
+              <label for="grant-object-type">Object type</label>
+              <select id="grant-object-type">
+                <option value="database">Database (current)</option>
+                <option value="schema">Schema</option>
+                <option value="table" selected>Table</option>
+                <option value="sequence">Sequence</option>
+                <option value="all_tables_in_schema">All tables in schema</option>
+                <option value="all_sequences_in_schema">All sequences in schema</option>
+              </select>
+            </div>
+            <div id="grant-object-name-row">
+              <label for="grant-object-name">Object name</label>
+              <input type="text" id="grant-object-name" placeholder="schema.table, or just schema" autocomplete="off">
+            </div>
+          </div>
+          <div id="grant-privileges-options" class="form-row"></div>
+          <label class="checkbox-label"><input type="checkbox" id="grant-with-option"><span>With grant option (lets this role grant it to others too)</span></label>
+          <div class="form-actions">
+            <button type="button" id="btn-grant-privilege" class="btn btn-primary btn-sm">Grant</button>
+          </div>
+          <div id="role-grants-modal-status" class="add-db-status"></div>
+        </div>
+      </div>
+
+      <div id="role-delete-modal" class="modal-overlay hidden">
+        <div class="modal">
+          <div class="modal-header">
+            <h3>Drop role <span id="role-delete-rolname" class="mono"></span></h3>
+            <button type="button" id="btn-close-role-delete" class="modal-close" aria-label="Close">&times;</button>
+          </div>
+          <div class="alert alert-error">This permanently removes the role. If it owns tables, sequences, or other objects (in this database), the drop will fail unless you reassign them below. This cannot be undone.</div>
+          <div class="form-row">
+            <label for="role-delete-reassign"> Reassign owned objects (this database only) to</label>
+            <select id="role-delete-reassign">
+              <option value="">(don't reassign &mdash; fail if it owns anything)</option>
+            </select>
+          </div>
+          <label class="checkbox-label"><input type="checkbox" id="role-delete-terminate" checked><span>Terminate this role's active sessions first</span></label>
+          <div class="form-row">
+            <label for="role-delete-confirm-input">Type the role name (<span id="role-delete-rolname-2" class="mono"></span>) to confirm</label>
+            <input type="text" id="role-delete-confirm-input" autocomplete="off">
+          </div>
+          <div class="form-actions">
+            <button type="button" id="btn-confirm-role-delete" class="btn btn-danger" disabled>Drop role</button>
+          </div>
+          <div id="role-delete-modal-status" class="add-db-status"></div>
+        </div>
+      </div>
+
+      <!-- ========================= SCREEN 2: DATABASE DETAIL ========================= -->
+      <section id="screen-detail" class="screen">
+        <button id="btn-back-to-list" class="btn btn-ghost btn-sm back-link">&larr; Back to Databases</button>
+        <div class="detail-header">
+          <h2 id="detail-db-name">&mdash;</h2>
+          <span id="detail-db-status" class="badge"></span>
+        </div>
+        <div id="detail-db-sub" class="detail-db-sub"></div>
+
+        <!-- ---------------------------- Details (size, stats, trends) --------------------------- -->
+        <div id="dtab-details" class="dtab-panel active">
+          <div class="panel-header">
+            <h2>Details</h2>
+            <button id="btn-health-summary" class="btn btn-ai" {% if not ai_enabled %}disabled{% endif %}>
+              ✦ Generate AI Health Summary
+            </button>
+          </div>
+          <div id="ai-summary-card" class="ai-summary-card hidden"></div>
+          <div class="stat-grid" id="overview-stats">
+            <div class="stat-card"><div class="stat-label">Database size</div><div class="stat-value" data-stat="db_size">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Active connections</div><div class="stat-value" data-stat="active_conn">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Total / max connections</div><div class="stat-value" data-stat="total_conn">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Cache hit ratio</div><div class="stat-value" data-stat="cache_hit">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Uptime</div><div class="stat-value" data-stat="uptime">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Commits / Rollbacks</div><div class="stat-value" data-stat="commits">&mdash;</div></div>
+          </div>
+          <div class="chart-grid">
+            <div class="chart-card">
+              <h3>Connections over time</h3>
+              <canvas id="chart-connections" height="90"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>Cache hit ratio over time</h3>
+              <canvas id="chart-cache" height="90"></canvas>
+            </div>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;">
+            <h3>Server Parameters</h3>
+            <div class="panel-header-actions">
+              <span class="hint-text" id="settings-summary">&mdash;</span>
+              <button type="button" id="btn-open-optimize" class="btn btn-primary btn-sm">⚙ Optimize database</button>
+            </div>
+          </div>
+          <p class="hint-text">Every setting from <code>pg_settings</code>. Rows highlighted in amber have been changed from Postgres's compiled-in default (via <code>postgresql.conf</code>, <code>ALTER SYSTEM</code>, the environment, or the current session) &mdash; determined from Postgres's own <code>source</code> column, not a fragile text comparison.</p>
+          <div class="settings-toolbar">
+            <input type="text" id="settings-filter" placeholder="Filter by parameter name...">
+            <label class="checkbox-label" style="margin-bottom:0;">
+              <input type="checkbox" id="settings-only-changed">
+              <span>Only show changed</span>
+            </label>
+          </div>
+          <div class="table-wrap settings-table-wrap">
+            <table class="data-table" id="table-settings">
+              <thead><tr><th>Parameter</th><th>Value</th><th>Default</th><th>Category</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Alerts --------------------------- -->
+        <div id="dtab-alerts" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Alerts</h2>
+            <span class="auto-refresh-note">auto-refreshes every 15s</span>
+          </div>
+          <p class="hint-text">Rule-based health checks over live metrics &mdash; connections, locks, autovacuum, checkpoints, security, and backup configuration. This is a deterministic calculation, not an AI feature, so it always works.</p>
+          <div class="settings-toolbar" style="margin-top:0;">
+            <label class="checkbox-label" style="margin-bottom:0;"><input type="checkbox" class="alert-severity-filter" value="error" checked><span>Errors</span></label>
+            <label class="checkbox-label" style="margin-bottom:0;"><input type="checkbox" class="alert-severity-filter" value="warning" checked><span>Warnings</span></label>
+            <label class="checkbox-label" style="margin-bottom:0;"><input type="checkbox" class="alert-severity-filter" value="info" checked><span>Info</span></label>
+          </div>
+          <div id="alerts-list"></div>
+        </div>
+
+        <!-- ---------------------------- SQL Performance --------------------------- -->
+        <div id="dtab-sql-performance" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Top queries</h2>
+            <div class="panel-header-actions">
+              <button type="button" id="btn-pgss-install" class="btn btn-sm hidden">Install pg_stat_statements</button>
+              <button type="button" id="btn-queries-reset" class="btn btn-ghost btn-sm">Reset statistics</button>
+              <button type="button" id="btn-queries-refresh" class="btn btn-ghost btn-sm">&#8635; Refresh</button>
+            </div>
+          </div>
+          <div id="queries-unavailable-note" class="alert alert-info hidden"></div>
+
+          <div class="stat-grid" id="pgss-stat-grid">
+            <div class="stat-card"><div class="stat-label">Extension</div><div class="stat-value" data-pgssstat="installed">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Tracking level</div><div class="stat-value" data-pgssstat="track">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Statements tracked (max)</div><div class="stat-value" data-pgssstat="max">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">I/O timing</div><div class="stat-value" data-pgssstat="io_timing">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Stats since</div><div class="stat-value" data-pgssstat="since">&mdash;</div></div>
+          </div>
+
+          <div class="perf-range-bar" style="margin-top:1rem;">
+            <span class="hint-text">Sort by:</span>
+            <select id="queries-order-by">
+              <option value="total_time">Total time</option>
+              <option value="mean_time">Mean time</option>
+              <option value="calls">Calls</option>
+              <option value="rows">Rows</option>
+              <option value="shared_blks_read">Disk blocks read</option>
+              <option value="temp_blks_written">Temp blocks written (disk spill)</option>
+              <option value="wal_bytes">WAL generated</option>
+            </select>
+            <label class="checkbox-label" style="margin:0;"><input type="checkbox" id="queries-all-databases"><span>All databases on this server</span></label>
+            <label class="checkbox-label" style="margin:0;"><input type="checkbox" id="queries-include-monitoring"><span>Include pg-ai-monitor's own queries</span></label>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table" id="table-queries">
+              <thead><tr>
+                <th>Query</th><th>Calls</th><th>Total ms</th><th>Mean ms</th><th>Min ms</th><th>Max ms</th><th>StdDev ms</th>
+                <th>Rows</th><th>Cache hit %</th><th>Blks read</th><th>Temp blks</th><th>I/O ms</th><th>WAL bytes</th><th></th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="hint-text">Rows highlighted in amber spilled to disk (temp blocks written &gt; 0) &mdash; usually a <code>work_mem</code> sizing signal. Rows highlighted in red have a cache hit ratio under 90% &mdash; frequent physical disk reads for that query.</p>
+
+          <div class="panel-header" style="margin-top:2rem;">
+            <h2>✦ AI Query Optimizer</h2>
+          </div>
+          <p class="hint-text">Paste a read-only <code>SELECT</code> / <code>WITH</code> query. It will be run through
+            <code>EXPLAIN (ANALYZE, BUFFERS)</code> against the live database (10s timeout, read-only transaction) and
+            analyzed by AI. Non-read-only statements are rejected.</p>
+          <textarea id="query-input" class="query-input" placeholder="SELECT * FROM your_table WHERE ..." {% if not ai_enabled %}disabled{% endif %}></textarea>
+          <button id="btn-explain-query" class="btn btn-ai" {% if not ai_enabled %}disabled{% endif %}>✦ Explain with AI</button>
+          <div id="explain-result" class="explain-result hidden">
+            <h3>AI analysis</h3>
+            <div id="explain-analysis" class="ai-text"></div>
+            <details class="raw-plan">
+              <summary>Raw EXPLAIN plan (JSON)</summary>
+              <pre id="explain-plan-raw"></pre>
+            </details>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Backup & Recovery (NEW) --------------------------- -->
+        <div id="dtab-backup" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Backup &amp; Recovery</h2>
+            <button id="btn-backup-review" class="btn btn-ai" {% if not ai_enabled %}disabled{% endif %}>
+              ✦ AI Backup Readiness Review
+            </button>
+          </div>
+          <p class="hint-text">Server-reported readiness (WAL/archiving/replication config) below, plus on-demand backups pgmon itself can take and restore &mdash; see "Backups" further down.</p>
+          <div id="ai-backup-card" class="ai-summary-card hidden"></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">WAL level</div><div class="stat-value" data-bstat="wal_level">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Archive mode</div><div class="stat-value" data-bstat="archive_mode">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">WAL files archived</div><div class="stat-value" data-bstat="archived_count">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Archive failures</div><div class="stat-value" data-bstat="failed_count">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Last checkpoint</div><div class="stat-value" data-bstat="checkpoint_time">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Replicas connected</div><div class="stat-value" data-bstat="replica_count">&mdash;</div></div>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Backups</h3></div>
+          <div class="add-db-form" style="max-width:none;">
+            <div class="form-row-split">
+              <div>
+                <label for="backup-type-select">Backup type</label>
+                <select id="backup-type-select">
+                  <option value="logical" selected>Logical (pg_dump) &mdash; this database only</option>
+                  <option value="physical">Physical (pg_basebackup) &mdash; entire server</option>
+                  <option value="incremental">Incremental &mdash; entire server, since a prior backup</option>
+                </select>
+              </div>
+              <div id="backup-base-row" class="hidden">
+                <label for="backup-base-select">Based on</label>
+                <select id="backup-base-select"></select>
+              </div>
+              <div id="backup-scope-row">
+                <label for="backup-scope-select">Scope</label>
+                <select id="backup-scope-select">
+                  <option value="whole" selected>Whole database</option>
+                  <option value="schemas">Selected schemas</option>
+                </select>
+              </div>
+            </div>
+            <p class="hint-text" id="backup-type-hint">A <code>pg_dump</code> of just this database. Portable, and restorable with one click below.</p>
+            <div id="backup-scope-schemas-row" class="hidden">
+              <label for="backup-scope-schemas-select">Schemas to back up (Ctrl/Cmd-click for multiple)</label>
+              <select id="backup-scope-schemas-select" multiple size="6"></select>
+            </div>
+            <div id="backup-scope-tables-row" class="hidden">
+              <div class="settings-toolbar" style="margin-top:0;">
+                <input type="text" id="backup-scope-tables-filter" placeholder="Filter tables...">
+                <label class="checkbox-label" style="margin-bottom:0;">
+                  <input type="checkbox" id="backup-scope-tables-select-all" checked>
+                  <span>Whole schema (every table)</span>
+                </label>
+              </div>
+              <p class="hint-text">Uncheck "Whole schema" to pick specific tables instead -- every table in the selected schema(s) is included by default.</p>
+              <div class="table-wrap settings-table-wrap">
+                <table class="data-table" id="table-backup-scope-tables">
+                  <thead><tr><th></th><th>Table</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-run-backup" class="btn btn-primary btn-sm">Run backup now</button>
+            </div>
+          </div>
+          <div id="backup-job-section" class="hidden">
+            <div id="backup-job-summary" class="hint-text"></div>
+            <pre id="backup-job-log" class="log-box"></pre>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Import from another server</h3></div>
+          <p class="hint-text">Adopt a backup file brought over from elsewhere (e.g. via <span class="mono">scp</span>/<span class="mono">kubectl cp</span>) into this list, so it can be restored the same way as a backup pgmon took itself.</p>
+          <div class="add-db-form" style="max-width:none;">
+            <div class="form-row">
+              <label for="import-logical-file">Logical backup file (<span class="mono">pg_dump -Fc</span> custom format)</label>
+              <input type="file" id="import-logical-file">
+            </div>
+            <div class="form-row">
+              <label for="import-physical-file">Physical backup archive (<span class="mono">.tar.gz</span> containing <span class="mono">backup_manifest</span> + <span class="mono">base.tar.gz</span>)</label>
+              <input type="file" id="import-physical-file" accept=".tar.gz,.tgz">
+            </div>
+            <div class="form-row">
+              <label for="import-roles-file">Roles script (<span class="mono">pg_dumpall --roles-only</span> output, applies cluster-wide)</label>
+              <input type="file" id="import-roles-file" accept=".sql">
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-import-logical" class="btn btn-ghost btn-sm">Import logical backup</button>
+              <button type="button" id="btn-import-physical" class="btn btn-ghost btn-sm">Import physical backup</button>
+              <button type="button" id="btn-import-roles" class="btn btn-ghost btn-sm">Apply roles script</button>
+            </div>
+            <p class="hint-text" id="import-status"></p>
+            <div id="import-roles-job-section" class="hidden">
+              <div id="import-roles-job-summary" class="hint-text"></div>
+              <pre id="import-roles-job-log" class="log-box"></pre>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table" id="table-backups">
+              <thead><tr><th>File</th><th>Type</th><th>Created</th><th>Size</th><th>Verified</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <details class="disclosure" style="margin-top:0.5rem;">
+            <summary>How do I restore a physical or incremental backup?</summary>
+            <div class="disclosure-body">Those capture the whole server, not just this database. Where configured, pgmon can restore them for you (in place, or to a separate temporary instance) via the Restore&hellip; button. To do it manually instead: stop Postgres &rarr; empty its data directory &rarr; extract <code>base.tar.gz</code> into it (for an incremental, combine it with its base backup first using <code>pg_combinebackup</code>) &rarr; start Postgres.</div>
+          </details>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Temporary instances</h3></div>
+          <p class="hint-text">Separate Postgres instances created via "Create a new temporary instance" when restoring a physical/incremental backup &mdash; each has its own storage and never affects the live server. Delete them here once you're done inspecting.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-temp-instances">
+              <thead><tr><th>Name</th><th>From backup</th><th>Status</th><th>Connect</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Mine WAL for transactions</h3></div>
+          <p class="hint-text">Search archived WAL (via <span class="mono">pg_waldump</span>) for which transactions touched which tables, and when &mdash; a forensic/audit tool, not a data-recovery one.</p>
+          <details class="disclosure" style="margin-top:0.25rem;">
+            <summary>Why doesn't this show the actual old/new row values?</summary>
+            <div class="disclosure-body">Postgres has no equivalent of Oracle LogMiner's full redo reconstruction. <span class="mono">pg_waldump</span> decodes WAL into operations (INSERT/UPDATE/HOT_UPDATE/DELETE/&hellip;), the transaction ID that made them, the LSN, and which table (via the storage file it touched) &mdash; never the column values themselves, since WAL is a physical, page-level format. Seeing real before/after values needs logical decoding (<span class="mono">wal2json</span>/<span class="mono">pgoutput</span>) via a replication slot created <em>before</em> the transactions happened &mdash; it can't be retrofitted onto WAL already written.</div>
+          </details>
+          <div class="add-db-form" style="max-width:none;">
+            <div class="form-row-split">
+              <div>
+                <label for="walmine-source">Source</label>
+                <select id="walmine-source">
+                  <option value="backup" selected>A physical/incremental backup's own WAL</option>
+                  <option value="live">Live WAL archive</option>
+                </select>
+              </div>
+              <div id="walmine-backup-row">
+                <label for="walmine-backup-select">Backup</label>
+                <select id="walmine-backup-select"></select>
+              </div>
+              <div id="walmine-segment-limit-row" class="hidden">
+                <label for="walmine-segment-limit">Recent segments to scan</label>
+                <input type="number" id="walmine-segment-limit" min="1" max="100" value="10">
+              </div>
+            </div>
+            <div class="form-row-split">
+              <div>
+                <label for="walmine-xid">Transaction ID (exact)</label>
+                <input type="text" id="walmine-xid" autocomplete="off" placeholder="e.g. 40786">
+              </div>
+              <div>
+                <label for="walmine-rmgr">Resource manager</label>
+                <select id="walmine-rmgr"><option value="">Any</option></select>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="walmine-table-contains">Table name contains</label>
+              <input type="text" id="walmine-table-contains" autocomplete="off" placeholder="e.g. orders">
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-run-walmine" class="btn btn-primary btn-sm">Search WAL</button>
+            </div>
+          </div>
+          <div id="walmine-job-section" class="hidden">
+            <div id="walmine-job-summary" class="hint-text"></div>
+            <pre id="walmine-job-log" class="log-box"></pre>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-walmine-results">
+              <thead><tr><th>LSN</th><th>XID</th><th>Resource manager</th><th>Operation</th><th>Table(s)</th><th>Detail</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Backup schedules</h3></div>
+          <p class="hint-text">Recurring backups pgmon takes on its own, with automatic retention pruning (never below the single most recent backup, and never a base a kept incremental still depends on).</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-backup-schedules">
+              <thead><tr><th>Type</th><th>Frequency</th><th>Retention</th><th>Last run</th><th>Enabled</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="add-db-form" style="max-width:none;">
+            <div class="form-row-split">
+              <div>
+                <label for="schedule-type-select">Backup type</label>
+                <select id="schedule-type-select">
+                  <option value="logical" selected>Logical (pg_dump)</option>
+                  <option value="physical">Physical (pg_basebackup)</option>
+                  <option value="incremental">Incremental (uses the latest physical/incremental backup as its base)</option>
+                </select>
+              </div>
+              <div>
+                <label for="schedule-frequency-select">Frequency</label>
+                <select id="schedule-frequency-select">
+                  <option value="hourly">Hourly</option>
+                  <option value="daily" selected>Daily</option>
+                  <option value="weekly">Weekly</option>
+                </select>
+              </div>
+              <div>
+                <label for="schedule-retention-input">Retention (days)</label>
+                <input type="number" id="schedule-retention-input" min="1" value="7">
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-add-schedule" class="btn btn-primary btn-sm">Add schedule</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Security (NEW) --------------------------- -->
+        <div id="dtab-security" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Security posture</h2>
+            <button id="btn-security-review" class="btn btn-ai" {% if not ai_enabled %}disabled{% endif %}>
+              ✦ AI Security Review
+            </button>
+          </div>
+          <div id="ai-security-card" class="ai-summary-card hidden"></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">SSL enabled (server)</div><div class="stat-value" data-sstat="ssl_enabled">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Password encryption</div><div class="stat-value" data-sstat="password_encryption">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Superuser roles</div><div class="stat-value" data-sstat="superuser_count">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Total roles</div><div class="stat-value" data-sstat="role_count">&mdash;</div></div>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;">
+            <h2>Roles</h2>
+            <button type="button" id="btn-open-create-role" class="btn btn-sm">+ Create role</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-roles">
+              <thead><tr><th>Role</th><th>Attributes</th><th>Limits</th><th>Member of</th><th>Sessions</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h2>pg_hba authentication rules</h2></div>
+          <div id="hba-unavailable-note" class="alert alert-info hidden"></div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-hba">
+              <thead><tr><th>#</th><th>Type</th><th>Database</th><th>User</th><th>Address</th><th>Auth method</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <p class="hint-text">Add, edit, or remove a rule below -- e.g. the <span class="mono">replication</span> connection a physical backup needs (Postgres requires one before <span class="mono">pg_basebackup</span> will even connect). Every change is applied immediately via <span class="mono">pg_reload_conf()</span>, no restart needed; an invalid result just logs an error and keeps the previous rules in effect rather than breaking anything. Remember rules are first-match-wins top to bottom -- an edited/new rule always lands at the <em>end</em> of the file, so it only takes effect where nothing earlier already matched. <span class="mono">trust</span>/<span class="mono">password</span> auth aren't offered since this app's own alerts already flag those as insecure. Editing/removing a rule can stop future connections that matched it (including this app's own) -- it never drops connections already open.</p>
+          <div class="add-db-form" style="max-width:none;">
+            <div id="hba-edit-banner" class="hint-text hidden" style="margin-bottom:0.75rem;">Editing line <strong id="hba-edit-line-number"></strong>. <button type="button" id="btn-cancel-hba-edit" class="btn-icon">Cancel</button></div>
+            <div class="form-row-split">
+              <div>
+                <label for="hba-type-select">Type</label>
+                <select id="hba-type-select">
+                  <option value="host" selected>host</option>
+                  <option value="hostssl">hostssl</option>
+                  <option value="local">local</option>
+                </select>
+              </div>
+              <div>
+                <label for="hba-database-input">Database</label>
+                <input type="text" id="hba-database-input" placeholder="all, or a name" value="replication">
+              </div>
+              <div>
+                <label for="hba-user-input">User</label>
+                <input type="text" id="hba-user-input" placeholder="all, or a name" value="postgres">
+              </div>
+              <div id="hba-address-row">
+                <label for="hba-address-input">Address (CIDR)</label>
+                <input type="text" id="hba-address-input" placeholder="e.g. 10.42.0.0/16">
+              </div>
+              <div>
+                <label for="hba-auth-select">Auth method</label>
+                <select id="hba-auth-select">
+                  <option value="scram-sha-256" selected>scram-sha-256</option>
+                  <option value="md5">md5</option>
+                  <option value="cert">cert</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-add-hba-rule" class="btn btn-primary btn-sm">Add rule</button>
+            </div>
+            <div id="hba-add-result" class="hint-text hidden"></div>
+          </div>
+
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h2>Installed extensions</h2></div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-extensions">
+              <thead><tr><th>Extension</th><th>Version</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Extensions (NEW) --------------------------- -->
+        <div id="dtab-extensions" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Extension catalog</h2>
+          </div>
+          <p class="hint-text">A curated reference of well-known Postgres extensions, with live availability for <strong id="ext-dbname"></strong> specifically -- the same extension can be available on one registered database and not another. "Available" means its control file already exists on that server (a plain <code>CREATE EXTENSION</code> away); it doesn't mean pgmon can install a genuinely new one onto an arbitrary server -- that needs filesystem/image access to that specific Postgres server, which pgmon only has for its own primary (see <code>postgres-image/Dockerfile</code>, already used for hypopg/pg_repack). An <strong>Update</strong> button appears when an enabled extension is behind the newest version its server's own files already support (<code>ALTER EXTENSION ... UPDATE</code>) -- this is not an internet fetch, it can only reach a version already sitting on that server.</p>
+          <div class="form-row-split" style="margin-bottom:1rem;">
+            <div>
+              <label for="ext-category-filter">Category</label>
+              <select id="ext-category-filter">
+                <option value="">All categories</option>
+              </select>
+            </div>
+            <div>
+              <label for="ext-filter">Filter</label>
+              <input type="text" id="ext-filter" placeholder="Filter by name or description...">
+            </div>
+            <div>
+              <label class="checkbox-label" style="margin-top:1.6rem;"><input type="checkbox" id="ext-show-available-only"><span>Available on this database only</span></label>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-extension-catalog">
+              <thead><tr><th>Extension</th><th>Category</th><th>Description</th><th>Status</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Connections --------------------------- -->
+        <div id="dtab-connections" class="dtab-panel">
+          <div class="panel-header"><h2>Live connections</h2><span class="auto-refresh-note">auto-refreshes every 5s</span></div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-connections">
+              <thead><tr>
+                <th>PID</th><th>User</th><th>App</th><th>State</th><th>Wait</th><th>Duration</th><th>Query</th><th></th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h2>Blocking locks</h2></div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-locks">
+              <thead><tr>
+                <th>Blocked PID</th><th>Blocked query</th><th>Blocking PID</th><th>Blocking query</th><th></th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+            <div class="empty-note" id="locks-empty">No blocking locks right now.</div>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Performance Hub (NEW) --------------------------- -->
+        <div id="dtab-performance" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Performance Hub</h2>
+            <div class="panel-header-actions">
+              <button id="btn-performance-refresh" class="btn btn-ghost btn-sm">&#8635; Refresh</button>
+              <button id="btn-performance-review" class="btn btn-ai" {% if not ai_enabled %}disabled{% endif %}>
+                ✦ AI Performance Review
+              </button>
+            </div>
+          </div>
+          <div id="ai-performance-card" class="ai-summary-card hidden"></div>
+
+          <div class="perf-range-bar">
+            <span class="hint-text">Time range:</span>
+            <div class="perf-range-buttons" id="perf-range-buttons">
+              <button class="perf-range-btn active" data-hours="0.25">Real-Time (15m)</button>
+              <button class="perf-range-btn" data-hours="1">1 Hour</button>
+              <button class="perf-range-btn" data-hours="6">6 Hours</button>
+              <button class="perf-range-btn" data-hours="24">24 Hours</button>
+              <button class="perf-range-btn" id="perf-range-custom-btn" data-hours="custom">Custom&hellip;</button>
+            </div>
+          </div>
+          <div id="perf-custom-range" class="perf-custom-range hidden">
+            <label>From <input type="datetime-local" id="perf-custom-start"></label>
+            <label>To <input type="datetime-local" id="perf-custom-end"></label>
+            <button id="perf-custom-apply" class="btn btn-primary btn-sm">Apply</button>
+            <span class="hint-text">History is kept for 48h &mdash; older ranges will come back empty.</span>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h3>I/O Load</h3></div>
+          <p class="hint-text">Reads = physical disk reads, hits = served from Postgres's own buffer cache, writes = buffers flushed. From <code>pg_stat_io</code> (server-wide).</p>
+          <div id="io-unavailable-note" class="alert alert-info hidden"></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Reads/sec (disk)</div><div class="stat-value" data-iostat="reads_per_sec">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Hits/sec (cache)</div><div class="stat-value" data-iostat="hits_per_sec">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Writes/sec</div><div class="stat-value" data-iostat="writes_per_sec">&mdash;</div></div>
+          </div>
+          <div class="chart-card">
+            <canvas id="chart-io" height="80"></canvas>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;">
+            <h3>Wait Events &mdash; right now</h3>
+            <span id="wait-event-total-badge" class="badge badge-muted"></span>
+          </div>
+          <p class="hint-text hint-text-nowrap">What active sessions (idle excluded) are actually blocked on, one row per distinct wait &mdash; sampled every ~30s, not continuous like Oracle's ASH.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-wait-detail">
+              <thead><tr><th>Type</th><th>Event</th><th>Sessions</th><th>Longest wait</th><th>Sample query</th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <div class="empty-note" id="wait-detail-empty">No sessions actively running a query right now.</div>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h3>Wait events over time</h3></div>
+          <p class="hint-text hint-text-nowrap">The same wait types, totalled per ~30s sample across the selected time range above.</p>
+          <div class="chart-card">
+            <div class="empty-note" id="wait-events-chart-empty">No wait-event activity in this time range &mdash; nothing was caught actively waiting on any ~30s sample.</div>
+            <canvas id="chart-wait-events" height="80" class="hidden"></canvas>
+          </div>
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h3>Memory &amp; Buffer Cache</h3></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Cache hit ratio</div><div class="stat-value" data-memstat="cache_hit">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">shared_buffers</div><div class="stat-value" data-memstat="shared_buffers">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">effective_cache_size</div><div class="stat-value" data-memstat="effective_cache_size">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">work_mem</div><div class="stat-value" data-memstat="work_mem">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">maintenance_work_mem</div><div class="stat-value" data-memstat="maintenance_work_mem">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">wal_buffers</div><div class="stat-value" data-memstat="wal_buffers">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Temp spill (files / bytes)</div><div class="stat-value" data-memstat="temp">&mdash;</div></div>
+            <div class="stat-card" id="buffercache-stat-card"><div class="stat-label">Buffer cache occupancy</div><div class="stat-value" data-memstat="buffercache">&mdash;</div></div>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Tables & Indexes --------------------------- -->
+        <div id="dtab-schema" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Schema</h2>
+            <label class="checkbox-label">
+              <input type="checkbox" id="chk-show-system-schemas">
+              Show system schemas
+            </label>
+          </div>
+
+          <div class="schema-browser">
+            <div class="schema-tree-panel">
+              <div class="schema-tree-header">
+                <input type="text" id="schema-tree-filter" class="schema-tree-filter" placeholder="Filter schemas &amp; objects...">
+              </div>
+              <div id="schema-tree" class="schema-tree">
+                <div class="empty-note">Loading schemas...</div>
+              </div>
+            </div>
+
+            <div class="schema-detail-panel">
+              <div id="schema-detail-empty" class="schema-detail-empty">
+                Select a table, view, or sequence from the tree to see its details.
+              </div>
+              <div id="schema-detail-content" class="hidden">
+                <div class="schema-detail-header">
+                  <span id="schema-detail-icon" class="schema-detail-icon"></span>
+                  <div>
+                    <h3 id="schema-detail-name">&mdash;</h3>
+                    <div id="schema-detail-path" class="schema-detail-path"></div>
+                  </div>
+                </div>
+                <nav class="tab-strip subtab-strip" id="schema-detail-tabstrip"></nav>
+                <div id="schema-detail-panels"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Administration (NEW) --------------------------- -->
+        <div id="dtab-administration" class="dtab-panel">
+          <div class="panel-header">
+            <h2>Administration</h2>
+            <button id="btn-administration-review" class="btn btn-ai" {% if not ai_enabled %}disabled{% endif %}>
+              ✦ AI Administration Review
+            </button>
+          </div>
+          <div id="ai-administration-card" class="ai-summary-card hidden"></div>
+
+          <div class="panel-header"><h3>Autovacuum</h3></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Autovacuum</div><div class="stat-value" data-avstat="autovacuum">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Scale factor</div><div class="stat-value" data-avstat="autovacuum_vacuum_scale_factor">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Vacuum threshold</div><div class="stat-value" data-avstat="autovacuum_vacuum_threshold">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Naptime (s)</div><div class="stat-value" data-avstat="autovacuum_naptime">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Max workers</div><div class="stat-value" data-avstat="autovacuum_max_workers">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Running right now</div><div class="stat-value" data-avstat="active_workers">&mdash;</div></div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-autovacuum">
+              <thead><tr><th>Table</th><th>Live rows</th><th>Dead rows %</th><th>Last autovacuum</th><th>AV count</th><th>Last autoanalyze</th><th>AA count</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Estimated table bloat</h3></div>
+          <p class="hint-text">Estimated from the dead-tuple ratio (cheap, always-on) &mdash; not an exact byte-level measurement. An exact figure requires the <code>pgstattuple</code> extension and a full table scan, which pgmon doesn't run automatically. Tables here are candidates for a <code>VACUUM</code>.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-bloat">
+              <thead><tr><th>Table</th><th>Live rows</th><th>Dead rows</th><th>Estimated bloat %</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Disk usage &amp; growth</h3></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Database size</div><div class="stat-value" data-diskstat="db_size">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">WAL directory size</div><div class="stat-value" data-diskstat="wal_size">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Growth rate</div><div class="stat-value" data-diskstat="growth">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Temp files / bytes</div><div class="stat-value" data-diskstat="temp">&mdash;</div></div>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>WAL generation rate</h3></div>
+          <p class="hint-text">Server-wide (WAL isn't per-database) &mdash; derived from the two most recent monitoring snapshots.</p>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">WAL bytes/sec</div><div class="stat-value" data-walstat="bytes_per_sec">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">WAL records/sec</div><div class="stat-value" data-walstat="records_per_sec">&mdash;</div></div>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Checkpoint activity</h3></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Checkpoints / hour</div><div class="stat-value" data-ckstat="per_hour">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Timed / requested (total)</div><div class="stat-value" data-ckstat="timed_vs_requested">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">checkpoint_timeout</div><div class="stat-value" data-ckstat="checkpoint_timeout">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">max_wal_size</div><div class="stat-value" data-ckstat="max_wal_size">&mdash;</div></div>
+          </div>
+          <p class="hint-text">A high share of <strong>requested</strong> (vs. timed) checkpoints usually means <code>max_wal_size</code> is too small for the write volume.</p>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Index usage</h3></div>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">Seq scans (all tables)</div><div class="stat-value" data-idxstat="seq_scan">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Index scans (all tables)</div><div class="stat-value" data-idxstat="idx_scan">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Reads via index</div><div class="stat-value" data-idxstat="pct_index">&mdash;</div></div>
+          </div>
+          <p class="hint-text">Top 5 unused indexes shown below by size; open a table in the Schema tab to see its full index list with usage.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-admin-unused-indexes">
+              <thead><tr><th>Table</th><th>Index</th><th>Size</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;">
+            <h3>Partitioning advisor</h3>
+            <button type="button" id="btn-partitioning-advisor" class="btn btn-primary btn-sm">Analyze for partitioning candidates</button>
+          </div>
+          <p class="hint-text">Scans large, currently un-partitioned tables and recommends a technique (RANGE/LIST/HASH), a partition key column, and why -- built from real signals (column types, value cardinality, and actual query filter usage from <code>pg_stat_statements</code> when installed), not a guess. Deterministic, not AI. Recommends only -- converting an existing table needs a real data migration (a new partitioned table, copying data across, then swapping names), which this doesn't automate; adapt the DDL it gives you and run it yourself in a maintenance window.</p>
+          <div class="form-row-split" style="max-width:420px;">
+            <div>
+              <label for="partitioning-min-rows">Minimum rows</label>
+              <input type="number" id="partitioning-min-rows" value="10000" min="0" step="1000">
+            </div>
+            <div>
+              <label for="partitioning-min-mb">Minimum size (MB)</label>
+              <input type="number" id="partitioning-min-mb" value="10" min="0" step="10">
+            </div>
+          </div>
+          <div id="partitioning-advisor-status" class="hint-text"></div>
+          <div class="table-wrap hidden" id="partitioning-advisor-wrap">
+            <table class="data-table" id="table-partitioning-advisor">
+              <thead><tr><th>Table</th><th>Size</th><th>Rows</th><th>Technique</th><th>Column</th><th>Why</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ---------------------------- Migration --------------------------- -->
+        <div id="dtab-migration" class="dtab-panel">
+          <div class="panel-header"><h2>Migration</h2></div>
+          <p class="hint-text">Bring data into <strong>this database</strong> from Oracle or another PostgreSQL instance. Source credentials below are used for this migration only and are never saved.</p>
+
+          <div class="panel-header" style="margin-top:1.5rem;"><h3>1. Source connection</h3></div>
+          <div class="settings-toolbar" style="margin-top:0;">
+            <label class="checkbox-label" style="margin-bottom:0;">
+              <input type="radio" name="migration-source-type" value="postgres" id="migration-type-postgres" checked>
+              <span>PostgreSQL</span>
+            </label>
+            <label class="checkbox-label" style="margin-bottom:0;">
+              <input type="radio" name="migration-source-type" value="oracle" id="migration-type-oracle">
+              <span>Oracle</span>
+            </label>
+          </div>
+
+          <div id="migration-form-postgres" class="add-db-form">
+            <div class="form-row"><label for="mig-pg-host">Host</label><input type="text" id="mig-pg-host" placeholder="e.g. postgres2-postgresql.postgres2.svc.cluster.local"></div>
+            <div class="form-row form-row-split">
+              <div><label for="mig-pg-port">Port</label><input type="number" id="mig-pg-port" value="5432"></div>
+              <div><label for="mig-pg-dbname">Database</label><input type="text" id="mig-pg-dbname" placeholder="appdb"></div>
+            </div>
+            <div class="form-row form-row-split">
+              <div><label for="mig-pg-username">Username</label><input type="text" id="mig-pg-username" placeholder="postgres"></div>
+              <div><label for="mig-pg-password">Password</label><input type="password" id="mig-pg-password"></div>
+            </div>
+          </div>
+
+          <div id="migration-form-oracle" class="add-db-form hidden">
+            <div class="form-row"><label for="mig-ora-host">Host</label><input type="text" id="mig-ora-host" placeholder="oracle-host"></div>
+            <div class="form-row form-row-split">
+              <div><label for="mig-ora-port">Port</label><input type="number" id="mig-ora-port" value="1521"></div>
+              <div><label for="mig-ora-service">Service name</label><input type="text" id="mig-ora-service" placeholder="ORCLPDB1"></div>
+            </div>
+            <div class="form-row form-row-split">
+              <div><label for="mig-ora-username">Username</label><input type="text" id="mig-ora-username" placeholder="hr"></div>
+              <div><label for="mig-ora-password">Password</label><input type="password" id="mig-ora-password"></div>
+            </div>
+            <div class="form-row"><label for="mig-ora-owner">Schema / owner</label><input type="text" id="mig-ora-owner" placeholder="defaults to username, e.g. HR"></div>
+          </div>
+
+          <!-- Oracle only: which of the two migration engines below to use.
+               Hidden for PostgreSQL sources, where table-data-copy is the
+               only option. -->
+          <div id="migration-mode-section" class="hidden">
+            <div class="panel-header" style="margin-top:1.5rem;"><h3>2. What do you want to migrate?</h3></div>
+            <label class="checkbox-label">
+              <input type="radio" name="migration-oracle-mode" value="tables" id="migration-mode-tables" checked>
+              <span><strong>Table data only</strong> &mdash; pick specific tables below and copy their rows. Fast and simple, but does not create indexes, constraints, views, or other objects on the destination.</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="radio" name="migration-oracle-mode" value="full" id="migration-mode-full">
+              <span><strong>Everything</strong> &mdash; full schema conversion (tables, views, sequences, indexes, constraints, triggers, functions/procedures) plus all data, via <a href="https://ora2pg.darold.net/" target="_blank" rel="noopener">ora2pg</a>. Use this for a complete migration.</span>
+            </label>
+          </div>
+
+          <!-- ================= Table-data-copy flow ================= -->
+          <div id="migration-rowcopy-section">
+            <p class="hint-text">Only column data is copied &mdash; primary keys, foreign keys, indexes, and constraints are not recreated; add those yourself afterward if needed.</p>
+            <div class="form-actions" style="margin-top:1.5rem;">
+              <button type="button" id="btn-migration-test" class="btn btn-ghost">Test connection &amp; list tables</button>
+            </div>
+            <div id="migration-test-status" class="add-db-status"></div>
+
+            <div id="migration-tables-section" class="hidden">
+              <div class="panel-header" style="margin-top:2rem;"><h3>Choose tables</h3></div>
+            <div class="settings-toolbar" style="margin-top:0;">
+              <input type="text" id="migration-tables-filter" placeholder="Filter tables...">
+              <label class="checkbox-label" style="margin-bottom:0;">
+                <input type="checkbox" id="migration-select-all">
+                <span>Select all</span>
+              </label>
+            </div>
+            <div class="table-wrap settings-table-wrap">
+              <table class="data-table" id="table-migration-tables">
+                <thead><tr><th></th><th>Table</th><th>Approx. rows</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="panel-header" style="margin-top:2rem;"><h3>Options &amp; run</h3></div>
+            <div class="form-row" style="max-width:320px;">
+              <label for="migration-dest-schema">Destination schema</label>
+              <input type="text" id="migration-dest-schema" value="public">
+            </div>
+            <label class="checkbox-label">
+              <input type="checkbox" id="migration-create-if-missing" checked>
+              <span>Create destination tables if they don't already exist</span>
+            </label>
+            <label class="checkbox-label checkbox-label-danger">
+              <input type="checkbox" id="migration-truncate-first">
+              <span><strong>Truncate</strong> destination tables before loading (deletes any rows already there first)</span>
+            </label>
+            <div class="form-actions">
+              <button type="button" id="btn-migration-start" class="btn btn-primary">Start migration</button>
+            </div>
+            </div>
+
+            <div id="migration-progress-section" class="hidden">
+              <div class="panel-header" style="margin-top:2rem;">
+                <h3>Progress</h3>
+                <button type="button" id="btn-migration-cancel" class="btn btn-ghost btn-sm">Cancel</button>
+              </div>
+              <div id="migration-job-summary" class="hint-text"></div>
+              <div class="table-wrap">
+                <table class="data-table" id="table-migration-progress">
+                  <thead><tr><th>Source</th><th>Destination</th><th>Status</th><th>Rows copied</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- ============ end table-data-copy flow ============ -->
+
+          <!-- ================= Full schema (ora2pg) flow ================= -->
+          <div id="ora2pg-section" class="hidden">
+            <div class="panel-header" style="margin-top:1.5rem;"><h3>Full schema migration</h3></div>
+            <p class="hint-text">Converts the <strong>entire schema</strong> above &mdash; tables, views, sequences, indexes, constraints, triggers, and functions/procedures &mdash; into this database using <a href="https://ora2pg.darold.net/" target="_blank" rel="noopener">ora2pg</a>, then loads the data.</p>
+            <div id="ora2pg-unavailable" class="add-db-status status-err hidden"></div>
+            <div class="form-row" style="max-width:320px;">
+              <label for="ora2pg-dest-schema">Destination schema</label>
+              <input type="text" id="ora2pg-dest-schema" value="public">
+            </div>
+            <label class="checkbox-label">
+              <input type="checkbox" id="ora2pg-migrate-data" checked>
+              <span>Also migrate data (uncheck to convert schema objects only)</span>
+            </label>
+            <div class="form-actions">
+              <button type="button" id="btn-ora2pg-start" class="btn btn-primary">Start full schema migration</button>
+            </div>
+            <div id="ora2pg-progress-section" class="hidden">
+              <div class="panel-header" style="margin-top:1.5rem;">
+                <h3>Progress</h3>
+                <button type="button" id="btn-ora2pg-cancel" class="btn btn-ghost btn-sm">Cancel</button>
+              </div>
+              <div id="ora2pg-job-summary" class="hint-text"></div>
+              <pre id="ora2pg-log" class="log-box"></pre>
+            </div>
+          </div>
+          <!-- ============ end full schema (ora2pg) flow ============ -->
+        </div>
+
+        <!-- ---------------------------- AI Assistant --------------------------- -->
+        <div id="dtab-assistant" class="dtab-panel">
+          <div class="panel-header">
+            <h2>✦ AI Assistant</h2>
+            <button type="button" id="btn-ai-settings-toggle" class="btn btn-ghost btn-sm">AI provider settings&hellip;</button>
+          </div>
+
+          <div id="ai-settings-panel" class="hidden">
+            <p class="hint-text">Applies to every AI feature across the app (health/security/backup/performance reviews, the AI Query Optimizer, and this assistant) -- not just this tab. Global, not per-database.</p>
+            <div id="ai-settings-status" class="hint-text"></div>
+            <div class="add-db-form" style="max-width:none;">
+              <div class="form-row-split">
+                <div>
+                  <label for="ai-provider-select">Provider</label>
+                  <select id="ai-provider-select">
+                    <option value="anthropic" selected>Anthropic (Claude)</option>
+                    <option value="openai_compatible">OpenAI-compatible (local / enterprise model)</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="ai-model-input">Model</label>
+                  <input type="text" id="ai-model-input" placeholder="claude-sonnet-5" autocomplete="off">
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="ai-base-url-input">Base URL <span id="ai-base-url-hint" class="hint-text"></span></label>
+                <input type="text" id="ai-base-url-input" placeholder="https://api.anthropic.com" autocomplete="off">
+              </div>
+              <div class="form-row">
+                <label for="ai-api-key-input">API key <span id="ai-api-key-hint" class="hint-text"></span></label>
+                <input type="password" id="ai-api-key-input" placeholder="Leave blank to keep the current key" autocomplete="new-password">
+              </div>
+              <div class="form-actions">
+                <button type="button" id="btn-ai-settings-test" class="btn btn-ghost btn-sm">Test connection</button>
+                <button type="button" id="btn-ai-settings-save" class="btn btn-primary btn-sm">Save</button>
+                <button type="button" id="btn-ai-settings-clear" class="btn btn-ghost btn-sm">Reset to environment default</button>
+              </div>
+              <div id="ai-settings-form-status" class="add-db-status"></div>
+            </div>
+          </div>
+
+          {% if not ai_enabled %}
+          <div class="alert alert-info ai-disabled-notice">AI features are not configured. Set them up above, or set the <code>ANTHROPIC_API_KEY</code> environment variable.</div>
+          {% endif %}
+          <p class="hint-text">Ask about connection load, slow queries, vacuum health, or anything else &mdash; the assistant sees a fresh live snapshot of this database on every question.</p>
+          <div class="chat-window" id="chat-window">
+            <div class="chat-msg chat-assistant">Hi! I can see this database's live metrics. Ask me things like &ldquo;why is the DB slow right now?&rdquo; or &ldquo;is autovacuum keeping up?&rdquo;</div>
+          </div>
+          <div class="chat-input-row">
+            <textarea id="chat-input" placeholder="Ask about this database..." {% if not ai_enabled %}disabled{% endif %}></textarea>
+            <button id="btn-chat-send" class="btn btn-ai" {% if not ai_enabled %}disabled{% endif %}>Send</button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+    </div>
+  </div>
+
+  <div id="session-context-menu" class="context-menu hidden">
+    <div id="session-context-menu-label" class="context-menu-label"></div>
+    <button id="session-context-menu-kill" class="context-menu-item context-menu-item-danger">Kill session</button>
+  </div>
+
+  <script>
+    window.BASE_PATH = {{ base_path|tojson }};
+    window.AI_ENABLED = {{ ai_enabled|tojson }};
+  </script>
+  <script src="{{ base_path }}/static/js/app.js?v={{ asset_v.js }}"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+# Standard Helm values for deploying a new monitored Postgres instance with
+# full Extensions-tab support out of the box.
+#
+# Why this file exists: pgmon's Extensions tab can only ever enable what
+# already exists on the target server -- CREATE EXTENSION can't conjure a
+# missing library or a missing shared_preload_libraries entry. Every new
+# database added ad hoc (a bare `helm install bitnami/postgresql ...`) ends
+# up with only the extensions in stock Postgres contrib, minus the two
+# contrib ones that also need shared_preload_libraries (pg_stat_statements,
+# pgaudit) -- which is exactly the pg_stat_statements gotcha this file fixes.
+# Deploying with these values instead makes every extension in
+# app/extension_catalog.py enable-able immediately, no per-database
+# follow-up needed.
+#
+# Usage (swap NAME/NAMESPACE/PORT/DBNAME for the new instance; PGMON_IMAGE_TAG
+# must match a tag actually built from postgres-image/Dockerfile and already
+# `k3d image import`-ed into the cluster):
+#
+#   helm install NAME bitnami/postgresql -n NAMESPACE --create-namespace \
+#     --version 18.11.1 \
+#     -f postgres-image/new-database-values.yaml \
+#     --set auth.postgresPassword=admin123 \
+#     --set auth.database=DBNAME \
+#     --set containerPorts.postgresql=PORT \
+#     --set primary.service.ports.postgresql=PORT \
+#     --set image.tag=PGMON_IMAGE_TAG
+#
+# Then register it in pgmon (Databases tab -> + Add database) with:
+#   host: NAME-postgresql.NAMESPACE.svc.cluster.local, port: PORT,
+#   dbname: DBNAME, username: postgres, password: admin123
+#
+# To instead point an EXISTING release at this image/config (adding
+# extension support to a database that's already registered), run the same
+# `helm upgrade` with --reuse-values plus whichever of the --set flags above
+# actually need to change.
+
+# Use the pgmon-maintained image (built from postgres-image/Dockerfile) so
+# every non-contrib extension in the catalog (hypopg, pg_repack, pg_cron,
+# pg_partman, pgvector) has its control file/library present. --set
+# image.tag=<tag> at install/upgrade time picks the actual build; this repo
+# doesn't hardcode one here so upgrading the image doesn't require editing
+# this file.
+image:
+  registry: docker.io
+  repository: pg-ai-monitor-postgres
+  pullPolicy: IfNotPresent
+
+# The chart's own guardrail against non-Bitnami-published images -- required
+# whenever `image.repository` above isn't an official bitnami/* image.
+global:
+  security:
+    allowInsecureImages: true
+
+# pg_stat_statements and pgaudit are both in stock contrib (no custom image
+# needed) but, unlike every other extension in the catalog, CREATE EXTENSION
+# alone doesn't make them work -- both require shared_preload_libraries at
+# server *start*, which is exactly what enable_extension()/install_pg_stat_statements()
+# in app/metrics.py check for and refuse to paper over. pg_cron additionally
+# needs this (it's the one non-contrib extension with the same requirement)
+# plus the cron.database_name GUC below.
+#
+# pg_cron has one more quirk no amount of config here can remove: it can
+# only be CREATE EXTENSION'd inside whichever single database
+# cron.database_name names (Postgres itself enforces this, not pgmon) --
+# "postgres" below, since that database always exists on every instance.
+# Enabling it from the Extensions tab against a *different* registered
+# database (e.g. one whose dbname is the app db, not "postgres") will
+# correctly fail with Postgres's own "can only create extension in
+# database postgres" error -- register that same host/port as a second
+# pgmon entry pointed at dbname=postgres to enable/use pg_cron there.
+postgresqlSharedPreloadLibraries: "pgaudit,pg_stat_statements,pg_cron"
+
+primary:
+  extendedConfiguration: |
+    track_io_timing = on
+    pg_stat_statements.track = all
+    pg_stat_statements.max = 10000
+    cron.database_name = 'postgres'
+  persistence:
+    size: 4Gi
+    storageClass: local-path

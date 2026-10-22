@@ -1,0 +1,32 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "pg-ai-monitor.fullname" . }}
+  namespace: {{ include "pg-ai-monitor.namespace" . }}
+  labels:
+    {{- include "pg-ai-monitor.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
+  rules:
+    - host: {{ required "ingress.host is required when ingress.enabled is true" .Values.ingress.host | quote }}
+      http:
+        paths:
+          - path: {{ .Values.basePath | default "/" }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "pg-ai-monitor.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+  {{- with .Values.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

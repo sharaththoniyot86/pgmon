@@ -1,0 +1,46 @@
+# Previously applied live only (kubectl apply), undocumented in the repo --
+# checked in now so a fresh deploy doesn't silently lose physical/incremental
+# restore automation. Grants pg-ai-monitor's ServiceAccount exactly the
+# access app/backup.py's restore machinery needs against the live primary:
+# scale it to 0/1, create/exec/delete short-lived worker & temp-instance
+# pods, and create the PVC/Service a temp instance needs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pg-ai-monitor-physical-restore
+  namespace: postgres1
+rules:
+  - apiGroups: ["apps"]
+    resources: ["statefulsets"]
+    resourceNames: ["postgres1-postgresql"]
+    verbs: ["get", "list", "watch", "patch", "update"]
+  - apiGroups: ["apps"]
+    resources: ["statefulsets/scale"]
+    resourceNames: ["postgres1-postgresql"]
+    verbs: ["get", "patch", "update"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "create", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pg-ai-monitor-physical-restore
+  namespace: postgres1
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pg-ai-monitor-physical-restore
+subjects:
+  - kind: ServiceAccount
+    name: pg-ai-monitor
+    namespace: pgmonitor

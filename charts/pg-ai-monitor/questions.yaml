@@ -1,0 +1,189 @@
+categories:
+  - monitoring
+  - database
+
+questions:
+  # ---------------------------------------------------------------- image
+  - variable: image.repository
+    default: "pg-ai-monitor"
+    type: string
+    required: true
+    label: "Image Repository"
+    description: "Where you pushed the image built from this chart's Dockerfile. There is no public image for this app -- push your own build to a registry this cluster can pull from first."
+    group: "Image"
+
+  - variable: image.tag
+    default: "1.0.0"
+    type: string
+    required: true
+    label: "Image Tag"
+    group: "Image"
+
+  - variable: image.pullPolicy
+    default: "IfNotPresent"
+    type: enum
+    options:
+      - "IfNotPresent"
+      - "Always"
+      - "Never"
+    label: "Image Pull Policy"
+    group: "Image"
+
+  # ------------------------------------------------------------ security
+  - variable: sessionSecret
+    default: ""
+    type: password
+    required: true
+    label: "Session Secret"
+    description: "Signs session cookies. Generate one with `openssl rand -hex 32`. Keep it stable across upgrades -- changing it logs every user out."
+    group: "Security"
+
+  # ------------------------------------------------------------- storage
+  - variable: persistence.size
+    default: "256Mi"
+    type: string
+    label: "Volume Size"
+    description: "Holds this app's own bookkeeping (logins, registered-database list, audit log, backup schedules) -- not a copy of any monitored Postgres server's data."
+    group: "Storage"
+
+  - variable: persistence.storageClassName
+    default: ""
+    type: storageclass
+    label: "Storage Class"
+    description: "Leave blank to use the cluster's default StorageClass."
+    group: "Storage"
+
+  # ----------------------------------------------------------- networking
+  - variable: service.type
+    default: "ClusterIP"
+    type: enum
+    options:
+      - "ClusterIP"
+      - "NodePort"
+      - "LoadBalancer"
+    label: "Service Type"
+    group: "Networking"
+
+  - variable: basePath
+    default: ""
+    type: string
+    label: "Base Path"
+    description: "Mount the app under a path (e.g. \"/pgmonitor\") if it shares a hostname with other apps behind the same Ingress. Leave blank to serve at \"/\"."
+    group: "Networking"
+
+  - variable: ingress.enabled
+    default: false
+    type: boolean
+    label: "Create Ingress"
+    group: "Networking"
+    show_subquestion_if: true
+    subquestions:
+      - variable: ingress.className
+        default: ""
+        type: string
+        label: "Ingress Class"
+        description: "Leave blank to use the cluster's default IngressClass."
+      - variable: ingress.host
+        default: ""
+        type: hostname
+        label: "Hostname"
+      - variable: ingress.tls
+        default: []
+        type: string
+        label: "TLS (advanced -- edit as YAML)"
+        description: "A list of {secretName, hosts} -- e.g. [{secretName: pg-ai-monitor-tls, hosts: [pgmonitor.example.com]}]. Easiest to set from the YAML editor rather than this field."
+
+  # ---------------------------------------------------------- ai assistant
+  - variable: ai.anthropicApiKey
+    default: ""
+    type: password
+    label: "Anthropic API Key (optional)"
+    description: "Enables the AI Assistant tab, AI-written reviews, and the AI query optimizer. Every deterministic feature -- including the Tuning Advisor and Partitioning Advisor -- works with this left blank."
+    group: "AI Assistant (optional)"
+
+  - variable: ai.anthropicModel
+    default: "claude-sonnet-5"
+    type: string
+    label: "Anthropic Model"
+    group: "AI Assistant (optional)"
+
+  # ------------------------------------------------------------- polling
+  - variable: poll.intervalSeconds
+    default: 30
+    type: int
+    label: "Poll Interval (seconds)"
+    description: "How often each registered database is polled for metrics/alerts."
+    group: "Polling"
+
+  - variable: poll.snapshotRetentionHours
+    default: 48
+    type: int
+    label: "Snapshot Retention (hours)"
+    group: "Polling"
+
+  # ------------------------------------------------------------ resources
+  - variable: resources.requests.cpu
+    default: "50m"
+    type: string
+    label: "CPU Request"
+    group: "Resources"
+
+  - variable: resources.requests.memory
+    default: "128Mi"
+    type: string
+    label: "Memory Request"
+    group: "Resources"
+
+  - variable: resources.limits.cpu
+    default: "500m"
+    type: string
+    label: "CPU Limit"
+    group: "Resources"
+
+  - variable: resources.limits.memory
+    default: "256Mi"
+    type: string
+    label: "Memory Limit"
+    group: "Resources"
+
+  - variable: replicaCount
+    default: 1
+    type: int
+    label: "Replica Count"
+    description: "This app keeps its own bookkeeping in a single ReadWriteOnce volume -- it is not built to run more than one replica."
+    group: "Resources"
+
+  # ----------------------------------------- physical restore automation
+  - variable: physicalRestore.enabled
+    default: false
+    type: boolean
+    label: "Enable Physical/Incremental Restore Automation"
+    description: "Advanced, optional. Lets the Backup & Recovery tab scale a specific Postgres StatefulSet and drive short-lived worker/temp-instance pods against a specific PVC. Logical (pg_dump) backup/restore works either way with this off. Targets exactly ONE StatefulSet you name below -- see k8s/rbac.yaml in the source repo for the exact permissions this grants in that StatefulSet's namespace."
+    group: "Physical Restore Automation (advanced, optional)"
+    show_subquestion_if: true
+    subquestions:
+      - variable: physicalRestore.namespace
+        default: ""
+        type: string
+        label: "Target Namespace"
+        description: "Namespace of the Postgres StatefulSet to restore into -- may differ from this release's own namespace."
+      - variable: physicalRestore.statefulSet
+        default: ""
+        type: string
+        label: "Target StatefulSet Name"
+      - variable: physicalRestore.pvc
+        default: ""
+        type: string
+        label: "Target PVC Name"
+      - variable: physicalRestore.mountPath
+        default: "/bitnami/postgresql"
+        type: string
+        label: "Data Mount Path"
+      - variable: physicalRestore.walArchivePath
+        default: ""
+        type: string
+        label: "WAL Archive Path (for point-in-time recovery)"
+      - variable: physicalRestore.tempInstanceImage
+        default: "bitnami/postgresql:latest"
+        type: string
+        label: "Temp Instance Image"

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pg-ai-monitor.fullname" . }}
+  namespace: {{ include "pg-ai-monitor.namespace" . }}
+  labels:
+    {{- include "pg-ai-monitor.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "pg-ai-monitor.selectorLabels" . | nindent 4 }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http

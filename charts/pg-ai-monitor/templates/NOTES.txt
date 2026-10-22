@@ -1,0 +1,25 @@
+pg-ai-monitor is deploying to namespace "{{ include "pg-ai-monitor.namespace" . }}".
+
+1. Wait for the pod to become ready:
+   kubectl rollout status deployment/{{ include "pg-ai-monitor.fullname" . }} -n {{ include "pg-ai-monitor.namespace" . }}
+
+2. IMPORTANT -- create your first login. This chart does not create one for
+   you (there is no default admin account/password): pgmon starts with an
+   empty accounts table until you run this once:
+   kubectl exec -n {{ include "pg-ai-monitor.namespace" . }} deployment/{{ include "pg-ai-monitor.fullname" . }} -- \
+     python -m app.create_user admin 'choose-a-password-here'
+
+3. Reach the app:
+{{- if .Values.ingress.enabled }}
+   https://{{ .Values.ingress.host }}{{ .Values.basePath }}/
+{{- else }}
+   No Ingress is enabled (ingress.enabled=false). For now:
+   kubectl port-forward -n {{ include "pg-ai-monitor.namespace" . }} svc/{{ include "pg-ai-monitor.fullname" . }} 8080:{{ .Values.service.port }}
+   then open http://127.0.0.1:8080{{ .Values.basePath }}/
+{{- end }}
+
+4. Add a Postgres database to monitor from the Databases screen (+ Add
+   database) -- this chart doesn't monitor anything by default. See
+   postgres-image/new-database-values.yaml in the source repo if you also
+   want any new Postgres instance you deploy to have every catalog
+   extension enable-able from the Extensions tab out of the box.

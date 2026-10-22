@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pgmon &mdash; AI based Postgres database monitoring tool &mdash; account</title>
+  <script>try{if(localStorage.getItem("pgmon-theme")==="dark")document.documentElement.setAttribute("data-theme","dark");}catch(e){}</script>
+  <link rel="stylesheet" href="{{ base_path }}/static/css/style.css?v={{ asset_v.css }}">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <a href="{{ base_path }}/" class="topbar-home">
+          <span class="logo-mark small">pg</span>
+          <strong>pgmon</strong>
+        </a>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-user">{{ username }}</span>
+        <form method="post" action="{{ base_path }}/logout">
+          <button type="submit" class="btn btn-ghost btn-sm">Log out</button>
+        </form>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="content-wide" style="max-width: 480px;">
+        <a href="{{ base_path }}/" class="auth-back-link">&larr; Back to dashboard</a>
+
+        <div class="panel-header"><h2>Appearance</h2></div>
+        <p class="hint-text" style="margin-bottom: 1rem;">Saved in this browser only.</p>
+        <div class="theme-switch" id="theme-switch" style="margin-bottom: 2.5rem;">
+          <button type="button" class="theme-switch-option" data-theme-option="light">
+            <span class="theme-switch-swatch"><span class="sw-bg"></span><span class="sw-card"></span><span class="sw-accent"></span></span>
+            <span>Light</span>
+          </button>
+          <button type="button" class="theme-switch-option" data-theme-option="dark">
+            <span class="theme-switch-swatch"><span class="sw-bg"></span><span class="sw-card"></span><span class="sw-accent"></span></span>
+            <span>Dark</span>
+          </button>
+        </div>
+
+        <div class="panel-header"><h2>Change password</h2></div>
+        <p class="hint-text" style="margin-bottom: 1.25rem;">Signed in as <strong>{{ username }}</strong>. You'll need to sign in again afterward.</p>
+
+        <div id="cp-alert"></div>
+
+        <form id="cp-form" class="add-db-form" style="max-width: none;">
+          <div class="form-row">
+            <label for="cp-current">Current password</label>
+            <div class="pw-field">
+              <input id="cp-current" type="password" autocomplete="current-password" required>
+              <button type="button" class="pw-toggle" data-toggle-for="cp-current">Show</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="cp-new">New password</label>
+            <div class="pw-field">
+              <input id="cp-new" type="password" autocomplete="new-password" minlength="8" required>
+              <button type="button" class="pw-toggle" data-toggle-for="cp-new">Show</button>
+            </div>
+            <p class="password-hint">At least 8 characters.</p>
+          </div>
+          <div class="form-row">
+            <label for="cp-confirm">Confirm new password</label>
+            <div class="pw-field">
+              <input id="cp-confirm" type="password" autocomplete="new-password" minlength="8" required>
+              <button type="button" class="pw-toggle" data-toggle-for="cp-confirm">Show</button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="cp-submit">Change password</button>
+          </div>
+        </form>
+
+        <div id="admin-sections" class="hidden">
+          <div class="panel-header" style="margin-top:2.5rem;"><h2>Users</h2></div>
+          <p class="hint-text" style="margin-bottom: 1rem;">Viewers can see everything in the dashboard but can't change settings, kill sessions, manage roles, run backups/restores, or anything else that mutates state.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-users">
+              <thead><tr><th>Username</th><th>Role</th><th>Created</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div id="reset-command-box" class="add-db-form hidden" style="max-width:none;">
+            <p class="hint-text" id="reset-command-explainer">pgmon can't reset a password by itself -- there's no "forgot password" flow, deliberately: doing it from inside the app would mean any admin session could silently take over any other account. Resetting requires a different, higher trust boundary instead.</p>
+            <ol id="reset-command-steps">
+              <li>Pick a new password below, or click <strong>Generate</strong>.</li>
+              <li>Click <strong>Copy command</strong>.</li>
+              <li>Paste and run it in a terminal with <code>kubectl</code> access to this cluster.</li>
+              <li>Have that person sign in with the new password (or you, if resetting your own).</li>
+            </ol>
+            <div class="form-row">
+              <label for="reset-username">Username</label>
+              <input type="text" id="reset-username" readonly>
+            </div>
+            <div class="form-row">
+              <label for="reset-new-password">New password</label>
+              <div class="pw-field">
+                <input id="reset-new-password" type="text" minlength="8">
+                <button type="button" class="pw-toggle" id="btn-reset-generate">Generate</button>
+              </div>
+              <p class="password-hint">At least 8 characters. Shown in plain text here since it's going straight into a command you'll run yourself.</p>
+            </div>
+            <div class="form-row">
+              <label for="reset-command-text">Command</label>
+              <textarea id="reset-command-text" class="query-input" rows="2" readonly></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-primary btn-sm" id="btn-reset-copy">Copy command</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="btn-reset-close">Close</button>
+            </div>
+          </div>
+          <div id="users-alert"></div>
+          <div class="add-db-form" style="max-width:none;">
+            <div class="form-row-split">
+              <div>
+                <label for="user-new-username">Username</label>
+                <input type="text" id="user-new-username" autocomplete="off">
+              </div>
+              <div>
+                <label for="user-new-password">Password</label>
+                <input type="password" id="user-new-password" autocomplete="new-password" minlength="8">
+              </div>
+              <div>
+                <label for="user-new-role">Role</label>
+                <select id="user-new-role">
+                  <option value="viewer" selected>Viewer</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" id="btn-add-user" class="btn btn-primary btn-sm">Add user</button>
+            </div>
+          </div>
+
+          <div class="panel-header" style="margin-top:2.5rem;"><h2>Audit log</h2></div>
+          <p class="hint-text" style="margin-bottom: 1rem;">Admin actions taken through pgmon itself (not Postgres's own pgaudit log, which covers raw SQL on the monitored server separately).</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-audit-log">
+              <thead><tr><th>When</th><th>User</th><th>Action</th><th>Detail</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      function currentTheme() {
+        try { return localStorage.getItem("pgmon-theme") === "dark" ? "dark" : "light"; } catch (e) { return "light"; }
+      }
+      function applyTheme(theme) {
+        if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+        else document.documentElement.removeAttribute("data-theme");
+        try { localStorage.setItem("pgmon-theme", theme); } catch (e) {}
+        document.querySelectorAll("[data-theme-option]").forEach(function (btn) {
+          btn.classList.toggle("active", btn.dataset.themeOption === theme);
+        });
+      }
+      document.querySelectorAll("[data-theme-option]").forEach(function (btn) {
+        btn.addEventListener("click", function () { applyTheme(btn.dataset.themeOption); });
+      });
+      applyTheme(currentTheme());
+    })();
+
+    (function () {
+      document.querySelectorAll("[data-toggle-for]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const input = document.getElementById(btn.dataset.toggleFor);
+          const showing = input.type === "text";
+          input.type = showing ? "password" : "text";
+          btn.textContent = showing ? "Show" : "Hide";
+        });
+      });
+
+      const form = document.getElementById("cp-form");
+      const alertBox = document.getElementById("cp-alert");
+      const submitBtn = document.getElementById("cp-submit");
+
+      function showAlert(message, kind) {
+        alertBox.innerHTML = '<div class="alert alert-' + kind + '">' + message + '</div>';
+      }
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        alertBox.innerHTML = "";
+        const current = document.getElementById("cp-current").value;
+        const next = document.getElementById("cp-new").value;
+        const confirm = document.getElementById("cp-confirm").value;
+
+        if (next.length < 8) {
+          showAlert("New password must be at least 8 characters.", "error");
+          return;
+        }
+        if (next !== confirm) {
+          showAlert("New password and confirmation don't match.", "error");
+          return;
+        }
+        if (next === current) {
+          showAlert("New password must be different from your current password.", "error");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Changing...";
+        try {
+          const resp = await fetch("{{ base_path }}/api/account/change-password", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ current_password: current, new_password: next }),
+          });
+          const data = await resp.json();
+          if (!resp.ok) throw new Error(data.detail || resp.statusText);
+
+          // Session tokens aren't invalidated server-side on password
+          // change (they're just a signed username claim), so log out
+          // explicitly and send the user back to sign in with the new
+          // password -- the clearest signal the change actually took.
+          await fetch("{{ base_path }}/logout", { method: "POST", credentials: "same-origin" });
+          window.location.href = "{{ base_path }}/login?notice=password-changed";
+        } catch (err) {
+          showAlert("Failed: " + err.message, "error");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Change password";
+        }
+      });
+    })();
+
+    (function () {
+      const BASE = "{{ base_path }}";
+      const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+      async function loadUsers() {
+        const resp = await fetch(BASE + "/api/users", { credentials: "same-origin" });
+        const users = await resp.json();
+        const tbody = document.querySelector("#table-users tbody");
+        tbody.innerHTML = users.map((u) => `
+          <tr>
+            <td class="mono">${esc(u.username)}</td>
+            <td>
+              <select data-role-for="${esc(u.username)}">
+                <option value="viewer" ${u.role === "viewer" ? "selected" : ""}>Viewer</option>
+                <option value="admin" ${u.role === "admin" ? "selected" : ""}>Admin</option>
+              </select>
+            </td>
+            <td>${u.created_at ? new Date(u.created_at).toLocaleString() : "—"}</td>
+            <td>
+              <button type="button" class="btn btn-ghost btn-sm" data-reset-user="${esc(u.username)}">Reset password&hellip;</button>
+              <button type="button" class="btn-icon-danger" data-delete-user="${esc(u.username)}">Delete</button>
+            </td>
+          </tr>`).join("") || `<tr><td colspan="4" class="empty-note">No users.</td></tr>`;
+
+        tbody.querySelectorAll("[data-reset-user]").forEach((btn) => {
+          btn.addEventListener("click", () => openResetCommandBox(btn.dataset.resetUser));
+        });
+
+        tbody.querySelectorAll("[data-role-for]").forEach((sel) => {
+          sel.addEventListener("change", async () => {
+            const username = sel.dataset.roleFor;
+            try {
+              const r = await fetch(BASE + `/api/users/${encodeURIComponent(username)}/role`, {
+                method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ role: sel.value }),
+              });
+              const data = await r.json();
+              if (!r.ok) throw new Error(data.detail || r.statusText);
+            } catch (e) {
+              alert("Failed: " + e.message);
+              loadUsers();
+            }
+          });
+        });
+        tbody.querySelectorAll("[data-delete-user]").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const username = btn.dataset.deleteUser;
+            if (!confirm(`Delete user ${username}?`)) return;
+            try {
+              const r = await fetch(BASE + `/api/users/${encodeURIComponent(username)}`, { method: "DELETE", credentials: "same-origin" });
+              const data = await r.json();
+              if (!r.ok) throw new Error(data.detail || r.statusText);
+              loadUsers();
+            } catch (e) { alert("Failed: " + e.message); }
+          });
+        });
+      }
+
+      document.getElementById("btn-add-user")?.addEventListener("click", async () => {
+        const alertBox = document.getElementById("users-alert");
+        alertBox.innerHTML = "";
+        const username = document.getElementById("user-new-username").value.trim();
+        const password = document.getElementById("user-new-password").value;
+        const role = document.getElementById("user-new-role").value;
+        if (!username || password.length < 8) {
+          alertBox.innerHTML = '<div class="alert alert-error">Username is required and password must be at least 8 characters.</div>';
+          return;
+        }
+        try {
+          const r = await fetch(BASE + "/api/users", {
+            method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password, role }),
+          });
+          const data = await r.json();
+          if (!r.ok) throw new Error(data.detail || r.statusText);
+          document.getElementById("user-new-username").value = "";
+          document.getElementById("user-new-password").value = "";
+          loadUsers();
+        } catch (e) {
+          alertBox.innerHTML = '<div class="alert alert-error">Failed: ' + esc(e.message) + '</div>';
+        }
+      });
+
+      async function loadAuditLog() {
+        const resp = await fetch(BASE + "/api/audit-log", { credentials: "same-origin" });
+        const entries = await resp.json();
+        const tbody = document.querySelector("#table-audit-log tbody");
+        tbody.innerHTML = entries.map((e) => `
+          <tr>
+            <td>${new Date(e.created_at).toLocaleString()}</td>
+            <td class="mono">${esc(e.username)}</td>
+            <td class="mono">${esc(e.action)}</td>
+            <td>${esc(e.detail || "")}</td>
+          </tr>`).join("") || `<tr><td colspan="4" class="empty-note">No audit entries yet.</td></tr>`;
+      }
+
+      // ---------------------------------------------------- password reset
+      // pgmon has no in-app "reset another user's password" flow, on
+      // purpose -- doing that from inside the app would let any admin
+      // session silently take over any other account. Resetting instead
+      // needs a separate, higher-trust-boundary command: kubectl exec
+      // access to the cluster, or (standalone installs) root on the server
+      // pgmon runs on -- this just builds the exact command for whichever
+      // applies, based on deployment_mode from /api/account/role.
+      let pgmonNamespace = "pgmonitor", pgmonDeployment = "pg-ai-monitor", deploymentMode = "kubernetes";
+
+      function buildResetCommand(username, password) {
+        if (deploymentMode === "standalone") {
+          const escapedPw = password.replace(/'/g, `'\\''`); // single-quote-safe for the shell
+          return `echo '${escapedPw}' | sudo pgmon-reset-password ${username}`;
+        }
+        if (deploymentMode === "standalone-windows") {
+          const escapedPwPs = password.replace(/'/g, "''"); // single-quote-safe for PowerShell
+          return `'${escapedPwPs}' | pgmon-reset-password.ps1 ${username}`;
+        }
+        const escapedPw = password.replace(/'/g, `'\\''`);
+        return `kubectl exec -n ${pgmonNamespace} deployment/${pgmonDeployment} -- python -m app.create_user ${username} '${escapedPw}' --update`;
+      }
+
+      function applyDeploymentModeToResetUi() {
+        if (deploymentMode === "standalone") {
+          document.getElementById("reset-command-explainer").textContent =
+            "pgmon can't reset a password by itself -- there's no \"forgot password\" flow, deliberately: doing it from inside the app would mean any admin session could silently take over any other account. Resetting requires root access to the server pgmon runs on instead.";
+          document.getElementById("reset-command-steps").innerHTML = `
+            <li>Pick a new password below, or click <strong>Generate</strong>.</li>
+            <li>Click <strong>Copy command</strong>.</li>
+            <li>Paste and run it in a terminal (SSH or console) on the server pgmon is installed on.</li>
+            <li>Have that person sign in with the new password (or you, if resetting your own).</li>`;
+        } else if (deploymentMode === "standalone-windows") {
+          document.getElementById("reset-command-explainer").textContent =
+            "pgmon can't reset a password by itself -- there's no \"forgot password\" flow, deliberately: doing it from inside the app would mean any admin session could silently take over any other account. Resetting requires administrator access to the server pgmon runs on instead.";
+          document.getElementById("reset-command-steps").innerHTML = `
+            <li>Pick a new password below, or click <strong>Generate</strong>.</li>
+            <li>Click <strong>Copy command</strong>.</li>
+            <li>Paste and run it in an elevated PowerShell prompt (Run as Administrator) on the server pgmon is installed on.</li>
+            <li>Have that person sign in with the new password (or you, if resetting your own).</li>`;
+        }
+      }
+
+      function updateResetCommand() {
+        const username = document.getElementById("reset-username").value;
+        const password = document.getElementById("reset-new-password").value;
+        document.getElementById("reset-command-text").value =
+          password.length >= 8 ? buildResetCommand(username, password) : "(enter a password of at least 8 characters)";
+      }
+
+      function openResetCommandBox(username) {
+        document.getElementById("reset-username").value = username;
+        document.getElementById("reset-new-password").value = "";
+        updateResetCommand();
+        document.getElementById("reset-command-box").classList.remove("hidden");
+        document.getElementById("reset-command-box").scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      document.getElementById("reset-new-password").addEventListener("input", updateResetCommand);
+      document.getElementById("btn-reset-generate").addEventListener("click", () => {
+        const bytes = new Uint8Array(12);
+        crypto.getRandomValues(bytes);
+        const password = btoa(String.fromCharCode(...bytes)).replace(/[+/=]/g, "").slice(0, 16);
+        document.getElementById("reset-new-password").value = password;
+        updateResetCommand();
+      });
+      document.getElementById("btn-reset-copy").addEventListener("click", async () => {
+        const btn = document.getElementById("btn-reset-copy");
+        try {
+          await navigator.clipboard.writeText(document.getElementById("reset-command-text").value);
+          btn.textContent = "Copied!";
+        } catch (e) {
+          document.getElementById("reset-command-text").select();
+          btn.textContent = "Select all shown -- copy manually";
+        }
+        setTimeout(() => { btn.textContent = "Copy command"; }, 2000);
+      });
+      document.getElementById("btn-reset-close").addEventListener("click", () => {
+        document.getElementById("reset-command-box").classList.add("hidden");
+      });
+
+      // Any signed-in user can reach this page; the admin-only sections
+      // stay hidden for a viewer rather than erroring, since /api/users and
+      // /api/audit-log are both require_admin-gated.
+      fetch(BASE + "/api/account/role", { credentials: "same-origin" }).then((r) => r.json()).then((data) => {
+        if (data.pgmon_namespace) pgmonNamespace = data.pgmon_namespace;
+        if (data.pgmon_deployment) pgmonDeployment = data.pgmon_deployment;
+        if (data.deployment_mode) deploymentMode = data.deployment_mode;
+        applyDeploymentModeToResetUi();
+        if (data.role === "admin") {
+          document.getElementById("admin-sections").classList.remove("hidden");
+          loadUsers();
+          loadAuditLog();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

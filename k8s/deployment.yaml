@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-ai-monitor
+  namespace: pgmonitor
+  labels:
+    app: pg-ai-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pg-ai-monitor
+  template:
+    metadata:
+      labels:
+        app: pg-ai-monitor
+    spec:
+      securityContext:
+        # Volumes provisioned by local-path start out root-owned; fsGroup
+        # makes kubelet chown the mount to a group our non-root appuser
+        # (uid/gid 10001, see Dockerfile) belongs to, so it can write the
+        # SQLite file.
+        fsGroup: 10001
+      containers:
+        - name: pg-ai-monitor
+          image: pg-ai-monitor:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ANTHROPIC_MODEL
+              value: "claude-sonnet-5"
+            - name: BASE_PATH
+              value: "/pgmonitor"
+            - name: POLL_INTERVAL_SECONDS
+              value: "30"
+            - name: SNAPSHOT_RETENTION_HOURS
+              value: "48"
+            - name: USERS_DB_PATH
+              value: "/data/pgmon_users.db"
+            # Physical/incremental backup restore automation (app/backup.py) --
+            # previously set via `kubectl set env` only, undocumented here; now
+            # checked in so a fresh deploy doesn't silently lose the feature.
+            - name: PHYSICAL_RESTORE_NAMESPACE
+              value: "postgres1"
+            - name: PHYSICAL_RESTORE_STATEFULSET
+              value: "postgres1-postgresql"
+            - name: PHYSICAL_RESTORE_PVC
+              value: "data-postgres1-postgresql-0"
+            # Point-in-time recovery (app/backup.py's _copy_wal_archive) --
+            # the WAL archive volume mounted on the primary itself.
+            - name: PHYSICAL_RESTORE_WAL_ARCHIVE_PATH
+              value: "/bitnami/postgresql/wal_archive"
+          envFrom:
+            - secretRef:
+                name: pgmonitor-secrets
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pg-ai-monitor-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pg-ai-monitor
+  namespace: pgmonitor
+spec:
+  selector:
+    app: pg-ai-monitor
+  ports:
+    - port: 80
+      targetPort: 8000
