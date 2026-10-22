@@ -10,11 +10,21 @@ serves HTTPS directly.
 
 ## Getting the image onto the target machine
 
-Built as a portable tarball -- `docker load` needs no registry access at
-all, so this works even on a fully air-gapped machine:
+Built as a portable tarball -- `docker load`/`podman load` needs no
+registry access at all, so this works even on a fully air-gapped machine:
 
 ```bash
 docker load -i pgmon-1.0.0-docker.tar.gz
+```
+
+Podman works the same way, with one difference worth knowing: it names
+the loaded image `docker.io/library/pgmon:1.0.0` (the full registry path),
+not the short `pgmon:1.0.0` Docker uses -- use that full name in the
+`podman run` commands below, or `podman tag docker.io/library/pgmon:1.0.0
+pgmon:1.0.0` once to use the short name afterward.
+
+```bash
+podman load -i pgmon-1.0.0-docker.tar.gz
 ```
 
 ## Running it
@@ -25,14 +35,21 @@ docker run -d --name pgmon -p 443:443 \
     --restart unless-stopped pgmon:1.0.0
 ```
 
+```bash
+podman run -d --name pgmon -p 443:443 \
+    -v pgmon-config:/etc/pgmon -v pgmon-data:/var/lib/pgmon \
+    --restart unless-stopped docker.io/library/pgmon:1.0.0
+```
+
 The two named volumes matter: `/etc/pgmon` holds the generated config and
 TLS cert, `/var/lib/pgmon` holds the SQLite accounts/settings DB. Without
 them, config/admin account/cert would regenerate from scratch on every
-`docker run` (fine for a quick throwaway test, wrong for anything meant to
+run (fine for a quick throwaway test, wrong for anything meant to
 persist).
 
 The admin password is generated once, on first start, and printed to the
-container's logs -- `docker logs pgmon` to find it; it's not shown again.
+container's logs -- `docker logs pgmon` (or `podman logs pgmon`) to find
+it; it's not shown again.
 
 Browse to `https://<this-host>/`. Your browser will warn about the
 certificate being self-signed -- expected, not an error; click through, or
@@ -42,6 +59,19 @@ setting `PGMON_PORT` to something nginx-internal and not exposing it
 externally, or just terminate TLS at your proxy and reverse-proxy straight
 to this container's 443 -- either works, nginx inside doesn't need to be
 the outermost edge).
+
+**Podman-specific notes:**
+- **Rootful vs. rootless**: the commands above assume a rootful Podman
+  (the common setup on RHEL-family hosts), which can bind port 443
+  directly like Docker can. A rootless Podman can't bind ports below
+  1024 -- map to something higher instead (e.g. `-p 8443:443`) and
+  browse to that port.
+- **Stay on one side consistently**: `podman load` and `podman run` must
+  both run as the same user (both as root via `sudo`, or both as your
+  own user) -- Podman keeps completely separate image storage per UID,
+  so loading as root and running as yourself (or vice versa) fails with
+  a confusing "trying to pull from docker.io" error, since the run
+  command can't see what the other user's load command stored.
 
 ## Choosing the HTTPS port
 
@@ -53,10 +83,15 @@ docker run -d --name pgmon -p 8443:8443 -e PGMON_PORT=8443 \
     --restart unless-stopped pgmon:1.0.0
 ```
 
+```bash
+podman run -d --name pgmon -p 8443:8443 -e PGMON_PORT=8443 \
+    -v pgmon-config:/etc/pgmon -v pgmon-data:/var/lib/pgmon \
+    --restart unless-stopped docker.io/library/pgmon:1.0.0
+```
+
 Remember to also change the `-p` host-port mapping to match -- `-e
 PGMON_PORT` only controls what port nginx listens on *inside* the
-container; Docker's own `-p hostport:containerport` is what exposes it
-outside.
+container; `-p hostport:containerport` is what exposes it outside.
 
 ## Resetting a password
 
@@ -64,6 +99,12 @@ outside.
 docker exec -it pgmon pgmon-reset-password            # resets 'admin', prompts for the new password
 docker exec -it pgmon pgmon-reset-password alice      # resets (or creates) a specific account
 echo 'newpassword' | docker exec -i pgmon pgmon-reset-password admin   # non-interactive
+```
+
+Same with Podman -- just swap `docker` for `podman`:
+
+```bash
+podman exec -it pgmon pgmon-reset-password
 ```
 
 ## Upgrading
@@ -74,6 +115,14 @@ docker rm -f pgmon
 docker run -d --name pgmon -p 443:443 \
     -v pgmon-config:/etc/pgmon -v pgmon-data:/var/lib/pgmon \
     --restart unless-stopped pgmon:1.0.1
+```
+
+```bash
+podman load -i pgmon-1.0.1-docker.tar.gz
+podman rm -f pgmon
+podman run -d --name pgmon -p 443:443 \
+    -v pgmon-config:/etc/pgmon -v pgmon-data:/var/lib/pgmon \
+    --restart unless-stopped docker.io/library/pgmon:1.0.1
 ```
 
 Config and the accounts DB live in the named volumes, not the container,
