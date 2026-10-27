@@ -50,6 +50,21 @@ class Settings:
     POLL_INTERVAL_SECONDS: int = int(os.environ.get("POLL_INTERVAL_SECONDS", "30"))
     SNAPSHOT_RETENTION_HOURS: int = int(os.environ.get("SNAPSHOT_RETENTION_HOURS", "48"))
 
+    # Outbound alert delivery (see app/notify.py). Unset = disabled, which
+    # keeps every existing deployment's behaviour exactly as it was.
+    # Any endpoint accepting a JSON POST works -- Slack/Teams incoming
+    # webhooks render the payload's "text" field directly.
+    ALERT_WEBHOOK_URL: str = os.environ.get("ALERT_WEBHOOK_URL", "")
+    # error (default) / warning / info. Defaults to error only: the first
+    # thing that kills an alerting channel is volume, and the warning tier
+    # here includes things that are routine on a busy server.
+    ALERT_WEBHOOK_MIN_SEVERITY: str = os.environ.get("ALERT_WEBHOOK_MIN_SEVERITY", "error")
+    # How long before an alert that is *still* firing is re-sent. Long
+    # enough not to nag, short enough that something broken overnight is
+    # still in the channel by morning.
+    ALERT_WEBHOOK_REARM_SECONDS: int = int(os.environ.get("ALERT_WEBHOOK_REARM_SECONDS", str(6 * 3600)))
+    ALERT_WEBHOOK_TIMEOUT_SECONDS: float = float(os.environ.get("ALERT_WEBHOOK_TIMEOUT_SECONDS", "10"))
+
     # Mounted under this path behind the ingress (e.g. "/pgmonitor"); empty for local dev at "/".
     BASE_PATH: str = os.environ.get("BASE_PATH", "").rstrip("/")
 

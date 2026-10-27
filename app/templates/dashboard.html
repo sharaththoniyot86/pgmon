@@ -877,6 +877,28 @@
             <div class="stat-card"><div class="stat-label">Replicas connected</div><div class="stat-value" data-bstat="replica_count">&mdash;</div></div>
           </div>
 
+          <div class="panel-header" style="margin-top:2rem;"><h3>Replication slots</h3></div>
+          <p class="hint-text">A slot guarantees the primary keeps WAL until its consumer has read it &mdash; which is exactly why an <em>inactive</em> slot is dangerous: nothing will ever consume it, so <span class="mono">pg_wal</span> grows without bound until the filesystem fills and the instance stops. Postgres never cleans these up on its own. Drop any slot whose consumer is gone for good.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-repl-slots">
+              <thead><tr>
+                <th>Slot</th><th>Type</th><th>Database</th><th>Active</th><th>WAL status</th><th>WAL retained</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Standbys</h3></div>
+          <p class="hint-text">Lag is shown in bytes as well as seconds on purpose: Postgres's time-based lag figures stay frozen at their last measured value while a standby is idle, so a standby that has stopped applying WAL entirely can report a reassuringly small time lag while falling arbitrarily far behind. The byte figure is what tells you how much data a failover would lose right now.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-standbys">
+              <thead><tr>
+                <th>Application</th><th>Client</th><th>State</th><th>Sync</th><th>Replay lag</th><th>Replay lag (time)</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
           <div class="panel-header" style="margin-top:2rem;"><h3>Backups</h3></div>
           <div class="add-db-form" style="max-width:none;">
             <div class="form-row-split">
@@ -1328,7 +1350,26 @@
           </div>
           <div id="ai-administration-card" class="ai-summary-card hidden"></div>
 
-          <div class="panel-header"><h3>Autovacuum</h3></div>
+          <div class="panel-header"><h3>Transaction ID wraparound</h3></div>
+          <p class="hint-text">Postgres transaction IDs are a 32-bit counter. If the oldest unfrozen one falls ~2.1 billion behind, the server <em>stops accepting writes entirely</em> until an offline VACUUM finishes &mdash; the most severe failure mode unique to Postgres. Autovacuum's freeze pass normally keeps this far away; it's defeated in practice by a long-running transaction, an abandoned replication slot, a stale prepared transaction, or a table with autovacuum turned off. MultiXact IDs have their own separate counter and their own identical shutdown.</p>
+          <div class="stat-grid">
+            <div class="stat-card"><div class="stat-label">XID consumed</div><div class="stat-value" data-wrapstat="xid_used_pct">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Transactions remaining</div><div class="stat-value" data-wrapstat="xid_remaining">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">Oldest XID age</div><div class="stat-value" data-wrapstat="max_xid_age">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">MultiXact consumed</div><div class="stat-value" data-wrapstat="mxid_used_pct">&mdash;</div></div>
+            <div class="stat-card"><div class="stat-label">autovacuum_freeze_max_age</div><div class="stat-value" data-wrapstat="freeze_max_age">&mdash;</div></div>
+          </div>
+          <p class="hint-text" style="margin-top:0.75rem;">Tables below are ordered by how far back they hold the freeze horizon &mdash; the top one is what's actually blocking it from advancing, and therefore what to <span class="mono">VACUUM FREEZE</span> first.</p>
+          <div class="table-wrap">
+            <table class="data-table" id="table-wraparound">
+              <thead><tr>
+                <th>Table</th><th>XID age</th><th>MultiXact age</th><th>Size</th><th>Autovacuum</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;"><h3>Autovacuum</h3></div>
           <div class="stat-grid">
             <div class="stat-card"><div class="stat-label">Autovacuum</div><div class="stat-value" data-avstat="autovacuum">&mdash;</div></div>
             <div class="stat-card"><div class="stat-label">Scale factor</div><div class="stat-value" data-avstat="autovacuum_vacuum_scale_factor">&mdash;</div></div>

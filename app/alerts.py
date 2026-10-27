@@ -40,6 +40,29 @@ _BLOCKED_SESSIONS_ERROR = 5
 _CHECKPOINT_MIN_SAMPLE = 10
 _CHECKPOINT_FORCED_RATIO_WARN = 0.5
 
+# Replication slot WAL retention. A slot legitimately holds some WAL while
+# its consumer catches up, so size alone isn't the signal -- an *inactive*
+# slot holding anything meaningful is, since nothing will ever release it.
+_SLOT_RETAINED_WARN_BYTES = 1 * 1024 ** 3    # 1 GB
+_SLOT_RETAINED_ERROR_BYTES = 10 * 1024 ** 3  # 10 GB
+# Standby lag. Bytes rather than seconds as the primary signal: Postgres's
+# own *_lag intervals stay frozen at their last measured value while a
+# standby is idle, so a standby that stopped applying WAL entirely can show
+# a reassuring small time lag while falling arbitrarily far behind.
+_REPLICA_LAG_WARN_BYTES = 100 * 1024 ** 2    # 100 MB
+_REPLICA_LAG_ERROR_BYTES = 1 * 1024 ** 3     # 1 GB
+
+
+def _fmt_bytes(n: int | float | None) -> str:
+    if n is None:
+        return "unknown"
+    n = float(n)
+    for unit in ("B", "KB", "MB", "GB", "TB"):
+        if abs(n) < 1024 or unit == "TB":
+            return f"{n:.1f}{unit}" if unit != "B" else f"{int(n)}B"
+        n /= 1024
+    return f"{n:.1f}TB"
+
 
 def _alert(severity: str, title: str, detail: str, category: str) -> dict:
     return {"severity": severity, "title": title, "detail": detail, "category": category}
@@ -132,6 +155,97 @@ async def get_alerts(pool: asyncpg.Pool, db_id: str | None = None) -> list[dict]
         elif pct >= _DEAD_TUPLE_WARN_PCT:
             alerts.append(_alert("warning", f"{label} has notable bloat",
                 f"{pct}% dead tuples.", "maintenance"))
+
+    # ------------------------------------------------- XID/MultiXact wraparound
+    # Deliberately ahead of the other maintenance checks in severity terms:
+    # everything else here degrades performance, this one eventually stops
+    # the database accepting writes at all, and the recovery (an offline
+    # VACUUM over the oldest table) gets slower the longer it's left.
+    try:
+        wrap = await metrics.get_wraparound_info(pool)
+    except Exception:
+        wrap = None
+    if wrap:
+        used_pct = wrap["xid_used_pct"]
+        remaining = wrap["xid_remaining"]
+        if used_pct >= metrics._XID_ERROR_FRACTION * 100:
+            alerts.append(_alert("error", "Transaction ID wraparound is close",
+                f"The oldest unfrozen transaction ID is {used_pct}% of the way to the {wrap['xid_limit']:,} "
+                f"wraparound limit ({remaining:,} left). Postgres stops accepting writes entirely when this "
+                "runs out. Find what's holding the horizon back (long-running transaction, abandoned "
+                "replication slot, stale prepared transaction, or a table with autovacuum disabled) and "
+                "VACUUM FREEZE the oldest tables now.", "maintenance"))
+        elif used_pct >= metrics._XID_WARN_FRACTION * 100:
+            alerts.append(_alert("warning", "Transaction ID age is high",
+                f"The oldest unfrozen transaction ID is {used_pct}% of the way to the wraparound limit "
+                f"({remaining:,} transactions left). Autovacuum's freeze pass should be bringing this down -- "
+                "if it isn't, something is pinning the horizon.", "maintenance"))
+
+        mxid_pct = wrap["mxid_used_pct"]
+        if mxid_pct >= metrics._XID_ERROR_FRACTION * 100:
+            alerts.append(_alert("error", "MultiXact ID wraparound is close",
+                f"MultiXact age is {mxid_pct}% of its own separate wraparound limit. This counter is "
+                "independent of the transaction ID one and shuts down writes the same way when exhausted.",
+                "maintenance"))
+        elif mxid_pct >= metrics._XID_WARN_FRACTION * 100:
+            alerts.append(_alert("warning", "MultiXact ID age is high",
+                f"MultiXact age is {mxid_pct}% of its separate wraparound limit.", "maintenance"))
+
+        # Only worth naming the specific table once the overall age is
+        # actually worth acting on -- on a healthy server the oldest table
+        # is always *some* table, and naming it every poll is noise.
+        if used_pct >= metrics._XID_WARN_FRACTION * 100:
+            for t in (wrap.get("tables") or [])[:3]:
+                if (t.get("xid_age") or 0) < metrics._XID_WARN_FRACTION * metrics.XID_WRAPAROUND_LIMIT:
+                    continue
+                disabled = str(t.get("autovacuum_enabled") or "on").lower() in ("off", "false")
+                alerts.append(_alert("warning" if not disabled else "error",
+                    f"{t['schema_name']}.{t['table_name']} is holding back the freeze horizon",
+                    f"Its oldest unfrozen transaction ID is {t['xid_age']:,} transactions old"
+                    + (" and autovacuum is DISABLED on this table, so nothing will ever freeze it automatically."
+                       if disabled else ". VACUUM FREEZE this table to let the horizon advance."),
+                    "maintenance"))
+
+    # ------------------------------------------------------------ replication
+    try:
+        repl = await metrics.get_replication_info(pool)
+    except Exception:
+        repl = None
+    if repl:
+        for slot in repl.get("slots") or []:
+            name = slot.get("slot_name")
+            retained = slot.get("retained_bytes")
+            wal_status = (slot.get("wal_status") or "").lower()
+            if wal_status == "lost":
+                alerts.append(_alert("error", f"Replication slot '{name}' has lost required WAL",
+                    "Postgres has already discarded WAL this slot still needed. Whatever consumes this slot "
+                    "(standby or logical subscriber) can no longer catch up and must be rebuilt; the slot "
+                    "itself should be dropped.", "replication"))
+            elif not slot.get("active"):
+                severity = "error" if (retained or 0) >= _SLOT_RETAINED_ERROR_BYTES else "warning"
+                alerts.append(_alert(severity, f"Replication slot '{name}' is inactive",
+                    f"No consumer is connected, and it is pinning {_fmt_bytes(retained)} of WAL that Postgres "
+                    "cannot recycle. An abandoned slot grows pg_wal without bound until the filesystem fills "
+                    "and the instance goes down -- drop the slot if whatever created it is gone for good.",
+                    "replication"))
+            elif (retained or 0) >= _SLOT_RETAINED_ERROR_BYTES:
+                alerts.append(_alert("warning", f"Replication slot '{name}' is retaining a lot of WAL",
+                    f"{_fmt_bytes(retained)} of WAL is being held for this slot -- its consumer is connected "
+                    "but falling behind.", "replication"))
+
+        for s in repl.get("standbys") or []:
+            label = s.get("application_name") or s.get("client_addr") or "standby"
+            lag_bytes = s.get("replay_lag_bytes") or 0
+            if lag_bytes >= _REPLICA_LAG_ERROR_BYTES:
+                alerts.append(_alert("error", f"Standby '{label}' is far behind",
+                    f"{_fmt_bytes(lag_bytes)} of WAL sent but not yet replayed. Failing over now would lose "
+                    "everything in that gap.", "replication"))
+            elif lag_bytes >= _REPLICA_LAG_WARN_BYTES:
+                alerts.append(_alert("warning", f"Standby '{label}' is lagging",
+                    f"{_fmt_bytes(lag_bytes)} of WAL sent but not yet replayed.", "replication"))
+            if (s.get("state") or "") not in ("streaming", ""):
+                alerts.append(_alert("warning", f"Standby '{label}' is not streaming",
+                    f"Replication state is '{s.get('state')}' rather than 'streaming'.", "replication"))
 
     ckpt = await metrics.get_checkpoint_info(pool)
     stats = ckpt.get("stats") or {}

@@ -11,7 +11,7 @@ import logging
 import time
 
 from app.config import settings
-from app import alerts, db, dbstore, metrics
+from app import alerts, db, dbstore, metrics, notify
 
 logger = logging.getLogger("pgmon.poller")
 
@@ -34,6 +34,11 @@ def get_cached_alerts(db_id: str) -> list[dict] | None:
 
 def drop_cached_alerts(db_id: str) -> None:
     _alert_cache.pop(db_id, None)
+    # Also clear what's been notified about it: ids are reused as databases
+    # are removed and re-added, and inheriting the previous occupant's
+    # "already told you about this" record would silently suppress the
+    # first alerts of the new one.
+    notify.forget_database(db_id)
 
 
 def get_cached_alert_summary(db_id: str) -> dict:
@@ -52,6 +57,17 @@ async def _poll_one(db_id: str) -> None:
     try:
         alert_list = await alerts.get_alerts(pool, db_id)
         _alert_cache[db_id] = {"alerts": alert_list, "checked_at": time.time()}
+        # Delivery is attached to the poller rather than the Alerts tab on
+        # purpose: the tab only evaluates when someone opens it, and an
+        # alert that only fires when a human was already looking is not
+        # worth sending. notify itself no-ops unless a webhook is
+        # configured, and swallows its own delivery failures.
+        try:
+            entry = await dbstore.get_database(db_id)
+            label = entry.name if entry else db_id
+            await notify.send_alerts(db_id, label, alert_list)
+        except Exception:
+            logger.exception("alert delivery failed for db_id=%s", db_id)
     except Exception:
         logger.exception("alert check failed for db_id=%s", db_id)
     if db.is_read_only(db_id):

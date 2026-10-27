@@ -406,6 +406,16 @@ async def api_locks(db_id: str, user: str = Depends(auth.require_user)):
     return await metrics.get_locks(await _resolve_pool(db_id))
 
 
+@app.get("/api/wraparound")
+async def api_wraparound(db_id: str, user: str = Depends(auth.require_user)):
+    return await metrics.get_wraparound_info(await _resolve_pool(db_id))
+
+
+@app.get("/api/replication")
+async def api_replication(db_id: str, user: str = Depends(auth.require_user)):
+    return await metrics.get_replication_info(await _resolve_pool(db_id))
+
+
 @app.post("/api/connections/{pid}/terminate")
 async def api_terminate_connection(
     pid: int, db_id: str, user: str = Depends(auth.require_admin)

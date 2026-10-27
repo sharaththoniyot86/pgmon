@@ -21,6 +21,12 @@ architecture, and deployment details.**
 
 - **Monitoring**: live dashboards, rule-based alerts, slow-query analysis,
   connection/lock visibility
+- **Wraparound protection**: transaction-ID and MultiXact age tracking with
+  escalating alerts, and the specific table holding the freeze horizon back
+- **Replication**: slot monitoring (an abandoned slot fills the disk and
+  takes the instance down), standby lag in bytes as well as time
+- **Alert delivery**: push alerts to Slack/Teams/PagerDuty/any webhook,
+  de-duplicated so a steady-state problem doesn't page every 30 seconds
 - **Administration**: VACUUM, partitioning advisor, bloat removal,
   live-editable settings
 - **Security**: role/privilege management, SSL/auth checks, full audit log

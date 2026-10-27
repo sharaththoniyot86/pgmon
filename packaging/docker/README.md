@@ -93,6 +93,38 @@ Remember to also change the `-p` host-port mapping to match -- `-e
 PGMON_PORT` only controls what port nginx listens on *inside* the
 container; `-p hostport:containerport` is what exposes it outside.
 
+## Sending alerts somewhere (webhook)
+
+By default alerts are only visible in the Alerts tab. For anything
+production, point them at a channel people already watch -- any endpoint
+that accepts a JSON POST works, and Slack/Teams incoming webhooks render
+the payload's `text` field directly:
+
+```bash
+docker run -d --name pgmon -p 443:443 \
+    -e ALERT_WEBHOOK_URL=https://hooks.slack.com/services/XXX/YYY/ZZZ \
+    -e ALERT_WEBHOOK_MIN_SEVERITY=error \
+    -v pgmon-config:/etc/pgmon -v pgmon-data:/var/lib/pgmon \
+    --restart unless-stopped pgmon:1.0.0
+```
+
+| Variable | Default | What it does |
+|---|---|---|
+| `ALERT_WEBHOOK_URL` | *(unset -- delivery off)* | Where to POST alerts |
+| `ALERT_WEBHOOK_MIN_SEVERITY` | `error` | `error`, `warning`, or `info` |
+| `ALERT_WEBHOOK_REARM_SECONDS` | `21600` (6h) | How long before a *still-firing* alert is re-sent |
+| `ALERT_WEBHOOK_TIMEOUT_SECONDS` | `10` | Per-request timeout |
+
+Only *newly appearing* alerts are sent. The poller re-evaluates every 30s,
+so sending the whole current list each cycle would page someone every 30
+seconds until they fixed it -- which just teaches people to mute the
+channel. A problem that is still unresolved re-sends once per re-arm
+window, so something that broke overnight is still in the channel by
+morning rather than having been announced once and forgotten.
+
+A webhook receiver being down never affects monitoring: delivery failures
+are logged and dropped, and the poller carries on.
+
 ## Resetting a password
 
 ```bash

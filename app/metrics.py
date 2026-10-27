@@ -1514,6 +1514,186 @@ async def get_wal_rate(pool: asyncpg.Pool) -> dict:
     }
 
 
+# Postgres refuses to accept new write transactions once the oldest
+# unfrozen XID is ~2^31 away from the current one -- a full shutdown of
+# writes until an offline VACUUM finishes, which on a large table can take
+# hours. These are the fractions of that hard ceiling at which to start
+# shouting; by the time Postgres itself starts warning in its own log
+# (~40M XIDs remaining, i.e. ~98% consumed) there is very little runway
+# left on a busy system, so the useful alerting band is far earlier.
+XID_WRAPAROUND_LIMIT = 2 ** 31  # 2,147,483,648
+_XID_WARN_FRACTION = 0.50
+_XID_ERROR_FRACTION = 0.75
+
+
+async def get_wraparound_info(pool: asyncpg.Pool) -> dict:
+    """Transaction-ID and MultiXact-ID wraparound headroom.
+
+    The most severe failure mode unique to Postgres: XIDs are a 32-bit
+    counter, and if the oldest unfrozen one falls ~2^31 behind, the server
+    stops accepting writes entirely to avoid losing data to an ambiguous
+    counter. Autovacuum's freeze pass normally keeps this far away, but it
+    is routinely defeated in the real world by a long-lived open
+    transaction, an abandoned replication slot, an inactive prepared
+    transaction, or a table whose autovacuum was turned off -- all of which
+    hold the horizon back silently for weeks before anything looks wrong.
+
+    Reported per database (age of its oldest unfrozen XID) and per table
+    (which specific relation is holding the horizon back -- the actionable
+    part, since that's what needs the VACUUM FREEZE), plus the same for
+    MultiXact IDs, which have their own independent 32-bit counter and
+    their own, much less widely known, wraparound.
+    """
+    async with pool.acquire() as conn:
+        databases = await conn.fetch(
+            """
+            SELECT datname,
+                   age(datfrozenxid)      AS xid_age,
+                   mxid_age(datminmxid)   AS mxid_age
+            FROM pg_database
+            WHERE datallowconn
+            ORDER BY age(datfrozenxid) DESC
+            """
+        )
+        # Per-table, current database only: pg_class is per-database, so
+        # this can only ever see the database pgmon is connected to. That's
+        # the one whose tables an operator can actually act on from here.
+        tables = await conn.fetch(
+            """
+            SELECT n.nspname AS schema_name,
+                   c.relname AS table_name,
+                   age(c.relfrozenxid) AS xid_age,
+                   mxid_age(c.relminmxid) AS mxid_age,
+                   pg_total_relation_size(c.oid) AS total_bytes,
+                   COALESCE(
+                       (SELECT option_value FROM pg_options_to_table(c.reloptions)
+                        WHERE option_name = 'autovacuum_enabled'), 'on') AS autovacuum_enabled
+            FROM pg_class c
+            JOIN pg_namespace n ON n.oid = c.relnamespace
+            WHERE c.relkind IN ('r', 'm', 't')
+              AND n.nspname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+            ORDER BY age(c.relfrozenxid) DESC
+            LIMIT 20
+            """
+        )
+        freeze_settings = await conn.fetch(
+            """
+            SELECT name, setting FROM pg_settings
+            WHERE name IN ('autovacuum_freeze_max_age', 'autovacuum_multixact_freeze_max_age',
+                           'vacuum_freeze_min_age', 'vacuum_freeze_table_age', 'autovacuum')
+            """
+        )
+
+    settings_map = {r["name"]: r["setting"] for r in freeze_settings}
+    db_rows = [dict(r) for r in databases]
+    max_xid_age = max((r["xid_age"] or 0 for r in db_rows), default=0)
+    max_mxid_age = max((r["mxid_age"] or 0 for r in db_rows), default=0)
+    return {
+        "databases": db_rows,
+        "tables": [dict(r) for r in tables],
+        "settings": settings_map,
+        "max_xid_age": max_xid_age,
+        "max_mxid_age": max_mxid_age,
+        "xid_limit": XID_WRAPAROUND_LIMIT,
+        "xid_used_pct": round(100.0 * max_xid_age / XID_WRAPAROUND_LIMIT, 2),
+        "mxid_used_pct": round(100.0 * max_mxid_age / XID_WRAPAROUND_LIMIT, 2),
+        "xid_remaining": XID_WRAPAROUND_LIMIT - max_xid_age,
+    }
+
+
+async def get_replication_info(pool: asyncpg.Pool) -> dict:
+    """Replication slots, connected standbys, and logical subscriptions.
+
+    Slots are the part that bites hardest in production: a slot whose
+    consumer has gone away keeps pinning WAL on the primary forever, so
+    pg_wal grows without bound until the filesystem fills and the instance
+    goes down hard. Nothing in Postgres cleans that up on its own, and the
+    only symptom until the very end is disk usage -- which is why an
+    inactive slot deserves an alert of its own rather than being left for
+    whoever notices the disk graph.
+    """
+    async with pool.acquire() as conn:
+        is_standby = await conn.fetchval("SELECT pg_is_in_recovery()")
+        # On a primary the current write position is the reference point for
+        # how much WAL a slot is holding; on a standby there is no write
+        # position, so the last received position is the closest equivalent.
+        # Picking the wrong one raises rather than returning NULL, hence the
+        # branch instead of a COALESCE over both.
+        lsn_expr = "pg_last_wal_receive_lsn()" if is_standby else "pg_current_wal_lsn()"
+
+        slots: list[dict] = []
+        try:
+            # wal_status / safe_wal_size are PG13+. Older servers still have
+            # the slot itself and restart_lsn, which is what the retention
+            # figure is actually derived from, so they degrade to that.
+            rows = await conn.fetch(
+                f"""
+                SELECT slot_name, slot_type, database, active, temporary,
+                       wal_status,
+                       safe_wal_size,
+                       CASE WHEN restart_lsn IS NULL THEN NULL
+                            ELSE pg_wal_lsn_diff({lsn_expr}, restart_lsn) END AS retained_bytes
+                FROM pg_replication_slots
+                ORDER BY active, slot_name
+                """
+            )
+            slots = [dict(r) for r in rows]
+        except asyncpg.PostgresError:
+            try:
+                rows = await conn.fetch(
+                    f"""
+                    SELECT slot_name, slot_type, database, active, temporary,
+                           NULL::text AS wal_status, NULL::bigint AS safe_wal_size,
+                           CASE WHEN restart_lsn IS NULL THEN NULL
+                                ELSE pg_wal_lsn_diff({lsn_expr}, restart_lsn) END AS retained_bytes
+                    FROM pg_replication_slots
+                    ORDER BY active, slot_name
+                    """
+                )
+                slots = [dict(r) for r in rows]
+            except asyncpg.PostgresError:
+                slots = []
+
+        standbys: list[dict] = []
+        try:
+            rows = await conn.fetch(
+                """
+                SELECT client_addr::text AS client_addr, application_name, state, sync_state,
+                       sent_lsn::text, replay_lsn::text,
+                       pg_wal_lsn_diff(sent_lsn, replay_lsn) AS replay_lag_bytes,
+                       EXTRACT(EPOCH FROM write_lag)::float  AS write_lag_seconds,
+                       EXTRACT(EPOCH FROM flush_lag)::float  AS flush_lag_seconds,
+                       EXTRACT(EPOCH FROM replay_lag)::float AS replay_lag_seconds
+                FROM pg_stat_replication
+                ORDER BY application_name
+                """
+            )
+            standbys = [dict(r) for r in rows]
+        except asyncpg.PostgresError:
+            standbys = []
+
+        subscriptions: list[dict] = []
+        try:
+            rows = await conn.fetch(
+                """
+                SELECT subname, pid, received_lsn::text, latest_end_lsn::text,
+                       EXTRACT(EPOCH FROM (now() - last_msg_receipt_time))::float AS seconds_since_last_msg
+                FROM pg_stat_subscription
+                ORDER BY subname
+                """
+            )
+            subscriptions = [dict(r) for r in rows]
+        except asyncpg.PostgresError:
+            subscriptions = []
+
+    return {
+        "is_standby": bool(is_standby),
+        "slots": slots,
+        "standbys": standbys,
+        "subscriptions": subscriptions,
+    }
+
+
 async def get_checkpoint_info(pool: asyncpg.Pool) -> dict:
     """Checkpoint frequency/config. Postgres 17+ moved checkpoint stats out
     of pg_stat_bgwriter into pg_stat_checkpointer; this tries the new view

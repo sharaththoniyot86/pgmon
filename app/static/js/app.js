@@ -1078,6 +1078,47 @@
       set("checkpoint_time", b.checkpoint ? fmtDate(b.checkpoint.checkpoint_time) : "—");
       set("replica_count", fmtNum((b.replicas || []).length));
     } catch (e) { console.error("backup load failed", e); }
+    loadReplication();
+  }
+
+  async function loadReplication() {
+    try {
+      const r = await api("/api/replication").then((resp) => resp.json());
+
+      const slotRows = (r.slots || []).map((s) => {
+        // An inactive slot is the one state worth colouring: it's pinning
+        // WAL that nothing will ever release, and it looks identical to a
+        // healthy slot in every other column.
+        const stateCell = s.active
+          ? `<span class="badge badge-up">active</span>`
+          : `<span class="badge badge-down">inactive</span>`;
+        const walStatus = (s.wal_status || "—");
+        const lost = String(walStatus).toLowerCase() === "lost";
+        return `
+          <tr>
+            <td class="mono">${esc(s.slot_name)}</td>
+            <td>${esc(s.slot_type || "")}</td>
+            <td class="mono">${esc(s.database || "—")}</td>
+            <td>${stateCell}</td>
+            <td>${lost ? `<span class="badge badge-down">lost</span>` : esc(walStatus)}</td>
+            <td>${s.retained_bytes != null ? fmtBytes(s.retained_bytes) : "—"}</td>
+          </tr>`;
+      }).join("");
+      document.querySelector("#table-repl-slots tbody").innerHTML = slotRows
+        || `<tr><td colspan="6" class="empty-note">No replication slots on this server.</td></tr>`;
+
+      const standbyRows = (r.standbys || []).map((s) => `
+        <tr>
+          <td>${esc(s.application_name || "—")}</td>
+          <td class="mono">${esc(s.client_addr || "—")}</td>
+          <td>${esc(s.state || "—")}</td>
+          <td>${esc(s.sync_state || "—")}</td>
+          <td>${s.replay_lag_bytes != null ? fmtBytes(s.replay_lag_bytes) : "—"}</td>
+          <td>${s.replay_lag_seconds != null ? fmtDuration(s.replay_lag_seconds) : "—"}</td>
+        </tr>`).join("");
+      document.querySelector("#table-standbys tbody").innerHTML = standbyRows
+        || `<tr><td colspan="6" class="empty-note">No standbys are currently connected.</td></tr>`;
+    } catch (e) { console.error("replication load failed", e); }
   }
   document.getElementById("btn-backup-review")?.addEventListener("click", (e) =>
     runAssessment(e.currentTarget, "ai-backup-card", "✦ Analyzing...", "✦ AI Backup Readiness Review", "/api/ai/backup-review"));
@@ -3095,7 +3136,38 @@
     }
   }
 
+  async function loadWraparound() {
+    try {
+      const w = await api("/api/wraparound").then((r) => r.json());
+      const set = (key, val) => {
+        const el = document.querySelector(`[data-wrapstat="${key}"]`);
+        if (el) el.textContent = val;
+      };
+      set("xid_used_pct", w.xid_used_pct != null ? `${w.xid_used_pct}%` : "—");
+      set("xid_remaining", fmtNum(w.xid_remaining));
+      set("max_xid_age", fmtNum(w.max_xid_age));
+      set("mxid_used_pct", w.mxid_used_pct != null ? `${w.mxid_used_pct}%` : "—");
+      set("freeze_max_age", fmtNum(Number((w.settings || {}).autovacuum_freeze_max_age)));
+
+      document.querySelector("#table-wraparound tbody").innerHTML = (w.tables || []).map((t) => {
+        const disabled = String(t.autovacuum_enabled || "on").toLowerCase() === "off"
+          || String(t.autovacuum_enabled || "").toLowerCase() === "false";
+        return `
+        <tr>
+          <td class="mono">${esc(t.schema_name)}.${esc(t.table_name)}</td>
+          <td>${fmtNum(t.xid_age)}</td>
+          <td>${fmtNum(t.mxid_age)}</td>
+          <td>${fmtBytes(t.total_bytes)}</td>
+          <td>${disabled
+                ? `<span class="badge badge-down">disabled</span>`
+                : `<span class="badge badge-up">on</span>`}</td>
+        </tr>`;
+      }).join("") || `<tr><td colspan="5" class="empty-note">No user tables in this database.</td></tr>`;
+    } catch (e) { console.error("wraparound load failed", e); }
+  }
+
   async function loadAdministration() {
+    loadWraparound();
     try {
       await checkRepackAvailable();
       const a = await api("/api/administration").then((r) => r.json());
