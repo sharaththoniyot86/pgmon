@@ -560,7 +560,7 @@
             <h3>Convert <span id="partition-convert-target" class="mono"></span> to a partitioned table</h3>
             <button type="button" id="btn-close-partition-convert" class="modal-close" aria-label="Close">&times;</button>
           </div>
-          <p class="hint-text">Partitioning by <span id="partition-convert-technique" class="mono"></span> on <span id="partition-convert-column" class="mono"></span>. There is no in-place Postgres command for this: a new partitioned table is built alongside the original, then -- inside one transaction, with the original <strong>locked against all reads and writes for the duration</strong> -- every row is copied across and the tables are swapped. The original is renamed aside afterward (e.g. <span class="mono">table__pre_partition_...</span>), never dropped -- verify the result, then drop it yourself once satisfied.</p>
+          <p class="hint-text">Postgres has no in-place conversion: a new partitioned table is built alongside the original, then swapped in one transaction with the original locked. Plan for a maintenance window on a large table.</p>
           <div id="partition-convert-check-status" class="hint-text"></div>
           <div id="partition-convert-notices"></div>
           <div id="partition-convert-blocking" class="alert alert-error hidden"></div>
@@ -878,7 +878,7 @@
           </div>
 
           <div class="panel-header" style="margin-top:2rem;"><h3>Replication slots</h3></div>
-          <p class="hint-text">A slot guarantees the primary keeps WAL until its consumer has read it &mdash; which is exactly why an <em>inactive</em> slot is dangerous: nothing will ever consume it, so <span class="mono">pg_wal</span> grows without bound until the filesystem fills and the instance stops. Postgres never cleans these up on its own. Drop any slot whose consumer is gone for good.</p>
+          <p class="hint-text">An <em>inactive</em> slot pins WAL forever, growing <span class="mono">pg_wal</span> until the disk fills. Postgres never cleans these up &mdash; drop any whose consumer is gone.</p>
           <div class="table-wrap">
             <table class="data-table" id="table-repl-slots">
               <thead><tr>
@@ -889,7 +889,7 @@
           </div>
 
           <div class="panel-header" style="margin-top:2rem;"><h3>Standbys</h3></div>
-          <p class="hint-text">Lag is shown in bytes as well as seconds on purpose: Postgres's time-based lag figures stay frozen at their last measured value while a standby is idle, so a standby that has stopped applying WAL entirely can report a reassuringly small time lag while falling arbitrarily far behind. The byte figure is what tells you how much data a failover would lose right now.</p>
+          <p class="hint-text">Trust the byte figure over the time figure: time-based lag freezes while a standby is idle, so a stalled standby can look healthy. Bytes = what a failover would lose now.</p>
           <div class="table-wrap">
             <table class="data-table" id="table-standbys">
               <thead><tr>
@@ -1124,7 +1124,10 @@
               <tbody></tbody>
             </table>
           </div>
-          <p class="hint-text">Add, edit, or remove a rule below -- e.g. the <span class="mono">replication</span> connection a physical backup needs (Postgres requires one before <span class="mono">pg_basebackup</span> will even connect). Every change is applied immediately via <span class="mono">pg_reload_conf()</span>, no restart needed; an invalid result just logs an error and keeps the previous rules in effect rather than breaking anything. Remember rules are first-match-wins top to bottom -- an edited/new rule always lands at the <em>end</em> of the file, so it only takes effect where nothing earlier already matched. <span class="mono">trust</span>/<span class="mono">password</span> auth aren't offered since this app's own alerts already flag those as insecure. Editing/removing a rule can stop future connections that matched it (including this app's own) -- it never drops connections already open.</p>
+          <p class="hint-text">Rules apply immediately via <code>pg_reload_conf()</code> &mdash; no restart. Rules are first-match-wins, and new/edited ones land at the <em>end</em> of the file.</p>
+          <details class="disclosure"><summary>Before you edit these</summary>
+            <div class="disclosure-body">Editing or removing a rule can stop future connections that matched it, including this app's own &mdash; it never drops connections already open. An invalid result logs an error and keeps the previous rules in effect. <code>trust</code>/<code>password</code> auth aren't offered, since this app's own alerts flag them as insecure. A <span class="mono">replication</span> rule is required before <span class="mono">pg_basebackup</span> will connect.</div>
+          </details>
           <div class="add-db-form" style="max-width:none;">
             <div id="hba-edit-banner" class="hint-text hidden" style="margin-bottom:0.75rem;">Editing line <strong id="hba-edit-line-number"></strong>. <button type="button" id="btn-cancel-hba-edit" class="btn-icon">Cancel</button></div>
             <div class="form-row-split">
@@ -1178,7 +1181,10 @@
           <div class="panel-header">
             <h2>Extension catalog</h2>
           </div>
-          <p class="hint-text">A curated reference of well-known Postgres extensions, with live availability for <strong id="ext-dbname"></strong> specifically -- the same extension can be available on one registered database and not another. "Available" means its control file already exists on that server (a plain <code>CREATE EXTENSION</code> away); it doesn't mean pgmon can install a genuinely new one onto an arbitrary server -- that needs filesystem/image access to that specific Postgres server, which pgmon only has for its own primary (see <code>postgres-image/Dockerfile</code>, already used for hypopg/pg_repack). An <strong>Update</strong> button appears when an enabled extension is behind the newest version its server's own files already support (<code>ALTER EXTENSION ... UPDATE</code>) -- this is not an internet fetch, it can only reach a version already sitting on that server.</p>
+          <p class="hint-text">Well-known Postgres extensions, with live availability for <strong id="ext-dbname"></strong>. "Available" means a plain <code>CREATE EXTENSION</code> away on that server.</p>
+          <details class="disclosure"><summary>Why an extension may not be available</summary>
+            <div class="disclosure-body">Availability is per server: pgmon can enable an extension whose control file already exists there, but it cannot install a genuinely new one onto an arbitrary server &mdash; that needs filesystem/image access to that Postgres host (see <code>postgres-image/Dockerfile</code>). The <strong>Update</strong> button appears when an enabled extension is behind a newer version already present on that server (<code>ALTER EXTENSION ... UPDATE</code>); it never fetches anything.</div>
+          </details>
           <div class="form-row-split" style="margin-bottom:1rem;">
             <div>
               <label for="ext-category-filter">Category</label>
@@ -1351,7 +1357,7 @@
           <div id="ai-administration-card" class="ai-summary-card hidden"></div>
 
           <div class="panel-header"><h3>Transaction ID wraparound</h3></div>
-          <p class="hint-text">Postgres transaction IDs are a 32-bit counter. If the oldest unfrozen one falls ~2.1 billion behind, the server <em>stops accepting writes entirely</em> until an offline VACUUM finishes &mdash; the most severe failure mode unique to Postgres. Autovacuum's freeze pass normally keeps this far away; it's defeated in practice by a long-running transaction, an abandoned replication slot, a stale prepared transaction, or a table with autovacuum turned off. MultiXact IDs have their own separate counter and their own identical shutdown.</p>
+          <p class="hint-text">If the oldest unfrozen transaction ID falls ~2.1 billion behind, Postgres <em>stops accepting writes</em> until an offline VACUUM finishes. MultiXact IDs have a separate counter with the same consequence.</p>
           <div class="stat-grid">
             <div class="stat-card"><div class="stat-label">XID consumed</div><div class="stat-value" data-wrapstat="xid_used_pct">&mdash;</div></div>
             <div class="stat-card"><div class="stat-label">Transactions remaining</div><div class="stat-value" data-wrapstat="xid_remaining">&mdash;</div></div>
@@ -1359,7 +1365,7 @@
             <div class="stat-card"><div class="stat-label">MultiXact consumed</div><div class="stat-value" data-wrapstat="mxid_used_pct">&mdash;</div></div>
             <div class="stat-card"><div class="stat-label">autovacuum_freeze_max_age</div><div class="stat-value" data-wrapstat="freeze_max_age">&mdash;</div></div>
           </div>
-          <p class="hint-text" style="margin-top:0.75rem;">Tables below are ordered by how far back they hold the freeze horizon &mdash; the top one is what's actually blocking it from advancing, and therefore what to <span class="mono">VACUUM FREEZE</span> first.</p>
+          <p class="hint-text" style="margin-top:0.75rem;">Ordered by how far back each holds the freeze horizon &mdash; <span class="mono">VACUUM FREEZE</span> the top one first.</p>
           <div class="table-wrap">
             <table class="data-table" id="table-wraparound">
               <thead><tr>
@@ -1436,7 +1442,7 @@
             <h3>Partitioning advisor</h3>
             <button type="button" id="btn-partitioning-advisor" class="btn btn-primary btn-sm">Analyze for partitioning candidates</button>
           </div>
-          <p class="hint-text">Scans large, currently un-partitioned tables and recommends a technique (RANGE/LIST/HASH), a partition key column, and why -- built from real signals (column types, value cardinality, and actual query filter usage from <code>pg_stat_statements</code> when installed), not a guess. Deterministic, not AI. Recommends only -- converting an existing table needs a real data migration (a new partitioned table, copying data across, then swapping names), which this doesn't automate; adapt the DDL it gives you and run it yourself in a maintenance window.</p>
+          <p class="hint-text">Recommends a partitioning technique and key column for large un-partitioned tables, from real signals &mdash; column types, value cardinality, and actual query patterns.</p>
           <div class="form-row-split" style="max-width:420px;">
             <div>
               <label for="partitioning-min-rows">Minimum rows</label>
