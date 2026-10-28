@@ -3195,7 +3195,16 @@
           <td>${fmtNum(t.autovacuum_count)}</td>
           <td>${fmtDate(t.last_autoanalyze)}</td>
           <td>${fmtNum(t.autoanalyze_count)}</td>
-        </tr>`).join("") || `<tr><td colspan="7" class="empty-note">No user tables found.</td></tr>`;
+          <td><button class="btn btn-ghost btn-sm" data-vacuum-schema="${esc(t.schema_name || "public")}" data-vacuum-table="${esc(t.table_name)}">Vacuum&hellip;</button></td>
+        </tr>`).join("") || `<tr><td colspan="8" class="empty-note">No user tables found.</td></tr>`;
+      // Vacuum is offered on every table here, not only the bloat
+      // candidates below: those are filtered to the ten worst tables with
+      // dead tuples, so a table with none had no way to be ANALYZEd or
+      // FROZEN from the UI at all, even though the backend accepts any
+      // real table.
+      document.querySelectorAll("#table-autovacuum [data-vacuum-table]").forEach((btn) => {
+        btn.addEventListener("click", () => openVacuumModal(btn.dataset.vacuumSchema, btn.dataset.vacuumTable));
+      });
 
       // Estimated bloat
       const bloatTbody = document.querySelector("#table-bloat tbody");
