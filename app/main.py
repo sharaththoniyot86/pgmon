@@ -406,6 +406,23 @@ async def api_locks(db_id: str, user: str = Depends(auth.require_user)):
     return await metrics.get_locks(await _resolve_pool(db_id))
 
 
+@app.get("/api/queries/regressions")
+async def api_query_regressions(
+    db_id: str, recent_minutes: int = 30, baseline_hours: int = 6,
+    user: str = Depends(auth.require_user),
+):
+    return await metrics.get_query_regressions(
+        await _resolve_pool(db_id), recent_minutes=recent_minutes, baseline_hours=baseline_hours,
+    )
+
+
+@app.get("/api/queries/{queryid}/history")
+async def api_query_history(
+    queryid: str, db_id: str, hours: int = 6, user: str = Depends(auth.require_user),
+):
+    return await metrics.get_query_history(await _resolve_pool(db_id), queryid, hours=hours)
+
+
 @app.get("/api/wraparound")
 async def api_wraparound(db_id: str, user: str = Depends(auth.require_user)):
     return await metrics.get_wraparound_info(await _resolve_pool(db_id))

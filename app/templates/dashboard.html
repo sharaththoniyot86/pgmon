@@ -797,6 +797,28 @@
         <!-- ---------------------------- SQL Performance --------------------------- -->
         <div id="dtab-sql-performance" class="dtab-panel">
           <div class="panel-header">
+            <h3>Regressions</h3>
+            <div class="panel-header-actions">
+              <select id="regression-window">
+                <option value="30:6" selected>Last 30 min vs previous 6 h</option>
+                <option value="60:24">Last 1 h vs previous 24 h</option>
+                <option value="10:2">Last 10 min vs previous 2 h</option>
+                <option value="5:1">Last 5 min vs previous 1 h</option>
+              </select>
+            </div>
+          </div>
+          <p class="hint-text"><code>pg_stat_statements</code> totals say what is slow, never what <em>became</em> slow. These compare each query's mean time now against its own earlier baseline, so a deploy or a plan flip shows up as a change rather than hiding in a lifetime average.</p>
+          <div id="regression-note" class="alert alert-info hidden"></div>
+          <div class="table-wrap">
+            <table class="data-table" id="table-regressions">
+              <thead><tr>
+                <th>Query</th><th>Baseline mean</th><th>Now</th><th>Change</th><th>Calls (base/now)</th>
+              </tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div class="panel-header" style="margin-top:2rem;">
             <h2>Top queries</h2>
             <div class="panel-header-actions">
               <button type="button" id="btn-pgss-install" class="btn btn-sm hidden">Install pg_stat_statements</button>

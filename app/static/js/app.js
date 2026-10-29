@@ -908,6 +908,34 @@
   // then, so it'd look like sorting was simply ignored.
   let queriesRequestSeq = 0;
 
+  async function loadRegressions() {
+    const sel = document.getElementById("regression-window");
+    const [mins, hrs] = (sel?.value || "30:6").split(":");
+    const note = document.getElementById("regression-note");
+    const tbody = document.querySelector("#table-regressions tbody");
+    try {
+      const d = await api(`/api/queries/regressions?recent_minutes=${mins}&baseline_hours=${hrs}`)
+        .then((r) => r.json());
+      if (!d.available) {
+        note.classList.remove("hidden");
+        note.textContent = d.reason || "No query history yet.";
+        tbody.innerHTML = "";
+        return;
+      }
+      note.classList.add("hidden");
+      tbody.innerHTML = (d.regressions || []).map((r) => `
+        <tr>
+          <td><span class="q-snippet" title="${esc(r.query || "")}">${esc(r.query || "(text no longer available)")}</span></td>
+          <td>${fmtNum(r.baseline_mean_ms)} ms</td>
+          <td class="stat-bad">${fmtNum(r.recent_mean_ms)} ms</td>
+          <td><span class="badge badge-down">${r.factor}&times; slower</span></td>
+          <td>${fmtNum(r.baseline_calls)} / ${fmtNum(r.recent_calls)}</td>
+        </tr>`).join("")
+        || `<tr><td colspan="5" class="empty-note">No regressions in this window &mdash; every tracked query is within ${2}&times; of its own baseline.</td></tr>`;
+    } catch (e) { console.error("regressions load failed", e); }
+  }
+  document.getElementById("regression-window")?.addEventListener("change", loadRegressions);
+
   async function loadQueries() {
     const seq = ++queriesRequestSeq;
     try {
@@ -957,7 +985,7 @@
         btn.addEventListener("click", () => openPlanModal(btn.dataset.planQuery)));
     } catch (e) { console.error("queries load failed", e); }
   }
-  dtabLoaders["sql-performance"] = loadQueries;
+  dtabLoaders["sql-performance"] = () => { loadQueries(); loadRegressions(); };
 
   // ------------------------------------------------- query plan / tuning advice
   // No AI required -- a plain EXPLAIN (metrics.get_query_plan / get_tuning_advice),

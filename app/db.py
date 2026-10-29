@@ -160,3 +160,48 @@ async def _bootstrap_schema(pool: asyncpg.Pool) -> None:
             f'CREATE INDEX IF NOT EXISTS snapshots_captured_at_idx '
             f'ON "{schema}".snapshots (captured_at)'
         )
+
+        # Per-query counters over time, for regression detection. Kept in
+        # its own narrow table rather than inside the snapshots JSONB: the
+        # interesting comparison is one queryid against its own past, which
+        # wants an index on (queryid, captured_at), and storing ~50 queries
+        # of JSON (query text included) every poll would add tens of MB a
+        # day to a blob nothing can index into.
+        #
+        # Counters here are cumulative, exactly as pg_stat_statements
+        # reports them -- the per-interval figure is a delta between two
+        # rows, computed at read time. Storing deltas instead would bake in
+        # one fixed interval and lose the ability to compare arbitrary
+        # windows.
+        await conn.execute(
+            f"""
+            CREATE TABLE IF NOT EXISTS "{schema}".query_stats (
+                captured_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+                queryid     TEXT NOT NULL,
+                calls       BIGINT NOT NULL,
+                total_ms    DOUBLE PRECISION NOT NULL
+            )
+            """
+        )
+        await conn.execute(
+            f'CREATE INDEX IF NOT EXISTS query_stats_queryid_time_idx '
+            f'ON "{schema}".query_stats (queryid, captured_at)'
+        )
+        await conn.execute(
+            f'CREATE INDEX IF NOT EXISTS query_stats_captured_at_idx '
+            f'ON "{schema}".query_stats (captured_at)'
+        )
+        # Query text stored once per queryid rather than on every sample --
+        # the text never changes for a given id, and repeating it each poll
+        # is what would actually make this expensive. Also means a query
+        # that has since aged out of pg_stat_statements can still be
+        # identified in its own history.
+        await conn.execute(
+            f"""
+            CREATE TABLE IF NOT EXISTS "{schema}".query_texts (
+                queryid    TEXT PRIMARY KEY,
+                query      TEXT NOT NULL,
+                first_seen TIMESTAMPTZ NOT NULL DEFAULT now()
+            )
+            """
+        )

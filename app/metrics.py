@@ -3134,3 +3134,222 @@ async def prune_history(pool: asyncpg.Pool, retention_hours: int) -> None:
                 WHERE captured_at < now() - ($1 || ' hours')::interval""",
             str(retention_hours),
         )
+        await conn.execute(
+            f"""DELETE FROM "{schema}".query_stats
+                WHERE captured_at < now() - ($1 || ' hours')::interval""",
+            str(retention_hours),
+        )
+        # Drop text for queries with no samples left, so this table doesn't
+        # accumulate every statement the server has ever run.
+        await conn.execute(
+            f"""DELETE FROM "{schema}".query_texts t
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM "{schema}".query_stats s WHERE s.queryid = t.queryid
+                )"""
+        )
+
+
+# How many statements to track per poll. pg_stat_statements is ordered by
+# total time here, so this is "the N that matter"; the point of going well
+# beyond the 5 the snapshot blob keeps is that a query which regresses from
+# rank 40 to rank 6 is invisible until it's already hurting.
+QUERY_STATS_SAMPLE_SIZE = 50
+
+
+async def save_query_stats(pool: asyncpg.Pool) -> None:
+    """Samples per-query cumulative counters for regression detection.
+
+    Deliberately separate from save_snapshot: this needs its own table (see
+    db._bootstrap_schema) and must not run at all when pg_stat_statements
+    isn't available, which is a normal state rather than an error.
+    """
+    schema = settings.MONITOR_SCHEMA
+    async with pool.acquire() as conn:
+        try:
+            rows = await conn.fetch(
+                """
+                SELECT queryid::text AS queryid,
+                       calls,
+                       total_exec_time AS total_ms,
+                       left(query, 500) AS query
+                FROM pg_stat_statements
+                WHERE queryid IS NOT NULL
+                  AND dbid = (SELECT oid FROM pg_database WHERE datname = current_database())
+                ORDER BY total_exec_time DESC
+                LIMIT $1
+                """,
+                QUERY_STATS_SAMPLE_SIZE,
+            )
+        except asyncpg.PostgresError:
+            return  # extension not installed/loaded -- nothing to sample
+
+        if not rows:
+            return
+        await conn.executemany(
+            f'INSERT INTO "{schema}".query_stats (queryid, calls, total_ms) VALUES ($1, $2, $3)',
+            [(r["queryid"], r["calls"], float(r["total_ms"] or 0)) for r in rows],
+        )
+        await conn.executemany(
+            f"""INSERT INTO "{schema}".query_texts (queryid, query) VALUES ($1, $2)
+                ON CONFLICT (queryid) DO NOTHING""",
+            [(r["queryid"], r["query"] or "") for r in rows],
+        )
+
+
+# A regression has to clear all three of these to be reported. Each one
+# exists to suppress a specific kind of false positive seen in real
+# pg_stat_statements data:
+#   * ratio  -- normal run-to-run variance is well under 2x.
+#   * floor  -- 0.2ms -> 0.6ms is a 3x regression and completely irrelevant.
+#   * calls  -- a query run twice can swing wildly on cache state alone.
+_REGRESSION_MIN_RATIO = 2.0
+_REGRESSION_MIN_MEAN_MS = 10.0
+_REGRESSION_MIN_CALLS = 10
+
+
+async def get_query_regressions(
+    pool: asyncpg.Pool, recent_minutes: int = 30, baseline_hours: int = 6,
+) -> dict:
+    """Queries whose mean execution time has got materially worse.
+
+    pg_stat_statements only ever reports totals since its last reset, so on
+    its own it can say what is slow but never what *became* slow -- which
+    is the question an actual regression (a deploy, a plan flip, a table
+    outgrowing its index) raises. Differencing two samples of those
+    cumulative counters gives the mean for that interval alone, so a recent
+    window can be compared against an earlier one.
+
+    Both windows use first/last sample within the window rather than a
+    single pair of rows, so a counter reset (pg_stat_statements_reset(), or
+    a server restart) shows up as a negative delta and is discarded instead
+    of being reported as an impossible improvement.
+    """
+    schema = settings.MONITOR_SCHEMA
+    async with pool.acquire() as conn:
+        try:
+            rows = await conn.fetch(
+                f"""
+                WITH bounds AS (
+                    SELECT now() - ($1 || ' minutes')::interval AS recent_start,
+                           now() - ($2 || ' hours')::interval   AS baseline_start
+                ),
+                windowed AS (
+                    SELECT s.queryid,
+                           CASE WHEN s.captured_at >= b.recent_start THEN 'recent' ELSE 'baseline' END AS bucket,
+                           s.calls, s.total_ms, s.captured_at
+                    FROM "{schema}".query_stats s, bounds b
+                    WHERE s.captured_at >= b.baseline_start
+                ),
+                agg AS (
+                    SELECT queryid, bucket,
+                           max(calls)    - min(calls)    AS d_calls,
+                           max(total_ms) - min(total_ms) AS d_total_ms,
+                           count(*) AS samples
+                    FROM windowed
+                    GROUP BY queryid, bucket
+                ),
+                means AS (
+                    SELECT queryid, bucket,
+                           d_calls,
+                           CASE WHEN d_calls > 0 THEN d_total_ms / d_calls END AS mean_ms
+                    FROM agg
+                    WHERE samples >= 2 AND d_calls > 0 AND d_total_ms >= 0
+                )
+                SELECT r.queryid,
+                       b.mean_ms  AS baseline_mean_ms,
+                       r.mean_ms  AS recent_mean_ms,
+                       r.d_calls  AS recent_calls,
+                       b.d_calls  AS baseline_calls,
+                       t.query
+                FROM means r
+                JOIN means b ON b.queryid = r.queryid AND b.bucket = 'baseline'
+                LEFT JOIN "{schema}".query_texts t ON t.queryid = r.queryid
+                WHERE r.bucket = 'recent'
+                  AND r.mean_ms >= $3
+                  AND r.d_calls >= $4
+                  AND b.mean_ms > 0
+                  AND r.mean_ms >= b.mean_ms * $5
+                ORDER BY (r.mean_ms / b.mean_ms) DESC
+                LIMIT 20
+                """,
+                str(recent_minutes), str(baseline_hours),
+                _REGRESSION_MIN_MEAN_MS, _REGRESSION_MIN_CALLS, _REGRESSION_MIN_RATIO,
+            )
+        except asyncpg.exceptions.UndefinedTableError:
+            # Read-only standby, or a database registered before this table
+            # existed and not yet re-bootstrapped.
+            return {"available": False, "reason": "No query history has been collected on this database yet.",
+                    "regressions": [], "recent_minutes": recent_minutes, "baseline_hours": baseline_hours}
+
+        sample_count = await conn.fetchval(f'SELECT count(*) FROM "{schema}".query_stats')
+
+    if not sample_count:
+        return {"available": False,
+                "reason": "No query history yet -- this needs pg_stat_statements enabled, and a few minutes "
+                          "of polling to build a baseline.",
+                "regressions": [], "recent_minutes": recent_minutes, "baseline_hours": baseline_hours}
+
+    regressions = []
+    for r in rows:
+        baseline, recent = r["baseline_mean_ms"], r["recent_mean_ms"]
+        regressions.append({
+            "queryid": r["queryid"],
+            "query": r["query"],
+            "baseline_mean_ms": round(baseline, 2),
+            "recent_mean_ms": round(recent, 2),
+            "factor": round(recent / baseline, 1) if baseline else None,
+            "recent_calls": r["recent_calls"],
+            "baseline_calls": r["baseline_calls"],
+        })
+    return {"available": True, "reason": None, "regressions": regressions,
+            "recent_minutes": recent_minutes, "baseline_hours": baseline_hours}
+
+
+async def get_query_history(pool: asyncpg.Pool, queryid: str, hours: int = 6) -> dict:
+    """Per-interval mean execution time for one query, for a trend chart.
+
+    Same differencing as get_query_regressions, but kept per consecutive
+    sample pair rather than aggregated into two windows -- a reset shows as
+    a negative delta and is dropped, leaving a gap rather than a spike.
+    """
+    schema = settings.MONITOR_SCHEMA
+    async with pool.acquire() as conn:
+        try:
+            rows = await conn.fetch(
+                f"""
+                WITH s AS (
+                    SELECT captured_at, calls, total_ms,
+                           lag(calls)    OVER w AS prev_calls,
+                           lag(total_ms) OVER w AS prev_total_ms
+                    FROM "{schema}".query_stats
+                    WHERE queryid = $1
+                      AND captured_at >= now() - ($2 || ' hours')::interval
+                    WINDOW w AS (ORDER BY captured_at)
+                )
+                SELECT captured_at,
+                       (total_ms - prev_total_ms) / NULLIF(calls - prev_calls, 0) AS mean_ms,
+                       (calls - prev_calls) AS calls
+                FROM s
+                WHERE prev_calls IS NOT NULL
+                  AND calls - prev_calls > 0
+                  AND total_ms - prev_total_ms >= 0
+                ORDER BY captured_at
+                """,
+                queryid, str(hours),
+            )
+            text = await conn.fetchval(
+                f'SELECT query FROM "{schema}".query_texts WHERE queryid = $1', queryid
+            )
+        except asyncpg.exceptions.UndefinedTableError:
+            return {"queryid": queryid, "query": None, "points": []}
+
+    return {
+        "queryid": queryid,
+        "query": text,
+        "points": [
+            {"captured_at": r["captured_at"].isoformat(),
+             "mean_ms": round(float(r["mean_ms"]), 3),
+             "calls": r["calls"]}
+            for r in rows if r["mean_ms"] is not None
+        ],
+    }

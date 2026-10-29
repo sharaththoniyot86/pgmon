@@ -74,6 +74,13 @@ async def _poll_one(db_id: str) -> None:
         return  # a standby can't have its own pgmon snapshot history -- see db._make_pool
     snap = await metrics.build_snapshot(pool)
     await metrics.save_snapshot(pool, snap)
+    # Separate from the snapshot blob: per-query counters go to their own
+    # table for regression detection. Failing here must not cost us the
+    # snapshot we just stored, hence its own try.
+    try:
+        await metrics.save_query_stats(pool)
+    except Exception:
+        logger.exception("query stats sampling failed for db_id=%s", db_id)
 
 
 # Bounds how long one slow/unreachable database can hold up a poll cycle --

@@ -42,9 +42,27 @@ SNAPSHOT_RETENTION_HOURS=48
 EOF
     chmod 600 "$ENV_FILE"
 fi
+# The persisted config acts as *defaults*, not overrides. Sourcing it
+# plainly meant any key it contains silently beat the same variable passed
+# with `docker run -e` / `podman run -e` -- so `-e POLL_INTERVAL_SECONDS=15`
+# on an existing install did nothing at all, with no error to explain why.
+# Snapshotting the environment first and re-applying it afterwards makes -e
+# win, while a key only present in the file still takes effect.
+_env_before="$(mktemp)"
+export -p > "$_env_before"
 set -a
 # shellcheck disable=SC1090
 source "$ENV_FILE"
+set +a
+# Re-applying can trip over readonly names (UID and friends); those are
+# identical either way, so a failure there must not abort startup.
+set +e
+# shellcheck disable=SC1090
+. "$_env_before" 2>/dev/null
+set -e
+rm -f "$_env_before"
+
+set -a
 # Forced after sourcing, not just defaulted above: this is not a per-install
 # choice -- running inside this image *is* the deployment mode, and it
 # decides which password-reset instructions the login/account pages show.
