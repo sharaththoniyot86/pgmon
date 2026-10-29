@@ -54,47 +54,19 @@
       <details class="disclosure">
         <summary>Forgot your password?</summary>
         <div class="disclosure-body">
+          <p>No self-service reset, by design &mdash; it would let any signed-in session take over another account. Run this where pgmon runs, then sign in above:</p>
           {% if deployment_mode == "container" %}
-          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs access to the container host instead:</p>
-          <ol>
-            <li>Open a terminal on the machine running this container.</li>
-            <li>Run, with your username filled in:<br>
-              <code>podman exec -it pgmon pgmon-reset-password &lt;username&gt;</code><br>
-              <span class="hint-text">(or <code>docker exec -it pgmon pgmon-reset-password &lt;username&gt;</code>; add <code>sudo</code> if that's how the container was started)</span>
-            </li>
-            <li>Enter a new password (8+ characters) when prompted.</li>
-            <li>Sign in above with the new password.</li>
-          </ol>
-          <p>If that username doesn't exist, this creates it fresh as an admin instead of failing &mdash; so it also covers losing every account, not just forgetting one password.</p>
+          <p><code>podman exec -it pgmon pgmon-reset-password &lt;username&gt;</code></p>
+          <p class="hint-text"><code>docker</code> works the same way. Creates the account if it doesn't exist.</p>
           {% elif deployment_mode == "standalone" %}
-          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs root access to the server pgmon runs on instead:</p>
-          <ol>
-            <li>Open a terminal (SSH or console) on the server pgmon is installed on.</li>
-            <li>Run, with your username filled in: <code>sudo pgmon-reset-password &lt;username&gt;</code></li>
-            <li>Enter a new password (8+ characters) when prompted.</li>
-            <li>Sign in above with the new password.</li>
-          </ol>
-          <p>If that username doesn't exist, this creates it fresh as an admin instead of failing &mdash; so it also covers losing every account, not just forgetting one password.</p>
+          <p><code>sudo pgmon-reset-password &lt;username&gt;</code></p>
+          <p class="hint-text">Needs root on the server pgmon runs on. Creates the account if it doesn't exist.</p>
           {% elif deployment_mode == "standalone-windows" %}
-          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs administrator access to the server pgmon runs on instead:</p>
-          <ol>
-            <li>Open an elevated PowerShell prompt (Run as Administrator) on the server pgmon is installed on.</li>
-            <li>Run, with your username filled in: <code>pgmon-reset-password.ps1 &lt;username&gt;</code></li>
-            <li>Enter a new password (8+ characters) when prompted.</li>
-            <li>Sign in above with the new password.</li>
-          </ol>
-          <p>If that username doesn't exist, this creates it fresh as an admin instead of failing &mdash; so it also covers losing every account, not just forgetting one password.</p>
+          <p><code>pgmon-reset-password.ps1 &lt;username&gt;</code></p>
+          <p class="hint-text">Needs an elevated PowerShell prompt. Creates the account if it doesn't exist.</p>
           {% else %}
-          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs <code>kubectl</code> access to the cluster instead:</p>
-          <ol>
-            <li>Open a terminal with <code>kubectl</code> access to this cluster.</li>
-            <li>Pick a new password (8+ characters).</li>
-            <li>Run this, with your username and new password filled in:
-              <code>kubectl exec -n {{ pgmon_namespace }} deployment/{{ pgmon_deployment }} -- python -m app.create_user &lt;username&gt; '&lt;new-password&gt;' --update</code>
-            </li>
-            <li>Sign in above with the new password.</li>
-          </ol>
-          <p>Already signed in as an admin? Account page &rarr; Users table has a "Reset password&hellip;" button that builds this command for you, with the username and password already filled in.</p>
+          <p><code>kubectl exec -n {{ pgmon_namespace }} deployment/{{ pgmon_deployment }} -- python -m app.create_user &lt;username&gt; '&lt;new-password&gt;' --update</code></p>
+          <p class="hint-text">Needs <code>kubectl</code> access to this cluster. Already signed in as an admin? The Account page builds this command for you.</p>
           {% endif %}
         </div>
       </details>
