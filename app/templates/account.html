@@ -340,6 +340,10 @@
       let pgmonNamespace = "pgmonitor", pgmonDeployment = "pg-ai-monitor", deploymentMode = "kubernetes";
 
       function buildResetCommand(username, password) {
+        if (deploymentMode === "container") {
+          const escapedPw = password.replace(/'/g, `'\\''`); // single-quote-safe for the shell
+          return `echo '${escapedPw}' | podman exec -i pgmon pgmon-reset-password ${username}`;
+        }
         if (deploymentMode === "standalone") {
           const escapedPw = password.replace(/'/g, `'\\''`); // single-quote-safe for the shell
           return `echo '${escapedPw}' | sudo pgmon-reset-password ${username}`;
@@ -353,6 +357,15 @@
       }
 
       function applyDeploymentModeToResetUi() {
+        if (deploymentMode === "container") {
+          document.getElementById("reset-command-explainer").textContent =
+            "pgmon can't reset a password by itself -- there's no \"forgot password\" flow, deliberately: doing it from inside the app would mean any admin session could silently take over any other account. Resetting requires access to the host running this container instead.";
+          document.getElementById("reset-command-steps").innerHTML = `
+            <li>Pick a new password below, or click <strong>Generate</strong>.</li>
+            <li>Run the command below on the machine running this container (swap <code>podman</code> for <code>docker</code> if that's what you use).</li>
+            <li>Tell the user their new password.</li>`;
+          return;
+        }
         if (deploymentMode === "standalone") {
           document.getElementById("reset-command-explainer").textContent =
             "pgmon can't reset a password by itself -- there's no \"forgot password\" flow, deliberately: doing it from inside the app would mean any admin session could silently take over any other account. Resetting requires root access to the server pgmon runs on instead.";

@@ -34,7 +34,7 @@ if [ ! -f "$ENV_FILE" ]; then
 SESSION_SECRET=$SESSION_SECRET
 USERS_DB_PATH=$USERS_DB
 BASE_PATH=
-DEPLOYMENT_MODE=standalone
+DEPLOYMENT_MODE=container
 POLL_INTERVAL_SECONDS=30
 SNAPSHOT_RETENTION_HOURS=48
 # ANTHROPIC_API_KEY=
@@ -45,6 +45,14 @@ fi
 set -a
 # shellcheck disable=SC1090
 source "$ENV_FILE"
+# Forced after sourcing, not just defaulted above: this is not a per-install
+# choice -- running inside this image *is* the deployment mode, and it
+# decides which password-reset instructions the login/account pages show.
+# Existing volumes were written before this mode existed and still say
+# "standalone" on disk, which told locked-out users to run
+# pgmon-reset-password on the host, where it does not exist. Overriding here
+# fixes those installs with no migration step.
+DEPLOYMENT_MODE=container
 set +a
 
 if [ ! -f "$CERT_FILE" ] || [ ! -f "$KEY_FILE" ]; then

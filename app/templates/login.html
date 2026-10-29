@@ -54,7 +54,19 @@
       <details class="disclosure">
         <summary>Forgot your password?</summary>
         <div class="disclosure-body">
-          {% if deployment_mode == "standalone" %}
+          {% if deployment_mode == "container" %}
+          <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs access to the container host instead:</p>
+          <ol>
+            <li>Open a terminal on the machine running this container.</li>
+            <li>Run, with your username filled in:<br>
+              <code>podman exec -it pgmon pgmon-reset-password &lt;username&gt;</code><br>
+              <span class="hint-text">(or <code>docker exec -it pgmon pgmon-reset-password &lt;username&gt;</code>; add <code>sudo</code> if that's how the container was started)</span>
+            </li>
+            <li>Enter a new password (8+ characters) when prompted.</li>
+            <li>Sign in above with the new password.</li>
+          </ol>
+          <p>If that username doesn't exist, this creates it fresh as an admin instead of failing &mdash; so it also covers losing every account, not just forgetting one password.</p>
+          {% elif deployment_mode == "standalone" %}
           <p>There's no self-service reset (an in-app one would let anyone with a signed-in session reset any other account) &mdash; it needs root access to the server pgmon runs on instead:</p>
           <ol>
             <li>Open a terminal (SSH or console) on the server pgmon is installed on.</li>
