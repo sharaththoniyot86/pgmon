@@ -1,0 +1,1114 @@
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+13	postgresql-13	sslinfo	information about SSL certificates				1.2
+13	postgresql-13	intarray	functions, operators, and index support for 1-D arrays of integers		true		1.3
+13	postgresql-13	bloom	bloom access method - signature file based index				1.0
+13	postgresql-13	hstore	data type for storing sets of (key, value) pairs		true		1.7
+13	postgresql-13	tablefunc	functions that manipulate whole tables, including crosstab		true		1.0
+13	postgresql-13	pg_prewarm	prewarm relation data				1.2
+13	postgresql-13	btree_gin	support for indexing common datatypes in GIN		true		1.3
+13	postgresql-13	postgres_fdw	foreign-data wrapper for remote PostgreSQL servers				1.0
+13	postgresql-13	tsm_system_time	TABLESAMPLE method which accepts time in milliseconds as a limit		true		1.0
+13	postgresql-13	earthdistance	calculate great-circle distances on the surface of the Earth	cube			1.1
+13	postgresql-13	pg_stat_statements	track planning and execution statistics of all SQL statements executed				1.8
+13	postgresql-13	intagg	integer aggregator and enumerator (obsolete)				1.1
+13	postgresql-13	adminpack	administrative functions for PostgreSQL				2.1
+13	postgresql-13	dblink	connect to other PostgreSQL databases from within a database				1.2
+13	postgresql-13	pg_freespacemap	examine the free space map (FSM)				1.2
+13	postgresql-13	isn	data types for international product numbering standards		true		1.2
+13	postgresql-13	btree_gist	support for indexing common datatypes in GiST		true		1.5
+13	postgresql-13	autoinc	functions for autoincrementing fields				1.0
+13	postgresql-13	pg_visibility	examine the visibility map (VM) and page-level visibility info				1.2
+13	postgresql-13	file_fdw	foreign-data wrapper for flat file access				1.0
+13	postgresql-13	pgstattuple	show tuple-level statistics				1.5
+13	postgresql-13	ltree	data type for hierarchical tree-like structures		true		1.2
+13	postgresql-13	lo	Large Object maintenance		true		1.1
+13	postgresql-13	tsm_system_rows	TABLESAMPLE method which accepts number of rows as a limit		true		1.0
+13	postgresql-13	fuzzystrmatch	determine similarities and distance between strings		true		1.1
+13	postgresql-13	tcn	Triggered change notifications		true		1.0
+13	postgresql-13	dict_xsyn	text search dictionary template for extended synonym processing				1.0
+13	postgresql-13	moddatetime	functions for tracking last modification time				1.0
+13	postgresql-13	pg_buffercache	examine the shared buffer cache				1.3
+13	postgresql-13	unaccent	text search dictionary that removes accents		true		1.1
+13	postgresql-13	insert_username	functions for tracking who changed a table				1.0
+13	postgresql-13	plpgsql	PL/pgSQL procedural language		true	true	1.0
+13	postgresql-13	pageinspect	inspect the contents of database pages at a low level				1.8
+13	postgresql-13	pgrowlocks	show row-level locking information				1.2
+13	postgresql-13	pgcrypto	cryptographic functions		true		1.3
+13	postgresql-13	citext	data type for case-insensitive character strings		true		1.6
+13	postgresql-13	uuid-ossp	generate universally unique identifiers (UUIDs)		true		1.1
+13	postgresql-13	pg_trgm	text similarity measurement and index searching based on trigrams		true		1.5
+13	postgresql-13	amcheck	functions for verifying relation integrity				1.2
+13	postgresql-13	dict_int	text search dictionary template for integers		true		1.0
+13	postgresql-13	seg	data type for representing line segments or floating-point intervals		true		1.3
+13	postgresql-13	xml2	XPath querying and XSLT				1.1
+13	postgresql-13	cube	data type for multidimensional cubes		true		1.4
+13	postgresql-13	refint	functions for implementing referential integrity (obsolete)				1.0
+13	postgresql-13-address-standardizer	address_standardizer	Parse addresses into constituent elements (street name, number, etc)				3.7
+13	postgresql-13-address-standardizer	address_standardizer_data_us	Address Standardizer US dataset example				3.7
+13	postgresql-13-age	age	AGE database extension				1.5.0
+13	postgresql-13-asn1oid	asn1oid	asn1oid extension				1
+13	postgresql-13-auto-failover	pgautofailover	pg_auto_failover	btree_gist			2.2
+13	postgresql-13-bgw-replstatus	__NO_CONTROL__
+13	postgresql-13-credcheck	credcheck	credcheck - postgresql plain text credential checker				6.0.0
+13	postgresql-13-cron	pg_cron	Job scheduler for PostgreSQL				1.6
+13	postgresql-13-debversion	debversion	Debian version number data type				1.2
+13	postgresql-13-decoderbufs	decoderbufs	Logical decoding plugin that delivers WAL stream changes using a Protocol Buffer format				0.1.0
+13	postgresql-13-dirtyread	pg_dirtyread	Read dead but unvacuumed rows from table				2
+13	postgresql-13-extra-window-functions	extra_window_functions	Extra window functions for PostgreSQL				2.0
+13	postgresql-13-first-last-agg	first_last_agg	first() and last() aggregate functions				0.1.4
+13	postgresql-13-h3	h3	H3 bindings for PostgreSQL				4.2.3
+13	postgresql-13-h3	h3_postgis	H3 PostGIS integration	h3, postgis, postgis_raster			4.2.3
+13	postgresql-13-hll	hll	type for storing hyperloglog data				2.21
+13	postgresql-13-http	http	HTTP client for PostgreSQL, allows web page retrieval inside the database.				1.7
+13	postgresql-13-hypopg	hypopg	Hypothetical indexes for PostgreSQL				1.4.5
+13	postgresql-13-icu-ext	icu_ext	Access ICU functions				1.11
+13	postgresql-13-ip4r	ip4r	data types and operators for storing, indexing, and manipulating IPv4 and IPv6 addresses and ranges				2.4
+13	postgresql-13-jsquery	jsquery	data type for jsonb inspection				1.1
+13	postgresql-13-londiste-sql	londiste	Londiste replication support code	pgq_node		true	3.8
+13	postgresql-13-mimeo	mimeo	Extension for specialized, per-table replication between PostgreSQL instances	dblink			1.5.1
+13	postgresql-13-mobilitydb	mobilitydb_datagen	MobilityDB random data generator functions	mobilitydb			1.3.0
+13	postgresql-13-mobilitydb	mobilitydb	MobilityDB geospatial trajectory data management & analysis platform	postgis			1.3.0
+13	postgresql-13-mongo-fdw	mongo_fdw	foreign data wrapper for MongoDB access				1.1
+13	postgresql-13-mysql-fdw	mysql_fdw	Foreign data wrapper for querying a MySQL server				1.2
+13	postgresql-13-numeral	numeral	numeral datatypes extension				1
+13	postgresql-13-ogr-fdw	ogr_fdw	foreign-data wrapper for GIS data access				1.1
+13	postgresql-13-omnidb	omnidb_plpgsql_debugger	PostgreSQL extension for enabling PL/pgSQL debugger in OmniDB				1.0.0
+13	postgresql-13-oracle-fdw	oracle_fdw	foreign data wrapper for Oracle access				1.2
+13	postgresql-13-orafce	orafce	Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS				4.17
+13	postgresql-13-partman	pg_partman	Extension to manage partitioned tables by time or ID				4.7.4
+13	postgresql-13-periods	periods	Provide Standard SQL functionality for PERIODs and SYSTEM VERSIONING	btree_gist			1.2
+13	postgresql-13-pg-catcheck	__NO_CONTROL__
+13	postgresql-13-pg-checksums	__NO_CONTROL__
+13	postgresql-13-pg-crash	__NO_CONTROL__
+13	postgresql-13-pg-csv	pg_csv					1.0.1
+13	postgresql-13-pg-fact-loader	pg_fact_loader	build fact tables with Postgres				2.0
+13	postgresql-13-pg-failover-slots	__NO_CONTROL__
+13	postgresql-13-pg-gvm	pg-gvm	Functions for GVMd				22.6
+13	postgresql-13-pg-hint-plan	pg_hint_plan					1.3.11
+13	postgresql-13-pg-ivm	pg_ivm	incremental view maintenance on PostgreSQL				1.17
+13	postgresql-13-pg-permissions	pg_permissions	view object permissions and compare them with the desired state			false	1.4
+13	postgresql-13-pg-pwhash	pg_pwhash	pg_pwhash - An extension for advanced password hashing				1.0
+13	postgresql-13-pg-qualstats	pg_qualstats	An extension collecting statistics about quals				2.1.4
+13	postgresql-13-pg-rewrite	pg_rewrite	Tool for maintenance that requires table rewriting.				2.1
+13	postgresql-13-pg-rrule	pg_rrule	RRULE field type for PostgreSQL				0.3.0
+13	postgresql-13-pg-stat-kcache	pg_stat_kcache	Kernel statistics gathering	pg_stat_statements			2.3.2
+13	postgresql-13-pg-stat-tcpinfo	pg_stat_tcpinfo	Provides pg_stat_tcpinfo to show detailed TCP connection info for sockets owned by the server''s OS user on Linux.				1.1
+13	postgresql-13-pg-track-settings	pg_track_settings	Track settings changes			false	2.1.2
+13	postgresql-13-pg-uuidv7	pg_uuidv7	pg_uuidv7: create UUIDv7 values in postgres				1.7
+13	postgresql-13-pg-wait-sampling	pg_wait_sampling	sampling based statistics of wait events				1.1
+13	postgresql-13-pgaudit	pgaudit	provides auditing functionality				1.5.3
+13	postgresql-13-pgauditlogtofile	pgauditlogtofile	pgAudit addon to redirect audit entries to an independent file				1.8
+13	postgresql-13-pgextwlist	__NO_CONTROL__
+13	postgresql-13-pgfincore	pgfincore	examine and manage the os buffer cache				1.4
+13	postgresql-13-pgl-ddl-deploy	pgl_ddl_deploy	automated ddl deployment using pglogical				2.2
+13	postgresql-13-pglogical	pglogical_origin	Dummy extension for compatibility when upgrading from Postgres 9.4				1.0.0
+13	postgresql-13-pglogical	pglogical	PostgreSQL Logical Replication				2.4.8
+13	postgresql-13-pglogical-ticker	pglogical_ticker	Have an accurate view on pglogical replication delay	pglogical			1.4
+13	postgresql-13-pgmemcache	pgmemcache	memcached interface				2.3.0
+13	postgresql-13-pgmp	pgmp	Multiple Precision Arithmetic extension				1.1
+13	postgresql-13-pgnodemx	pg_proctab--0.0.10-compat	Provide compatibility for pg_proctab	pgnodemx			
+13	postgresql-13-pgnodemx	pgnodemx	SQL functions that allow capture of node OS metrics from PostgreSQL				2.0
+13	postgresql-13-pgnodemx	pg_proctab	Placeholder - see pg_proctab--0.0.10-compat.control				
+13	postgresql-13-pgpcre	pgpcre	Perl Compatible Regular Expression functions				1
+13	postgresql-13-pgpool2	pgpool_recovery	recovery functions for pgpool-II for V4.3				1.4
+13	postgresql-13-pgpool2	pgpool_regclass	replacement for regclass				1.0
+13	postgresql-13-pgpool2	pgpool_adm	Administrative functions for pgPool				1.6
+13	postgresql-13-pgq-node	pgq_node	Cascaded queue infrastructure	pgq		true	3.5
+13	postgresql-13-pgq3	pgq	Generic queue for PostgreSQL			true	3.5.1
+13	postgresql-13-pgrouting	__NO_CONTROL__
+13	postgresql-13-pgrouting-scripts	pgrouting	pgRouting Extension	plpgsql,postgis			4.0.1
+13	postgresql-13-pgsphere	pg_sphere	spherical objects with useful functions, operators and index support				1.5.2
+13	postgresql-13-pgtap	pgtap	Unit testing for PostgreSQL	plpgsql		false	1.3.4
+13	postgresql-13-pgtt	pgtt	Extension to add Global Temporary Tables feature to PostgreSQL				4.6.0
+13	postgresql-13-pgvector	vector	vector data type and ivfflat and hnsw access methods				0.8.7
+13	postgresql-13-pldebugger	pldbgapi	server-side support for debugging PL/pgSQL functions				1.1
+13	postgresql-13-pljava	pljava	PL/Java procedural language (https://tada.github.io/pljava/)				1.6.10
+13	postgresql-13-pllua	hstore_pllua	Hstore transform for Lua	hstore, pllua			1.0
+13	postgresql-13-pllua	pllua	Lua as a procedural language				2.0
+13	postgresql-13-pllua	hstore_plluau	Hstore transform for untrusted Lua	hstore, plluau			1.0
+13	postgresql-13-pllua	plluau	Lua as an untrusted procedural language				2.0
+13	postgresql-13-plpgsql-check	plpgsql_check	extended check for plpgsql functions	plpgsql			2.7
+13	postgresql-13-plprofiler	plprofiler	server-side support for profiling PL/pgSQL functions				4.2
+13	postgresql-13-plproxy	plproxy	Database partitioning implemented as procedural language			true	2.12.0
+13	postgresql-13-plr	plr	load R interpreter and execute R script from within a database				8.4.8.10
+13	postgresql-13-plsh	plsh	PL/sh procedural language				2
+13	postgresql-13-pointcloud	pointcloud_postgis	integration for pointcloud LIDAR data and PostGIS geometry data	postgis, pointcloud		false	1.2.5
+13	postgresql-13-pointcloud	pointcloud	data type for lidar point clouds			true	1.2.5
+13	postgresql-13-postgis-3	__NO_CONTROL__
+13	postgresql-13-postgis-3-scripts	address_standardizer-3	Used to parse an address into constituent elements. Generally used to support geocoding address normalization step.				3.6.4
+13	postgresql-13-postgis-3-scripts	address_standardizer_data_us-3	Address Standardizer US dataset example				3.6.4
+13	postgresql-13-postgis-3-scripts	postgis_topology-3	PostGIS topology spatial types and functions	postgis			3.6.4
+13	postgresql-13-postgis-3-scripts	postgis_sfcgal-3	PostGIS SFCGAL functions	postgis			3.6.4
+13	postgresql-13-postgis-3-scripts	postgis_raster-3	PostGIS raster types and functions	postgis			3.6.4
+13	postgresql-13-postgis-3-scripts	postgis-3	PostGIS geometry and geography spatial types and functions				3.6.4
+13	postgresql-13-postgis-3-scripts	postgis_tiger_geocoder-3	PostGIS tiger geocoder and reverse geocoder	postgis,fuzzystrmatch		false	3.6.4
+13	postgresql-13-powa	powa	PostgreSQL Workload Analyser-core	plpgsql, pg_stat_statements, btree_gist		true	5.3.0
+13	postgresql-13-prefix	prefix	Prefix Range module for PostgreSQL				1.2.0
+13	postgresql-13-preprepare	pre_prepare	Pre Prepare your Statement server side				0.4
+13	postgresql-13-prioritize	prioritize	get and set the priority of PostgreSQL backends				1.0
+13	postgresql-13-q3c	q3c	q3c sky indexing plugin				2.0.5
+13	postgresql-13-rational	pg_rational	integer fractions				0.0.3
+13	postgresql-13-rdkit	rdkit	Cheminformatics functionality for PostgreSQL.				4.7.0
+13	postgresql-13-repack	pg_repack	Reorganize tables in PostgreSQL databases with minimal locks				1.5.3
+13	postgresql-13-repmgr	repmgr	Replication manager for PostgreSQL				5.5
+13	postgresql-13-roaringbitmap	roaringbitmap	support for Roaring Bitmaps				1.2
+13	postgresql-13-rum	rum	RUM index access method				1.3
+13	postgresql-13-semver	semver	Semantic version data type				0.42.0
+13	postgresql-13-set-user	set_user	similar to SET ROLE but with added logging				4.2.0
+13	postgresql-13-show-plans	pg_show_plans	show query plans of all currently running SQL statements				2.1
+13	postgresql-13-similarity	pg_similarity	support similarity queries				1.0
+13	postgresql-13-slony1-2	__NO_CONTROL__
+13	postgresql-13-snakeoil	pg_snakeoil	The PostgreSQL Antivirus				1
+13	postgresql-13-squeeze	pg_squeeze	A tool to remove unused space from a relation.				1.9
+13	postgresql-13-statviz	pg_statviz	stats visualization and time series analysis				1.2
+13	postgresql-13-tablelog	table_log	Module to log changes on tables				0.6.1
+13	postgresql-13-tdigest	tdigest	Provides tdigest aggregate function.				1.4.7
+13	postgresql-13-tds-fdw	tds_fdw	Foreign data wrapper for querying a TDS database (Sybase or Microsoft SQL Server)				2.0.5
+13	postgresql-13-timestamp9	timestamp9	timestamp nanosecond resolution				1.4.0
+13	postgresql-13-toastinfo	toastinfo	show details on toasted datums				1
+13	postgresql-13-unit	unit	SI units extension	plpgsql			7
+13	postgresql-13-wal2json	__NO_CONTROL__
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+14	postgresql-14	sslinfo	information about SSL certificates				1.2
+14	postgresql-14	intarray	functions, operators, and index support for 1-D arrays of integers		true		1.5
+14	postgresql-14	bloom	bloom access method - signature file based index				1.0
+14	postgresql-14	hstore	data type for storing sets of (key, value) pairs		true		1.8
+14	postgresql-14	tablefunc	functions that manipulate whole tables, including crosstab		true		1.0
+14	postgresql-14	pg_prewarm	prewarm relation data				1.2
+14	postgresql-14	btree_gin	support for indexing common datatypes in GIN		true		1.3
+14	postgresql-14	postgres_fdw	foreign-data wrapper for remote PostgreSQL servers				1.1
+14	postgresql-14	tsm_system_time	TABLESAMPLE method which accepts time in milliseconds as a limit		true		1.0
+14	postgresql-14	earthdistance	calculate great-circle distances on the surface of the Earth	cube			1.1
+14	postgresql-14	pg_stat_statements	track planning and execution statistics of all SQL statements executed				1.9
+14	postgresql-14	intagg	integer aggregator and enumerator (obsolete)				1.1
+14	postgresql-14	adminpack	administrative functions for PostgreSQL				2.1
+14	postgresql-14	old_snapshot	utilities in support of old_snapshot_threshold				1.0
+14	postgresql-14	dblink	connect to other PostgreSQL databases from within a database				1.2
+14	postgresql-14	pg_freespacemap	examine the free space map (FSM)				1.2
+14	postgresql-14	isn	data types for international product numbering standards		true		1.2
+14	postgresql-14	btree_gist	support for indexing common datatypes in GiST		true		1.6
+14	postgresql-14	autoinc	functions for autoincrementing fields				1.0
+14	postgresql-14	pg_visibility	examine the visibility map (VM) and page-level visibility info				1.2
+14	postgresql-14	file_fdw	foreign-data wrapper for flat file access				1.0
+14	postgresql-14	pgstattuple	show tuple-level statistics				1.5
+14	postgresql-14	ltree	data type for hierarchical tree-like structures		true		1.2
+14	postgresql-14	lo	Large Object maintenance		true		1.1
+14	postgresql-14	tsm_system_rows	TABLESAMPLE method which accepts number of rows as a limit		true		1.0
+14	postgresql-14	fuzzystrmatch	determine similarities and distance between strings		true		1.1
+14	postgresql-14	tcn	Triggered change notifications		true		1.0
+14	postgresql-14	dict_xsyn	text search dictionary template for extended synonym processing				1.0
+14	postgresql-14	moddatetime	functions for tracking last modification time				1.0
+14	postgresql-14	pg_buffercache	examine the shared buffer cache				1.3
+14	postgresql-14	unaccent	text search dictionary that removes accents		true		1.1
+14	postgresql-14	insert_username	functions for tracking who changed a table				1.0
+14	postgresql-14	plpgsql	PL/pgSQL procedural language		true	true	1.0
+14	postgresql-14	pageinspect	inspect the contents of database pages at a low level				1.9
+14	postgresql-14	pg_surgery	extension to perform surgery on a damaged relation				1.0
+14	postgresql-14	pgrowlocks	show row-level locking information				1.2
+14	postgresql-14	pgcrypto	cryptographic functions		true		1.3
+14	postgresql-14	citext	data type for case-insensitive character strings		true		1.6
+14	postgresql-14	uuid-ossp	generate universally unique identifiers (UUIDs)		true		1.1
+14	postgresql-14	pg_trgm	text similarity measurement and index searching based on trigrams		true		1.6
+14	postgresql-14	amcheck	functions for verifying relation integrity				1.3
+14	postgresql-14	dict_int	text search dictionary template for integers		true		1.0
+14	postgresql-14	seg	data type for representing line segments or floating-point intervals		true		1.4
+14	postgresql-14	xml2	XPath querying and XSLT				1.1
+14	postgresql-14	cube	data type for multidimensional cubes		true		1.5
+14	postgresql-14	refint	functions for implementing referential integrity (obsolete)				1.0
+14	postgresql-14-address-standardizer	address_standardizer	Parse addresses into constituent elements (street name, number, etc)				3.7
+14	postgresql-14-address-standardizer	address_standardizer_data_us	Address Standardizer US dataset example				3.7
+14	postgresql-14-age	age	AGE database extension				1.6.0
+14	postgresql-14-asn1oid	asn1oid	asn1oid extension				1
+14	postgresql-14-auto-failover	pgautofailover	pg_auto_failover	btree_gist			2.2
+14	postgresql-14-bgw-replstatus	__NO_CONTROL__
+14	postgresql-14-credcheck	credcheck	credcheck - postgresql plain text credential checker				6.0.0
+14	postgresql-14-cron	pg_cron	Job scheduler for PostgreSQL				1.6
+14	postgresql-14-db2fce	db2fce	DB2 compatibility environment for PostgreSQL				0.0.17
+14	postgresql-14-debversion	debversion	Debian version number data type				1.2
+14	postgresql-14-decoderbufs	decoderbufs	Logical decoding plugin that delivers WAL stream changes using a Protocol Buffer format				0.1.0
+14	postgresql-14-dirtyread	pg_dirtyread	Read dead but unvacuumed rows from table				2
+14	postgresql-14-extra-window-functions	extra_window_functions	Extra window functions for PostgreSQL				2.0
+14	postgresql-14-first-last-agg	first_last_agg	first() and last() aggregate functions				0.1.4
+14	postgresql-14-h3	h3	H3 bindings for PostgreSQL				4.2.3
+14	postgresql-14-h3	h3_postgis	H3 PostGIS integration	h3, postgis, postgis_raster			4.2.3
+14	postgresql-14-hll	hll	type for storing hyperloglog data				2.21
+14	postgresql-14-http	http	HTTP client for PostgreSQL, allows web page retrieval inside the database.				1.7
+14	postgresql-14-hypopg	hypopg	Hypothetical indexes for PostgreSQL				1.4.5
+14	postgresql-14-icu-ext	icu_ext	Access ICU functions				1.11
+14	postgresql-14-ip4r	ip4r	data types and operators for storing, indexing, and manipulating IPv4 and IPv6 addresses and ranges				2.4
+14	postgresql-14-jsquery	jsquery	data type for jsonb inspection				1.1
+14	postgresql-14-londiste-sql	londiste	Londiste replication support code	pgq_node		true	3.8
+14	postgresql-14-mimeo	mimeo	Extension for specialized, per-table replication between PostgreSQL instances	dblink			1.5.1
+14	postgresql-14-mobilitydb	mobilitydb_datagen	MobilityDB random data generator functions	mobilitydb			1.3.1
+14	postgresql-14-mobilitydb	mobilitydb	MobilityDB geospatial trajectory data management & analysis platform	postgis			1.3.1
+14	postgresql-14-mongo-fdw	mongo_fdw	foreign data wrapper for MongoDB access				1.1
+14	postgresql-14-mysql-fdw	mysql_fdw	Foreign data wrapper for querying a MySQL server				1.2
+14	postgresql-14-numeral	numeral	numeral datatypes extension				1
+14	postgresql-14-ogr-fdw	ogr_fdw	foreign-data wrapper for GIS data access				1.1
+14	postgresql-14-omnidb	omnidb_plpgsql_debugger	PostgreSQL extension for enabling PL/pgSQL debugger in OmniDB				1.0.0
+14	postgresql-14-oracle-fdw	oracle_fdw	foreign data wrapper for Oracle access				1.2
+14	postgresql-14-orafce	orafce	Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS				4.17
+14	postgresql-14-partman	pg_partman	Extension to manage partitioned tables by time or ID	plpgsql		false	5.5.0
+14	postgresql-14-periods	periods	Provide Standard SQL functionality for PERIODs and SYSTEM VERSIONING	btree_gist			1.2
+14	postgresql-14-pg-background	pg_background	Run SQL queries in the background				2.0
+14	postgresql-14-pg-catcheck	__NO_CONTROL__
+14	postgresql-14-pg-checksums	__NO_CONTROL__
+14	postgresql-14-pg-crash	__NO_CONTROL__
+14	postgresql-14-pg-csv	pg_csv					1.0.1
+14	postgresql-14-pg-fact-loader	pg_fact_loader	build fact tables with Postgres				2.0
+14	postgresql-14-pg-failover-slots	__NO_CONTROL__
+14	postgresql-14-pg-gvm	pg-gvm	Functions for GVMd				22.6
+14	postgresql-14-pg-hint-plan	pg_hint_plan					1.4.5
+14	postgresql-14-pg-ivm	pg_ivm	incremental view maintenance on PostgreSQL				1.17
+14	postgresql-14-pg-permissions	pg_permissions	view object permissions and compare them with the desired state			false	1.4
+14	postgresql-14-pg-pwhash	pg_pwhash	pg_pwhash - An extension for advanced password hashing				1.0
+14	postgresql-14-pg-qualstats	pg_qualstats	An extension collecting statistics about quals				2.1.4
+14	postgresql-14-pg-rewrite	pg_rewrite	Tool for maintenance that requires table rewriting.				2.2
+14	postgresql-14-pg-rrule	pg_rrule	RRULE field type for PostgreSQL				0.3.0
+14	postgresql-14-pg-stat-kcache	pg_stat_kcache	Kernel statistics gathering	pg_stat_statements			2.3.2
+14	postgresql-14-pg-stat-tcpinfo	pg_stat_tcpinfo	Provides pg_stat_tcpinfo to show detailed TCP connection info for sockets owned by the server''s OS user on Linux.				1.1
+14	postgresql-14-pg-track-settings	pg_track_settings	Track settings changes			false	2.1.2
+14	postgresql-14-pg-uuidv7	pg_uuidv7	pg_uuidv7: create UUIDv7 values in postgres				1.7
+14	postgresql-14-pg-wait-sampling	pg_wait_sampling	sampling based statistics of wait events				1.1
+14	postgresql-14-pgaudit	pgaudit	provides auditing functionality				1.6.3
+14	postgresql-14-pgauditlogtofile	pgauditlogtofile	pgAudit addon to redirect audit entries to an independent file				1.8
+14	postgresql-14-pgextwlist	__NO_CONTROL__
+14	postgresql-14-pgfaceting	pgfaceting	fast faceting queries using an inverted index	roaringbitmap		false	0.2.0
+14	postgresql-14-pgfincore	pgfincore	examine and manage the os buffer cache				1.4
+14	postgresql-14-pgl-ddl-deploy	pgl_ddl_deploy	automated ddl deployment using pglogical				2.2
+14	postgresql-14-pglogical	pglogical_origin	Dummy extension for compatibility when upgrading from Postgres 9.4				1.0.0
+14	postgresql-14-pglogical	pglogical	PostgreSQL Logical Replication				2.4.8
+14	postgresql-14-pglogical-ticker	pglogical_ticker	Have an accurate view on pglogical replication delay	pglogical			1.4
+14	postgresql-14-pgmemcache	pgmemcache	memcached interface				2.3.0
+14	postgresql-14-pgmp	pgmp	Multiple Precision Arithmetic extension				1.1
+14	postgresql-14-pgnodemx	pg_proctab--0.0.10-compat	Provide compatibility for pg_proctab	pgnodemx			
+14	postgresql-14-pgnodemx	pgnodemx	SQL functions that allow capture of node OS metrics from PostgreSQL				2.0
+14	postgresql-14-pgnodemx	pg_proctab	Placeholder - see pg_proctab--0.0.10-compat.control				
+14	postgresql-14-pgpcre	pgpcre	Perl Compatible Regular Expression functions				1
+14	postgresql-14-pgpool2	pgpool_recovery	recovery functions for pgpool-II for V4.3				1.4
+14	postgresql-14-pgpool2	pgpool_regclass	replacement for regclass				1.0
+14	postgresql-14-pgpool2	pgpool_adm	Administrative functions for pgPool				1.6
+14	postgresql-14-pgq-node	pgq_node	Cascaded queue infrastructure	pgq		true	3.5
+14	postgresql-14-pgq3	pgq	Generic queue for PostgreSQL			true	3.5.1
+14	postgresql-14-pgrouting	__NO_CONTROL__
+14	postgresql-14-pgrouting-scripts	pgrouting	pgRouting Extension	plpgsql,postgis			4.0.2
+14	postgresql-14-pgsentinel	pgsentinel	active session history				1.5.2
+14	postgresql-14-pgsphere	pg_sphere	spherical objects with useful functions, operators and index support				1.5.2
+14	postgresql-14-pgtap	pgtap	Unit testing for PostgreSQL	plpgsql		false	1.3.4
+14	postgresql-14-pgtt	pgtt	Extension to add Global Temporary Tables feature to PostgreSQL				4.6.0
+14	postgresql-14-pgvector	vector	vector data type and ivfflat and hnsw access methods				0.8.7
+14	postgresql-14-pldebugger	pldbgapi	server-side support for debugging PL/pgSQL functions				1.1
+14	postgresql-14-pljava	pljava	PL/Java procedural language (https://tada.github.io/pljava/)				1.6.10
+14	postgresql-14-pljs	pljs	PL/JS trusted procedural language			true	1.0.5
+14	postgresql-14-pllua	hstore_pllua	Hstore transform for Lua	hstore, pllua			1.0
+14	postgresql-14-pllua	pllua	Lua as a procedural language				2.0
+14	postgresql-14-pllua	hstore_plluau	Hstore transform for untrusted Lua	hstore, plluau			1.0
+14	postgresql-14-pllua	plluau	Lua as an untrusted procedural language				2.0
+14	postgresql-14-plpgsql-check	plpgsql_check	extended check for plpgsql functions	plpgsql			2.10
+14	postgresql-14-plprofiler	plprofiler	server-side support for profiling PL/pgSQL functions				4.2
+14	postgresql-14-plproxy	plproxy	Database partitioning implemented as procedural language			true	2.12.0
+14	postgresql-14-plr	plr	load R interpreter and execute R script from within a database				8.4.8.10
+14	postgresql-14-plsh	plsh	PL/sh procedural language				2
+14	postgresql-14-pointcloud	pointcloud_postgis	integration for pointcloud LIDAR data and PostGIS geometry data	postgis, pointcloud		false	1.2.5
+14	postgresql-14-pointcloud	pointcloud	data type for lidar point clouds			true	1.2.5
+14	postgresql-14-postgis-3	__NO_CONTROL__
+14	postgresql-14-postgis-3-scripts	postgis_topology-3	PostGIS topology spatial types and functions	postgis			3.7.0
+14	postgresql-14-postgis-3-scripts	postgis_sfcgal-3	PostGIS SFCGAL functions	postgis			3.7.0
+14	postgresql-14-postgis-3-scripts	postgis_raster-3	PostGIS raster types and functions	postgis			3.7.0
+14	postgresql-14-postgis-3-scripts	postgis-3	PostGIS geometry and geography spatial types and functions				3.7.0
+14	postgresql-14-powa	powa	PostgreSQL Workload Analyser-core	plpgsql, pg_stat_statements, btree_gist		true	5.3.0
+14	postgresql-14-prefix	prefix	Prefix Range module for PostgreSQL				1.2.0
+14	postgresql-14-preprepare	pre_prepare	Pre Prepare your Statement server side				0.4
+14	postgresql-14-prioritize	prioritize	get and set the priority of PostgreSQL backends				1.0
+14	postgresql-14-q3c	q3c	q3c sky indexing plugin				2.0.5
+14	postgresql-14-rational	pg_rational	integer fractions				0.0.3
+14	postgresql-14-rdkit	rdkit	Cheminformatics functionality for PostgreSQL.				4.7.0
+14	postgresql-14-repack	pg_repack	Reorganize tables in PostgreSQL databases with minimal locks				1.5.3
+14	postgresql-14-repmgr	repmgr	Replication manager for PostgreSQL				5.5
+14	postgresql-14-roaringbitmap	roaringbitmap	support for Roaring Bitmaps				1.2
+14	postgresql-14-rum	rum	RUM index access method				1.3
+14	postgresql-14-semver	semver	Semantic version data type				0.42.0
+14	postgresql-14-set-user	set_user	similar to SET ROLE but with added logging				4.2.0
+14	postgresql-14-show-plans	pg_show_plans	show query plans of all currently running SQL statements				2.1
+14	postgresql-14-similarity	pg_similarity	support similarity queries				1.0
+14	postgresql-14-slony1-2	__NO_CONTROL__
+14	postgresql-14-snakeoil	pg_snakeoil	The PostgreSQL Antivirus				1
+14	postgresql-14-squeeze	pg_squeeze	A tool to remove unused space from a relation.				1.9
+14	postgresql-14-statviz	pg_statviz	stats visualization and time series analysis				1.2
+14	postgresql-14-tablelog	table_log	Module to log changes on tables				0.6.1
+14	postgresql-14-tdigest	tdigest	Provides tdigest aggregate function.				1.4.7
+14	postgresql-14-tds-fdw	tds_fdw	Foreign data wrapper for querying a TDS database (Sybase or Microsoft SQL Server)				2.0.5
+14	postgresql-14-timescaledb	timescaledb	Enables scalable inserts and complex queries for time-series data		true		2.19.3
+14	postgresql-14-timestamp9	timestamp9	timestamp nanosecond resolution				1.4.0
+14	postgresql-14-toastinfo	toastinfo	show details on toasted datums				1
+14	postgresql-14-unit	unit	SI units extension	plpgsql			7
+14	postgresql-14-wal2json	__NO_CONTROL__
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+15	postgresql-15	sslinfo	information about SSL certificates				1.2
+15	postgresql-15	intarray	functions, operators, and index support for 1-D arrays of integers		true		1.5
+15	postgresql-15	bloom	bloom access method - signature file based index				1.0
+15	postgresql-15	hstore	data type for storing sets of (key, value) pairs		true		1.8
+15	postgresql-15	tablefunc	functions that manipulate whole tables, including crosstab		true		1.0
+15	postgresql-15	pg_prewarm	prewarm relation data				1.2
+15	postgresql-15	btree_gin	support for indexing common datatypes in GIN		true		1.3
+15	postgresql-15	postgres_fdw	foreign-data wrapper for remote PostgreSQL servers				1.1
+15	postgresql-15	tsm_system_time	TABLESAMPLE method which accepts time in milliseconds as a limit		true		1.0
+15	postgresql-15	earthdistance	calculate great-circle distances on the surface of the Earth	cube			1.1
+15	postgresql-15	pg_stat_statements	track planning and execution statistics of all SQL statements executed				1.10
+15	postgresql-15	intagg	integer aggregator and enumerator (obsolete)				1.1
+15	postgresql-15	adminpack	administrative functions for PostgreSQL				2.1
+15	postgresql-15	old_snapshot	utilities in support of old_snapshot_threshold				1.0
+15	postgresql-15	dblink	connect to other PostgreSQL databases from within a database				1.2
+15	postgresql-15	pg_freespacemap	examine the free space map (FSM)				1.2
+15	postgresql-15	pg_walinspect	functions to inspect contents of PostgreSQL Write-Ahead Log				1.0
+15	postgresql-15	isn	data types for international product numbering standards		true		1.2
+15	postgresql-15	btree_gist	support for indexing common datatypes in GiST		true		1.7
+15	postgresql-15	autoinc	functions for autoincrementing fields				1.0
+15	postgresql-15	pg_visibility	examine the visibility map (VM) and page-level visibility info				1.2
+15	postgresql-15	file_fdw	foreign-data wrapper for flat file access				1.0
+15	postgresql-15	pgstattuple	show tuple-level statistics				1.5
+15	postgresql-15	ltree	data type for hierarchical tree-like structures		true		1.2
+15	postgresql-15	lo	Large Object maintenance		true		1.1
+15	postgresql-15	tsm_system_rows	TABLESAMPLE method which accepts number of rows as a limit		true		1.0
+15	postgresql-15	fuzzystrmatch	determine similarities and distance between strings		true		1.1
+15	postgresql-15	tcn	Triggered change notifications		true		1.0
+15	postgresql-15	dict_xsyn	text search dictionary template for extended synonym processing				1.0
+15	postgresql-15	moddatetime	functions for tracking last modification time				1.0
+15	postgresql-15	pg_buffercache	examine the shared buffer cache				1.3
+15	postgresql-15	unaccent	text search dictionary that removes accents		true		1.1
+15	postgresql-15	insert_username	functions for tracking who changed a table				1.0
+15	postgresql-15	plpgsql	PL/pgSQL procedural language		true	true	1.0
+15	postgresql-15	pageinspect	inspect the contents of database pages at a low level				1.11
+15	postgresql-15	pg_surgery	extension to perform surgery on a damaged relation				1.0
+15	postgresql-15	pgrowlocks	show row-level locking information				1.2
+15	postgresql-15	pgcrypto	cryptographic functions		true		1.3
+15	postgresql-15	citext	data type for case-insensitive character strings		true		1.6
+15	postgresql-15	uuid-ossp	generate universally unique identifiers (UUIDs)		true		1.1
+15	postgresql-15	pg_trgm	text similarity measurement and index searching based on trigrams		true		1.6
+15	postgresql-15	amcheck	functions for verifying relation integrity				1.3
+15	postgresql-15	dict_int	text search dictionary template for integers		true		1.0
+15	postgresql-15	seg	data type for representing line segments or floating-point intervals		true		1.4
+15	postgresql-15	xml2	XPath querying and XSLT				1.1
+15	postgresql-15	cube	data type for multidimensional cubes		true		1.5
+15	postgresql-15	refint	functions for implementing referential integrity (obsolete)				1.0
+15	postgresql-15-address-standardizer	address_standardizer	Parse addresses into constituent elements (street name, number, etc)				3.7
+15	postgresql-15-address-standardizer	address_standardizer_data_us	Address Standardizer US dataset example				3.7
+15	postgresql-15-age	age	AGE database extension				1.8.0
+15	postgresql-15-asn1oid	asn1oid	asn1oid extension				1
+15	postgresql-15-auto-failover	pgautofailover	pg_auto_failover	btree_gist			2.2
+15	postgresql-15-bgw-replstatus	__NO_CONTROL__
+15	postgresql-15-credcheck	credcheck	credcheck - postgresql plain text credential checker				6.0.0
+15	postgresql-15-cron	pg_cron	Job scheduler for PostgreSQL				1.6
+15	postgresql-15-db2fce	db2fce	DB2 compatibility environment for PostgreSQL				0.0.17
+15	postgresql-15-debversion	debversion	Debian version number data type				1.2
+15	postgresql-15-decoderbufs	decoderbufs	Logical decoding plugin that delivers WAL stream changes using a Protocol Buffer format				0.1.0
+15	postgresql-15-dirtyread	pg_dirtyread	Read dead but unvacuumed rows from table				2
+15	postgresql-15-documentdb	documentdb_extended_rum	DocumentDB Extended RUM index access method				1.0-0
+15	postgresql-15-documentdb	documentdb_core	Core API surface for DocumentDB on PostgreSQL			true	1.0-0
+15	postgresql-15-documentdb	documentdb	API surface for DocumentDB for PostgreSQL	documentdb_core, pg_cron, tsm_system_rows, vector, postgis		true	1.0-0
+15	postgresql-15-documentdb	documentdb_distributed	Multi-Node API surface for DocumentDB	citus, documentdb_core, documentdb		true	1.0-0
+15	postgresql-15-extra-window-functions	extra_window_functions	Extra window functions for PostgreSQL				2.0
+15	postgresql-15-first-last-agg	first_last_agg	first() and last() aggregate functions				0.1.4
+15	postgresql-15-h3	h3	H3 bindings for PostgreSQL				4.2.3
+15	postgresql-15-h3	h3_postgis	H3 PostGIS integration	h3, postgis, postgis_raster			4.2.3
+15	postgresql-15-hll	hll	type for storing hyperloglog data				2.21
+15	postgresql-15-http	http	HTTP client for PostgreSQL, allows web page retrieval inside the database.				1.7
+15	postgresql-15-hypopg	hypopg	Hypothetical indexes for PostgreSQL				1.4.5
+15	postgresql-15-icu-ext	icu_ext	Access ICU functions				1.11
+15	postgresql-15-ip4r	ip4r	data types and operators for storing, indexing, and manipulating IPv4 and IPv6 addresses and ranges				2.4
+15	postgresql-15-jsquery	jsquery	data type for jsonb inspection				1.1
+15	postgresql-15-londiste-sql	londiste	Londiste replication support code	pgq_node		true	3.8
+15	postgresql-15-mimeo	mimeo	Extension for specialized, per-table replication between PostgreSQL instances	dblink			1.5.1
+15	postgresql-15-mobilitydb	mobilitydb_datagen	MobilityDB random data generator functions	mobilitydb			1.3.1
+15	postgresql-15-mobilitydb	mobilitydb	MobilityDB geospatial trajectory data management & analysis platform	postgis			1.3.1
+15	postgresql-15-mongo-fdw	mongo_fdw	foreign data wrapper for MongoDB access				1.1
+15	postgresql-15-mysql-fdw	mysql_fdw	Foreign data wrapper for querying a MySQL server				1.2
+15	postgresql-15-numeral	numeral	numeral datatypes extension				1
+15	postgresql-15-ogr-fdw	ogr_fdw	foreign-data wrapper for GIS data access				1.1
+15	postgresql-15-omnidb	omnidb_plpgsql_debugger	PostgreSQL extension for enabling PL/pgSQL debugger in OmniDB				1.0.0
+15	postgresql-15-oracle-fdw	oracle_fdw	foreign data wrapper for Oracle access				1.2
+15	postgresql-15-orafce	orafce	Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS				4.17
+15	postgresql-15-partman	pg_partman	Extension to manage partitioned tables by time or ID	plpgsql		false	5.5.0
+15	postgresql-15-periods	periods	Provide Standard SQL functionality for PERIODs and SYSTEM VERSIONING	btree_gist			1.2
+15	postgresql-15-pg-background	pg_background	Run SQL queries in the background				2.0
+15	postgresql-15-pg-catcheck	__NO_CONTROL__
+15	postgresql-15-pg-checksums	__NO_CONTROL__
+15	postgresql-15-pg-crash	__NO_CONTROL__
+15	postgresql-15-pg-csv	pg_csv					1.0.1
+15	postgresql-15-pg-fact-loader	pg_fact_loader	build fact tables with Postgres				2.0
+15	postgresql-15-pg-failover-slots	__NO_CONTROL__
+15	postgresql-15-pg-gvm	pg-gvm	Functions for GVMd				22.6
+15	postgresql-15-pg-hint-plan	pg_hint_plan					1.5.4
+15	postgresql-15-pg-ivm	pg_ivm	incremental view maintenance on PostgreSQL				1.17
+15	postgresql-15-pg-permissions	pg_permissions	view object permissions and compare them with the desired state			false	1.4
+15	postgresql-15-pg-pwhash	pg_pwhash	pg_pwhash - An extension for advanced password hashing				1.0
+15	postgresql-15-pg-qualstats	pg_qualstats	An extension collecting statistics about quals				2.1.4
+15	postgresql-15-pg-rewrite	pg_rewrite	Tool for maintenance that requires table rewriting.				2.2
+15	postgresql-15-pg-rrule	pg_rrule	RRULE field type for PostgreSQL				0.3.0
+15	postgresql-15-pg-stat-kcache	pg_stat_kcache	Kernel statistics gathering	pg_stat_statements			2.3.2
+15	postgresql-15-pg-stat-tcpinfo	pg_stat_tcpinfo	Provides pg_stat_tcpinfo to show detailed TCP connection info for sockets owned by the server''s OS user on Linux.				1.1
+15	postgresql-15-pg-track-settings	pg_track_settings	Track settings changes			false	2.1.2
+15	postgresql-15-pg-uuidv7	pg_uuidv7	pg_uuidv7: create UUIDv7 values in postgres				1.7
+15	postgresql-15-pg-wait-sampling	pg_wait_sampling	sampling based statistics of wait events				1.1
+15	postgresql-15-pgaudit	pgaudit	provides auditing functionality				1.7.1
+15	postgresql-15-pgauditlogtofile	pgauditlogtofile	pgAudit addon to redirect audit entries to an independent file				1.8
+15	postgresql-15-pgextwlist	__NO_CONTROL__
+15	postgresql-15-pgfaceting	pgfaceting	fast faceting queries using an inverted index	roaringbitmap		false	0.2.0
+15	postgresql-15-pgfincore	pgfincore	examine and manage the os buffer cache				1.4
+15	postgresql-15-pgl-ddl-deploy	pgl_ddl_deploy	automated ddl deployment using pglogical				2.2
+15	postgresql-15-pglogical	pglogical_origin	Dummy extension for compatibility when upgrading from Postgres 9.4				1.0.0
+15	postgresql-15-pglogical	pglogical	PostgreSQL Logical Replication				2.4.8
+15	postgresql-15-pglogical-ticker	pglogical_ticker	Have an accurate view on pglogical replication delay	pglogical			1.4
+15	postgresql-15-pgmemcache	pgmemcache	memcached interface				2.3.0
+15	postgresql-15-pgmp	pgmp	Multiple Precision Arithmetic extension				1.1
+15	postgresql-15-pgnodemx	pg_proctab--0.0.10-compat	Provide compatibility for pg_proctab	pgnodemx			
+15	postgresql-15-pgnodemx	pgnodemx	SQL functions that allow capture of node OS metrics from PostgreSQL				2.0
+15	postgresql-15-pgnodemx	pg_proctab	Placeholder - see pg_proctab--0.0.10-compat.control				
+15	postgresql-15-pgpcre	pgpcre	Perl Compatible Regular Expression functions				1
+15	postgresql-15-pgpool2	pgpool_recovery	recovery functions for pgpool-II for V4.3				1.4
+15	postgresql-15-pgpool2	pgpool_regclass	replacement for regclass				1.0
+15	postgresql-15-pgpool2	pgpool_adm	Administrative functions for pgPool				1.6
+15	postgresql-15-pgq-node	pgq_node	Cascaded queue infrastructure	pgq		true	3.5
+15	postgresql-15-pgq3	pgq	Generic queue for PostgreSQL			true	3.5.1
+15	postgresql-15-pgrouting	__NO_CONTROL__
+15	postgresql-15-pgrouting-scripts	pgrouting	pgRouting Extension	plpgsql,postgis			4.0.2
+15	postgresql-15-pgsentinel	pgsentinel	active session history				1.5.2
+15	postgresql-15-pgsphere	pg_sphere	spherical objects with useful functions, operators and index support				1.5.2
+15	postgresql-15-pgtap	pgtap	Unit testing for PostgreSQL	plpgsql		false	1.3.4
+15	postgresql-15-pgtt	pgtt	Extension to add Global Temporary Tables feature to PostgreSQL				4.6.0
+15	postgresql-15-pgvector	vector	vector data type and ivfflat and hnsw access methods				0.8.7
+15	postgresql-15-pldebugger	pldbgapi	server-side support for debugging PL/pgSQL functions				1.1
+15	postgresql-15-pljava	pljava	PL/Java procedural language (https://tada.github.io/pljava/)				1.6.10
+15	postgresql-15-pljs	pljs	PL/JS trusted procedural language			true	1.0.5
+15	postgresql-15-pllua	hstore_pllua	Hstore transform for Lua	hstore, pllua			1.0
+15	postgresql-15-pllua	pllua	Lua as a procedural language				2.0
+15	postgresql-15-pllua	hstore_plluau	Hstore transform for untrusted Lua	hstore, plluau			1.0
+15	postgresql-15-pllua	plluau	Lua as an untrusted procedural language				2.0
+15	postgresql-15-plpgsql-check	plpgsql_check	extended check for plpgsql functions	plpgsql			2.10
+15	postgresql-15-plprofiler	plprofiler	server-side support for profiling PL/pgSQL functions				4.2
+15	postgresql-15-plproxy	plproxy	Database partitioning implemented as procedural language			true	2.12.0
+15	postgresql-15-plr	plr	load R interpreter and execute R script from within a database				8.4.8.10
+15	postgresql-15-plsh	plsh	PL/sh procedural language				2
+15	postgresql-15-pointcloud	pointcloud_postgis	integration for pointcloud LIDAR data and PostGIS geometry data	postgis, pointcloud		false	1.2.5
+15	postgresql-15-pointcloud	pointcloud	data type for lidar point clouds			true	1.2.5
+15	postgresql-15-postgis-3	__NO_CONTROL__
+15	postgresql-15-postgis-3-scripts	postgis_topology-3	PostGIS topology spatial types and functions	postgis			3.7.0
+15	postgresql-15-postgis-3-scripts	postgis_sfcgal-3	PostGIS SFCGAL functions	postgis			3.7.0
+15	postgresql-15-postgis-3-scripts	postgis_raster-3	PostGIS raster types and functions	postgis			3.7.0
+15	postgresql-15-postgis-3-scripts	postgis-3	PostGIS geometry and geography spatial types and functions				3.7.0
+15	postgresql-15-powa	powa	PostgreSQL Workload Analyser-core	plpgsql, pg_stat_statements, btree_gist		true	5.3.0
+15	postgresql-15-prefix	prefix	Prefix Range module for PostgreSQL				1.2.0
+15	postgresql-15-preprepare	pre_prepare	Pre Prepare your Statement server side				0.4
+15	postgresql-15-prioritize	prioritize	get and set the priority of PostgreSQL backends				1.0
+15	postgresql-15-q3c	q3c	q3c sky indexing plugin				2.0.5
+15	postgresql-15-rational	pg_rational	integer fractions				0.0.3
+15	postgresql-15-rdkit	rdkit	Cheminformatics functionality for PostgreSQL.				4.7.0
+15	postgresql-15-repack	pg_repack	Reorganize tables in PostgreSQL databases with minimal locks				1.5.3
+15	postgresql-15-repmgr	repmgr	Replication manager for PostgreSQL				5.5
+15	postgresql-15-roaringbitmap	roaringbitmap	support for Roaring Bitmaps				1.2
+15	postgresql-15-rum	rum	RUM index access method				1.3
+15	postgresql-15-semver	semver	Semantic version data type				0.42.0
+15	postgresql-15-set-user	set_user	similar to SET ROLE but with added logging				4.2.0
+15	postgresql-15-show-plans	pg_show_plans	show query plans of all currently running SQL statements				2.1
+15	postgresql-15-similarity	pg_similarity	support similarity queries				1.0
+15	postgresql-15-slony1-2	__NO_CONTROL__
+15	postgresql-15-snakeoil	pg_snakeoil	The PostgreSQL Antivirus				1
+15	postgresql-15-squeeze	pg_squeeze	A tool to remove unused space from a relation.				1.9
+15	postgresql-15-statviz	pg_statviz	stats visualization and time series analysis				1.2
+15	postgresql-15-tablelog	table_log	Module to log changes on tables				0.6.1
+15	postgresql-15-tdigest	tdigest	Provides tdigest aggregate function.				1.4.7
+15	postgresql-15-tds-fdw	tds_fdw	Foreign data wrapper for querying a TDS database (Sybase or Microsoft SQL Server)				2.0.5
+15	postgresql-15-timescaledb	timescaledb	Enables scalable inserts and complex queries for time-series data		true		2.28.3
+15	postgresql-15-timestamp9	timestamp9	timestamp nanosecond resolution				1.4.0
+15	postgresql-15-toastinfo	toastinfo	show details on toasted datums				1
+15	postgresql-15-unit	unit	SI units extension	plpgsql			7
+15	postgresql-15-wal2json	__NO_CONTROL__
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+16	postgresql-16	sslinfo	information about SSL certificates				1.2
+16	postgresql-16	intarray	functions, operators, and index support for 1-D arrays of integers		true		1.5
+16	postgresql-16	bloom	bloom access method - signature file based index				1.0
+16	postgresql-16	hstore	data type for storing sets of (key, value) pairs		true		1.8
+16	postgresql-16	tablefunc	functions that manipulate whole tables, including crosstab		true		1.0
+16	postgresql-16	pg_prewarm	prewarm relation data				1.2
+16	postgresql-16	btree_gin	support for indexing common datatypes in GIN		true		1.3
+16	postgresql-16	postgres_fdw	foreign-data wrapper for remote PostgreSQL servers				1.1
+16	postgresql-16	tsm_system_time	TABLESAMPLE method which accepts time in milliseconds as a limit		true		1.0
+16	postgresql-16	earthdistance	calculate great-circle distances on the surface of the Earth	cube			1.2
+16	postgresql-16	pg_stat_statements	track planning and execution statistics of all SQL statements executed				1.10
+16	postgresql-16	intagg	integer aggregator and enumerator (obsolete)				1.1
+16	postgresql-16	adminpack	administrative functions for PostgreSQL				2.1
+16	postgresql-16	old_snapshot	utilities in support of old_snapshot_threshold				1.0
+16	postgresql-16	dblink	connect to other PostgreSQL databases from within a database				1.2
+16	postgresql-16	pg_freespacemap	examine the free space map (FSM)				1.2
+16	postgresql-16	pg_walinspect	functions to inspect contents of PostgreSQL Write-Ahead Log				1.1
+16	postgresql-16	isn	data types for international product numbering standards		true		1.2
+16	postgresql-16	btree_gist	support for indexing common datatypes in GiST		true		1.7
+16	postgresql-16	autoinc	functions for autoincrementing fields				1.0
+16	postgresql-16	pg_visibility	examine the visibility map (VM) and page-level visibility info				1.2
+16	postgresql-16	file_fdw	foreign-data wrapper for flat file access				1.0
+16	postgresql-16	pgstattuple	show tuple-level statistics				1.5
+16	postgresql-16	ltree	data type for hierarchical tree-like structures		true		1.2
+16	postgresql-16	lo	Large Object maintenance		true		1.1
+16	postgresql-16	tsm_system_rows	TABLESAMPLE method which accepts number of rows as a limit		true		1.0
+16	postgresql-16	fuzzystrmatch	determine similarities and distance between strings		true		1.2
+16	postgresql-16	tcn	Triggered change notifications		true		1.0
+16	postgresql-16	dict_xsyn	text search dictionary template for extended synonym processing				1.0
+16	postgresql-16	moddatetime	functions for tracking last modification time				1.0
+16	postgresql-16	pg_buffercache	examine the shared buffer cache				1.4
+16	postgresql-16	unaccent	text search dictionary that removes accents		true		1.1
+16	postgresql-16	insert_username	functions for tracking who changed a table				1.0
+16	postgresql-16	plpgsql	PL/pgSQL procedural language		true	true	1.0
+16	postgresql-16	pageinspect	inspect the contents of database pages at a low level				1.12
+16	postgresql-16	pg_surgery	extension to perform surgery on a damaged relation				1.0
+16	postgresql-16	pgrowlocks	show row-level locking information				1.2
+16	postgresql-16	pgcrypto	cryptographic functions		true		1.3
+16	postgresql-16	citext	data type for case-insensitive character strings		true		1.6
+16	postgresql-16	uuid-ossp	generate universally unique identifiers (UUIDs)		true		1.1
+16	postgresql-16	pg_trgm	text similarity measurement and index searching based on trigrams		true		1.6
+16	postgresql-16	amcheck	functions for verifying relation integrity				1.3
+16	postgresql-16	dict_int	text search dictionary template for integers		true		1.0
+16	postgresql-16	seg	data type for representing line segments or floating-point intervals		true		1.4
+16	postgresql-16	xml2	XPath querying and XSLT				1.1
+16	postgresql-16	cube	data type for multidimensional cubes		true		1.5
+16	postgresql-16	refint	functions for implementing referential integrity (obsolete)				1.0
+16	postgresql-16-address-standardizer	address_standardizer	Parse addresses into constituent elements (street name, number, etc)				3.7
+16	postgresql-16-address-standardizer	address_standardizer_data_us	Address Standardizer US dataset example				3.7
+16	postgresql-16-age	age	AGE database extension				1.6.0
+16	postgresql-16-asn1oid	asn1oid	asn1oid extension				1
+16	postgresql-16-auto-failover	pgautofailover	pg_auto_failover	btree_gist			2.2
+16	postgresql-16-bgw-replstatus	__NO_CONTROL__
+16	postgresql-16-credcheck	credcheck	credcheck - postgresql plain text credential checker				6.0.0
+16	postgresql-16-cron	pg_cron	Job scheduler for PostgreSQL				1.6
+16	postgresql-16-db2fce	db2fce	DB2 compatibility environment for PostgreSQL				0.0.17
+16	postgresql-16-debversion	debversion	Debian version number data type				1.2
+16	postgresql-16-decoderbufs	decoderbufs	Logical decoding plugin that delivers WAL stream changes using a Protocol Buffer format				0.1.0
+16	postgresql-16-dirtyread	pg_dirtyread	Read dead but unvacuumed rows from table				2
+16	postgresql-16-documentdb	documentdb_extended_rum	DocumentDB Extended RUM index access method				1.0-0
+16	postgresql-16-documentdb	documentdb_core	Core API surface for DocumentDB on PostgreSQL			true	1.0-0
+16	postgresql-16-documentdb	documentdb	API surface for DocumentDB for PostgreSQL	documentdb_core, pg_cron, tsm_system_rows, vector, postgis		true	1.0-0
+16	postgresql-16-documentdb	documentdb_distributed	Multi-Node API surface for DocumentDB	citus, documentdb_core, documentdb		true	1.0-0
+16	postgresql-16-extra-window-functions	extra_window_functions	Extra window functions for PostgreSQL				2.0
+16	postgresql-16-first-last-agg	first_last_agg	first() and last() aggregate functions				0.1.4
+16	postgresql-16-h3	h3	H3 bindings for PostgreSQL				4.2.3
+16	postgresql-16-h3	h3_postgis	H3 PostGIS integration	h3, postgis, postgis_raster			4.2.3
+16	postgresql-16-hll	hll	type for storing hyperloglog data				2.21
+16	postgresql-16-http	http	HTTP client for PostgreSQL, allows web page retrieval inside the database.				1.7
+16	postgresql-16-hypopg	hypopg	Hypothetical indexes for PostgreSQL				1.4.5
+16	postgresql-16-icu-ext	icu_ext	Access ICU functions				1.11
+16	postgresql-16-ip4r	ip4r	data types and operators for storing, indexing, and manipulating IPv4 and IPv6 addresses and ranges				2.4
+16	postgresql-16-jsquery	jsquery	data type for jsonb inspection				1.1
+16	postgresql-16-londiste-sql	londiste	Londiste replication support code	pgq_node		true	3.8
+16	postgresql-16-mimeo	mimeo	Extension for specialized, per-table replication between PostgreSQL instances	dblink			1.5.1
+16	postgresql-16-mobilitydb	mobilitydb_datagen	MobilityDB random data generator functions	mobilitydb			1.3.1
+16	postgresql-16-mobilitydb	mobilitydb	MobilityDB geospatial trajectory data management & analysis platform	postgis			1.3.1
+16	postgresql-16-mongo-fdw	mongo_fdw	foreign data wrapper for MongoDB access				1.1
+16	postgresql-16-mysql-fdw	mysql_fdw	Foreign data wrapper for querying a MySQL server				1.2
+16	postgresql-16-numeral	numeral	numeral datatypes extension				1
+16	postgresql-16-ogr-fdw	ogr_fdw	foreign-data wrapper for GIS data access				1.1
+16	postgresql-16-omnidb	omnidb_plpgsql_debugger	PostgreSQL extension for enabling PL/pgSQL debugger in OmniDB				1.0.0
+16	postgresql-16-oracle-fdw	oracle_fdw	foreign data wrapper for Oracle access				1.2
+16	postgresql-16-orafce	orafce	Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS				4.17
+16	postgresql-16-partman	pg_partman	Extension to manage partitioned tables by time or ID	plpgsql		false	5.5.0
+16	postgresql-16-periods	periods	Provide Standard SQL functionality for PERIODs and SYSTEM VERSIONING	btree_gist			1.2
+16	postgresql-16-pg-background	pg_background	Run SQL queries in the background				2.0
+16	postgresql-16-pg-catcheck	__NO_CONTROL__
+16	postgresql-16-pg-checksums	__NO_CONTROL__
+16	postgresql-16-pg-crash	__NO_CONTROL__
+16	postgresql-16-pg-csv	pg_csv					1.0.1
+16	postgresql-16-pg-fact-loader	pg_fact_loader	build fact tables with Postgres				2.0
+16	postgresql-16-pg-failover-slots	__NO_CONTROL__
+16	postgresql-16-pg-gvm	pg-gvm	Functions for GVMd				22.6
+16	postgresql-16-pg-hint-plan	pg_hint_plan					1.6.3
+16	postgresql-16-pg-ivm	pg_ivm	incremental view maintenance on PostgreSQL				1.17
+16	postgresql-16-pg-permissions	pg_permissions	view object permissions and compare them with the desired state			false	1.4
+16	postgresql-16-pg-pwhash	pg_pwhash	pg_pwhash - An extension for advanced password hashing				1.0
+16	postgresql-16-pg-qualstats	pg_qualstats	An extension collecting statistics about quals				2.1.4
+16	postgresql-16-pg-rewrite	pg_rewrite	Tool for maintenance that requires table rewriting.				2.2
+16	postgresql-16-pg-rrule	pg_rrule	RRULE field type for PostgreSQL				0.3.0
+16	postgresql-16-pg-stat-kcache	pg_stat_kcache	Kernel statistics gathering	pg_stat_statements			2.3.2
+16	postgresql-16-pg-stat-plans	pg_stat_plans	track per-plan call counts, execution times and EXPLAIN texts				2.1
+16	postgresql-16-pg-stat-tcpinfo	pg_stat_tcpinfo	Provides pg_stat_tcpinfo to show detailed TCP connection info for sockets owned by the server''s OS user on Linux.				1.1
+16	postgresql-16-pg-track-settings	pg_track_settings	Track settings changes			false	2.1.2
+16	postgresql-16-pg-uuidv7	pg_uuidv7	pg_uuidv7: create UUIDv7 values in postgres				1.7
+16	postgresql-16-pg-wait-sampling	pg_wait_sampling	sampling based statistics of wait events				1.1
+16	postgresql-16-pgaudit	pgaudit	provides auditing functionality				16.1
+16	postgresql-16-pgauditlogtofile	pgauditlogtofile	pgAudit addon to redirect audit entries to an independent file				1.8
+16	postgresql-16-pgextwlist	__NO_CONTROL__
+16	postgresql-16-pgfaceting	pgfaceting	fast faceting queries using an inverted index	roaringbitmap		false	0.2.0
+16	postgresql-16-pgfincore	pgfincore	examine and manage the os buffer cache				1.4
+16	postgresql-16-pgl-ddl-deploy	pgl_ddl_deploy	automated ddl deployment using pglogical				2.2
+16	postgresql-16-pglogical	pglogical_origin	Dummy extension for compatibility when upgrading from Postgres 9.4				1.0.0
+16	postgresql-16-pglogical	pglogical	PostgreSQL Logical Replication				2.4.8
+16	postgresql-16-pglogical-ticker	pglogical_ticker	Have an accurate view on pglogical replication delay	pglogical			1.4
+16	postgresql-16-pgmemcache	pgmemcache	memcached interface				2.3.0
+16	postgresql-16-pgmp	pgmp	Multiple Precision Arithmetic extension				1.1
+16	postgresql-16-pgnodemx	pg_proctab--0.0.10-compat	Provide compatibility for pg_proctab	pgnodemx			
+16	postgresql-16-pgnodemx	pgnodemx	SQL functions that allow capture of node OS metrics from PostgreSQL				2.0
+16	postgresql-16-pgnodemx	pg_proctab	Placeholder - see pg_proctab--0.0.10-compat.control				
+16	postgresql-16-pgpcre	pgpcre	Perl Compatible Regular Expression functions				1
+16	postgresql-16-pgpool2	pgpool_recovery	recovery functions for pgpool-II for V4.3				1.4
+16	postgresql-16-pgpool2	pgpool_regclass	replacement for regclass				1.0
+16	postgresql-16-pgpool2	pgpool_adm	Administrative functions for pgPool				1.6
+16	postgresql-16-pgq-node	pgq_node	Cascaded queue infrastructure	pgq		true	3.5
+16	postgresql-16-pgq3	pgq	Generic queue for PostgreSQL			true	3.5.1
+16	postgresql-16-pgrouting	__NO_CONTROL__
+16	postgresql-16-pgrouting-scripts	pgrouting	pgRouting Extension	plpgsql,postgis			4.0.2
+16	postgresql-16-pgsentinel	pgsentinel	active session history				1.5.2
+16	postgresql-16-pgsphere	pg_sphere	spherical objects with useful functions, operators and index support				1.5.2
+16	postgresql-16-pgtap	pgtap	Unit testing for PostgreSQL	plpgsql		false	1.3.4
+16	postgresql-16-pgtt	pgtt	Extension to add Global Temporary Tables feature to PostgreSQL				4.6.0
+16	postgresql-16-pgvector	vector	vector data type and ivfflat and hnsw access methods				0.8.7
+16	postgresql-16-pldebugger	pldbgapi	server-side support for debugging PL/pgSQL functions				1.1
+16	postgresql-16-pljava	pljava	PL/Java procedural language (https://tada.github.io/pljava/)				1.6.10
+16	postgresql-16-pljs	pljs	PL/JS trusted procedural language			true	1.0.5
+16	postgresql-16-pllua	hstore_pllua	Hstore transform for Lua	hstore, pllua			1.0
+16	postgresql-16-pllua	pllua	Lua as a procedural language				2.0
+16	postgresql-16-pllua	hstore_plluau	Hstore transform for untrusted Lua	hstore, plluau			1.0
+16	postgresql-16-pllua	plluau	Lua as an untrusted procedural language				2.0
+16	postgresql-16-plpgsql-check	plpgsql_check	extended check for plpgsql functions	plpgsql			2.10
+16	postgresql-16-plprofiler	plprofiler	server-side support for profiling PL/pgSQL functions				4.2
+16	postgresql-16-plproxy	plproxy	Database partitioning implemented as procedural language			true	2.12.0
+16	postgresql-16-plr	plr	load R interpreter and execute R script from within a database				8.4.8.10
+16	postgresql-16-plsh	plsh	PL/sh procedural language				2
+16	postgresql-16-pointcloud	pointcloud_postgis	integration for pointcloud LIDAR data and PostGIS geometry data	postgis, pointcloud		false	1.2.5
+16	postgresql-16-pointcloud	pointcloud	data type for lidar point clouds			true	1.2.5
+16	postgresql-16-postgis-3	__NO_CONTROL__
+16	postgresql-16-postgis-3-scripts	postgis_topology-3	PostGIS topology spatial types and functions	postgis			3.7.0
+16	postgresql-16-postgis-3-scripts	postgis_sfcgal-3	PostGIS SFCGAL functions	postgis			3.7.0
+16	postgresql-16-postgis-3-scripts	postgis_raster-3	PostGIS raster types and functions	postgis			3.7.0
+16	postgresql-16-postgis-3-scripts	postgis-3	PostGIS geometry and geography spatial types and functions				3.7.0
+16	postgresql-16-postgis-tiger-geocoder	postgis_tiger_geocoder	PostGIS tiger geocoder and reverse geocoder	postgis,fuzzystrmatch		false	2025.2
+16	postgresql-16-powa	powa	PostgreSQL Workload Analyser-core	plpgsql, pg_stat_statements, btree_gist		true	5.3.0
+16	postgresql-16-prefix	prefix	Prefix Range module for PostgreSQL				1.2.0
+16	postgresql-16-preprepare	pre_prepare	Pre Prepare your Statement server side				0.4
+16	postgresql-16-prioritize	prioritize	get and set the priority of PostgreSQL backends				1.0
+16	postgresql-16-q3c	q3c	q3c sky indexing plugin				2.0.5
+16	postgresql-16-rational	pg_rational	integer fractions				0.0.3
+16	postgresql-16-rdkit	rdkit	Cheminformatics functionality for PostgreSQL.				4.7.0
+16	postgresql-16-repack	pg_repack	Reorganize tables in PostgreSQL databases with minimal locks				1.5.3
+16	postgresql-16-repmgr	repmgr	Replication manager for PostgreSQL				5.5
+16	postgresql-16-roaringbitmap	roaringbitmap	support for Roaring Bitmaps				1.2
+16	postgresql-16-rum	rum	RUM index access method				1.3
+16	postgresql-16-semver	semver	Semantic version data type				0.42.0
+16	postgresql-16-set-user	set_user	similar to SET ROLE but with added logging				4.2.0
+16	postgresql-16-show-plans	pg_show_plans	show query plans of all currently running SQL statements				2.1
+16	postgresql-16-similarity	pg_similarity	support similarity queries				1.0
+16	postgresql-16-slony1-2	__NO_CONTROL__
+16	postgresql-16-snakeoil	pg_snakeoil	The PostgreSQL Antivirus				1
+16	postgresql-16-squeeze	pg_squeeze	A tool to remove unused space from a relation.				1.9
+16	postgresql-16-statviz	pg_statviz	stats visualization and time series analysis				1.2
+16	postgresql-16-tablelog	table_log	Module to log changes on tables				0.6.1
+16	postgresql-16-tdigest	tdigest	Provides tdigest aggregate function.				1.4.7
+16	postgresql-16-tds-fdw	tds_fdw	Foreign data wrapper for querying a TDS database (Sybase or Microsoft SQL Server)				2.0.5
+16	postgresql-16-timescaledb	timescaledb	Enables scalable inserts and complex queries for time-series data		true		2.31.0
+16	postgresql-16-timestamp9	timestamp9	timestamp nanosecond resolution				1.4.0
+16	postgresql-16-toastinfo	toastinfo	show details on toasted datums				1
+16	postgresql-16-unit	unit	SI units extension	plpgsql			7
+16	postgresql-16-wal2json	__NO_CONTROL__
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+17	postgresql-17	sslinfo	information about SSL certificates				1.2
+17	postgresql-17	intarray	functions, operators, and index support for 1-D arrays of integers		true		1.5
+17	postgresql-17	bloom	bloom access method - signature file based index				1.0
+17	postgresql-17	hstore	data type for storing sets of (key, value) pairs		true		1.8
+17	postgresql-17	tablefunc	functions that manipulate whole tables, including crosstab		true		1.0
+17	postgresql-17	pg_prewarm	prewarm relation data				1.2
+17	postgresql-17	btree_gin	support for indexing common datatypes in GIN		true		1.3
+17	postgresql-17	postgres_fdw	foreign-data wrapper for remote PostgreSQL servers				1.1
+17	postgresql-17	tsm_system_time	TABLESAMPLE method which accepts time in milliseconds as a limit		true		1.0
+17	postgresql-17	earthdistance	calculate great-circle distances on the surface of the Earth	cube			1.2
+17	postgresql-17	pg_stat_statements	track planning and execution statistics of all SQL statements executed				1.11
+17	postgresql-17	intagg	integer aggregator and enumerator (obsolete)				1.1
+17	postgresql-17	dblink	connect to other PostgreSQL databases from within a database				1.2
+17	postgresql-17	pg_freespacemap	examine the free space map (FSM)				1.2
+17	postgresql-17	pg_walinspect	functions to inspect contents of PostgreSQL Write-Ahead Log				1.1
+17	postgresql-17	isn	data types for international product numbering standards		true		1.2
+17	postgresql-17	btree_gist	support for indexing common datatypes in GiST		true		1.7
+17	postgresql-17	autoinc	functions for autoincrementing fields				1.0
+17	postgresql-17	pg_visibility	examine the visibility map (VM) and page-level visibility info				1.2
+17	postgresql-17	file_fdw	foreign-data wrapper for flat file access				1.0
+17	postgresql-17	pgstattuple	show tuple-level statistics				1.5
+17	postgresql-17	ltree	data type for hierarchical tree-like structures		true		1.3
+17	postgresql-17	lo	Large Object maintenance		true		1.1
+17	postgresql-17	tsm_system_rows	TABLESAMPLE method which accepts number of rows as a limit		true		1.0
+17	postgresql-17	fuzzystrmatch	determine similarities and distance between strings		true		1.2
+17	postgresql-17	tcn	Triggered change notifications		true		1.0
+17	postgresql-17	dict_xsyn	text search dictionary template for extended synonym processing				1.0
+17	postgresql-17	moddatetime	functions for tracking last modification time				1.0
+17	postgresql-17	pg_buffercache	examine the shared buffer cache				1.5
+17	postgresql-17	unaccent	text search dictionary that removes accents		true		1.1
+17	postgresql-17	insert_username	functions for tracking who changed a table				1.0
+17	postgresql-17	plpgsql	PL/pgSQL procedural language		true	true	1.0
+17	postgresql-17	pageinspect	inspect the contents of database pages at a low level				1.12
+17	postgresql-17	pg_surgery	extension to perform surgery on a damaged relation				1.0
+17	postgresql-17	pgrowlocks	show row-level locking information				1.2
+17	postgresql-17	pgcrypto	cryptographic functions		true		1.3
+17	postgresql-17	citext	data type for case-insensitive character strings		true		1.6
+17	postgresql-17	uuid-ossp	generate universally unique identifiers (UUIDs)		true		1.1
+17	postgresql-17	pg_trgm	text similarity measurement and index searching based on trigrams		true		1.6
+17	postgresql-17	amcheck	functions for verifying relation integrity				1.4
+17	postgresql-17	dict_int	text search dictionary template for integers		true		1.0
+17	postgresql-17	seg	data type for representing line segments or floating-point intervals		true		1.4
+17	postgresql-17	xml2	XPath querying and XSLT				1.1
+17	postgresql-17	cube	data type for multidimensional cubes		true		1.5
+17	postgresql-17	refint	functions for implementing referential integrity (obsolete)				1.0
+17	postgresql-17-address-standardizer	address_standardizer	Parse addresses into constituent elements (street name, number, etc)				3.7
+17	postgresql-17-address-standardizer	address_standardizer_data_us	Address Standardizer US dataset example				3.7
+17	postgresql-17-age	age	AGE database extension				1.7.0
+17	postgresql-17-asn1oid	asn1oid	asn1oid extension				1
+17	postgresql-17-auto-failover	pgautofailover	pg_auto_failover	btree_gist			2.2
+17	postgresql-17-bgw-replstatus	__NO_CONTROL__
+17	postgresql-17-credcheck	credcheck	credcheck - postgresql plain text credential checker				6.0.0
+17	postgresql-17-cron	pg_cron	Job scheduler for PostgreSQL				1.6
+17	postgresql-17-db2fce	db2fce	DB2 compatibility environment for PostgreSQL				0.0.17
+17	postgresql-17-debversion	debversion	Debian version number data type				1.2
+17	postgresql-17-decoderbufs	decoderbufs	Logical decoding plugin that delivers WAL stream changes using a Protocol Buffer format				0.1.0
+17	postgresql-17-dirtyread	pg_dirtyread	Read dead but unvacuumed rows from table				2
+17	postgresql-17-documentdb	documentdb_extended_rum	DocumentDB Extended RUM index access method				1.0-0
+17	postgresql-17-documentdb	documentdb_core	Core API surface for DocumentDB on PostgreSQL			true	1.0-0
+17	postgresql-17-documentdb	documentdb	API surface for DocumentDB for PostgreSQL	documentdb_core, pg_cron, tsm_system_rows, vector, postgis		true	1.0-0
+17	postgresql-17-documentdb	documentdb_distributed	Multi-Node API surface for DocumentDB	citus, documentdb_core, documentdb		true	1.0-0
+17	postgresql-17-extra-window-functions	extra_window_functions	Extra window functions for PostgreSQL				2.0
+17	postgresql-17-first-last-agg	first_last_agg	first() and last() aggregate functions				0.1.4
+17	postgresql-17-h3	h3	H3 bindings for PostgreSQL				4.2.3
+17	postgresql-17-h3	h3_postgis	H3 PostGIS integration	h3, postgis, postgis_raster			4.2.3
+17	postgresql-17-hll	hll	type for storing hyperloglog data				2.21
+17	postgresql-17-http	http	HTTP client for PostgreSQL, allows web page retrieval inside the database.				1.7
+17	postgresql-17-hypopg	hypopg	Hypothetical indexes for PostgreSQL				1.4.5
+17	postgresql-17-icu-ext	icu_ext	Access ICU functions				1.11
+17	postgresql-17-ip4r	ip4r	data types and operators for storing, indexing, and manipulating IPv4 and IPv6 addresses and ranges				2.4
+17	postgresql-17-jsquery	jsquery	data type for jsonb inspection				1.1
+17	postgresql-17-londiste-sql	londiste	Londiste replication support code	pgq_node		true	3.8
+17	postgresql-17-mimeo	mimeo	Extension for specialized, per-table replication between PostgreSQL instances	dblink			1.5.1
+17	postgresql-17-mobilitydb	mobilitydb_datagen	MobilityDB random data generator functions	mobilitydb			1.3.1
+17	postgresql-17-mobilitydb	mobilitydb	MobilityDB geospatial trajectory data management & analysis platform	postgis			1.3.1
+17	postgresql-17-mongo-fdw	mongo_fdw	foreign data wrapper for MongoDB access				1.1
+17	postgresql-17-mysql-fdw	mysql_fdw	Foreign data wrapper for querying a MySQL server				1.2
+17	postgresql-17-numeral	numeral	numeral datatypes extension				1
+17	postgresql-17-ogr-fdw	ogr_fdw	foreign-data wrapper for GIS data access				1.1
+17	postgresql-17-omnidb	omnidb_plpgsql_debugger	PostgreSQL extension for enabling PL/pgSQL debugger in OmniDB				1.0.0
+17	postgresql-17-oracle-fdw	oracle_fdw	foreign data wrapper for Oracle access				1.2
+17	postgresql-17-orafce	orafce	Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS				4.17
+17	postgresql-17-partman	pg_partman	Extension to manage partitioned tables by time or ID	plpgsql		false	5.5.0
+17	postgresql-17-periods	periods	Provide Standard SQL functionality for PERIODs and SYSTEM VERSIONING	btree_gist			1.2
+17	postgresql-17-pg-background	pg_background	Run SQL queries in the background				2.0
+17	postgresql-17-pg-catcheck	__NO_CONTROL__
+17	postgresql-17-pg-checksums	__NO_CONTROL__
+17	postgresql-17-pg-crash	__NO_CONTROL__
+17	postgresql-17-pg-csv	pg_csv					1.0.1
+17	postgresql-17-pg-fact-loader	pg_fact_loader	build fact tables with Postgres				2.0
+17	postgresql-17-pg-failover-slots	__NO_CONTROL__
+17	postgresql-17-pg-gvm	pg-gvm	Functions for GVMd				22.6
+17	postgresql-17-pg-hint-plan	pg_hint_plan	optimizer hints for PostgreSQL				1.7.2
+17	postgresql-17-pg-ivm	pg_ivm	incremental view maintenance on PostgreSQL				1.17
+17	postgresql-17-pg-permissions	pg_permissions	view object permissions and compare them with the desired state			false	1.4
+17	postgresql-17-pg-pwhash	pg_pwhash	pg_pwhash - An extension for advanced password hashing				1.0
+17	postgresql-17-pg-qualstats	pg_qualstats	An extension collecting statistics about quals				2.1.4
+17	postgresql-17-pg-rewrite	pg_rewrite	Tool for maintenance that requires table rewriting.				2.2
+17	postgresql-17-pg-rrule	pg_rrule	RRULE field type for PostgreSQL				0.3.0
+17	postgresql-17-pg-stat-kcache	pg_stat_kcache	Kernel statistics gathering	pg_stat_statements			2.3.2
+17	postgresql-17-pg-stat-plans	pg_stat_plans	track per-plan call counts, execution times and EXPLAIN texts				2.1
+17	postgresql-17-pg-stat-tcpinfo	pg_stat_tcpinfo	Provides pg_stat_tcpinfo to show detailed TCP connection info for sockets owned by the server''s OS user on Linux.				1.1
+17	postgresql-17-pg-textsearch	pg_textsearch	Full-text search with BM25 ranking				1.5.1
+17	postgresql-17-pg-track-settings	pg_track_settings	Track settings changes			false	2.1.2
+17	postgresql-17-pg-uuidv7	pg_uuidv7	pg_uuidv7: create UUIDv7 values in postgres				1.7
+17	postgresql-17-pg-wait-sampling	pg_wait_sampling	sampling based statistics of wait events				1.1
+17	postgresql-17-pgaudit	pgaudit	provides auditing functionality				17.1
+17	postgresql-17-pgauditlogtofile	pgauditlogtofile	pgAudit addon to redirect audit entries to an independent file				1.8
+17	postgresql-17-pgextwlist	__NO_CONTROL__
+17	postgresql-17-pgfaceting	pgfaceting	fast faceting queries using an inverted index	roaringbitmap		false	0.2.0
+17	postgresql-17-pgfincore	pgfincore	examine and manage the os buffer cache				1.4
+17	postgresql-17-pgl-ddl-deploy	pgl_ddl_deploy	automated ddl deployment using pglogical				2.2
+17	postgresql-17-pglogical	pglogical_origin	Dummy extension for compatibility when upgrading from Postgres 9.4				1.0.0
+17	postgresql-17-pglogical	pglogical	PostgreSQL Logical Replication				2.4.8
+17	postgresql-17-pglogical-ticker	pglogical_ticker	Have an accurate view on pglogical replication delay	pglogical			1.4
+17	postgresql-17-pgmemcache	pgmemcache	memcached interface				2.3.0
+17	postgresql-17-pgmp	pgmp	Multiple Precision Arithmetic extension				1.1
+17	postgresql-17-pgnodemx	pg_proctab--0.0.10-compat	Provide compatibility for pg_proctab	pgnodemx			
+17	postgresql-17-pgnodemx	pgnodemx	SQL functions that allow capture of node OS metrics from PostgreSQL				2.0
+17	postgresql-17-pgnodemx	pg_proctab	Placeholder - see pg_proctab--0.0.10-compat.control				
+17	postgresql-17-pgpcre	pgpcre	Perl Compatible Regular Expression functions				1
+17	postgresql-17-pgpool2	pgpool_recovery	recovery functions for pgpool-II for V4.3				1.4
+17	postgresql-17-pgpool2	pgpool_regclass	replacement for regclass				1.0
+17	postgresql-17-pgpool2	pgpool_adm	Administrative functions for pgPool				1.6
+17	postgresql-17-pgq-node	pgq_node	Cascaded queue infrastructure	pgq		true	3.5
+17	postgresql-17-pgq3	pgq	Generic queue for PostgreSQL			true	3.5.1
+17	postgresql-17-pgrouting	__NO_CONTROL__
+17	postgresql-17-pgrouting-scripts	pgrouting	pgRouting Extension	plpgsql,postgis			4.0.2
+17	postgresql-17-pgsentinel	pgsentinel	active session history				1.5.2
+17	postgresql-17-pgsphere	pg_sphere	spherical objects with useful functions, operators and index support				1.5.2
+17	postgresql-17-pgtap	pgtap	Unit testing for PostgreSQL	plpgsql		false	1.3.4
+17	postgresql-17-pgtt	pgtt	Extension to add Global Temporary Tables feature to PostgreSQL				4.6.0
+17	postgresql-17-pgvector	vector	vector data type and ivfflat and hnsw access methods				0.8.7
+17	postgresql-17-pldebugger	pldbgapi	server-side support for debugging PL/pgSQL functions				1.1
+17	postgresql-17-pljava	pljava	PL/Java procedural language (https://tada.github.io/pljava/)				1.6.10
+17	postgresql-17-pljs	pljs	PL/JS trusted procedural language			true	1.0.5
+17	postgresql-17-pllua	hstore_pllua	Hstore transform for Lua	hstore, pllua			1.0
+17	postgresql-17-pllua	pllua	Lua as a procedural language				2.0
+17	postgresql-17-pllua	hstore_plluau	Hstore transform for untrusted Lua	hstore, plluau			1.0
+17	postgresql-17-pllua	plluau	Lua as an untrusted procedural language				2.0
+17	postgresql-17-plpgsql-check	plpgsql_check	extended check for plpgsql functions	plpgsql			2.10
+17	postgresql-17-plprofiler	plprofiler	server-side support for profiling PL/pgSQL functions				4.2
+17	postgresql-17-plproxy	plproxy	Database partitioning implemented as procedural language			true	2.12.0
+17	postgresql-17-plr	plr	load R interpreter and execute R script from within a database				8.4.8.10
+17	postgresql-17-plsh	plsh	PL/sh procedural language				2
+17	postgresql-17-pointcloud	pointcloud_postgis	integration for pointcloud LIDAR data and PostGIS geometry data	postgis, pointcloud		false	1.2.5
+17	postgresql-17-pointcloud	pointcloud	data type for lidar point clouds			true	1.2.5
+17	postgresql-17-postgis-3	__NO_CONTROL__
+17	postgresql-17-postgis-3-scripts	postgis_topology-3	PostGIS topology spatial types and functions	postgis			3.7.0
+17	postgresql-17-postgis-3-scripts	postgis_sfcgal-3	PostGIS SFCGAL functions	postgis			3.7.0
+17	postgresql-17-postgis-3-scripts	postgis_raster-3	PostGIS raster types and functions	postgis			3.7.0
+17	postgresql-17-postgis-3-scripts	postgis-3	PostGIS geometry and geography spatial types and functions				3.7.0
+17	postgresql-17-postgis-tiger-geocoder	postgis_tiger_geocoder	PostGIS tiger geocoder and reverse geocoder	postgis,fuzzystrmatch		false	2025.2
+17	postgresql-17-powa	powa	PostgreSQL Workload Analyser-core	plpgsql, pg_stat_statements, btree_gist		true	5.3.0
+17	postgresql-17-prefix	prefix	Prefix Range module for PostgreSQL				1.2.0
+17	postgresql-17-preprepare	pre_prepare	Pre Prepare your Statement server side				0.4
+17	postgresql-17-prioritize	prioritize	get and set the priority of PostgreSQL backends				1.0
+17	postgresql-17-q3c	q3c	q3c sky indexing plugin				2.0.5
+17	postgresql-17-rational	pg_rational	integer fractions				0.0.3
+17	postgresql-17-rdkit	rdkit	Cheminformatics functionality for PostgreSQL.				4.7.0
+17	postgresql-17-repack	pg_repack	Reorganize tables in PostgreSQL databases with minimal locks				1.5.3
+17	postgresql-17-repmgr	repmgr	Replication manager for PostgreSQL				5.5
+17	postgresql-17-roaringbitmap	roaringbitmap	support for Roaring Bitmaps				1.2
+17	postgresql-17-rum	rum	RUM index access method				1.3
+17	postgresql-17-semver	semver	Semantic version data type				0.42.0
+17	postgresql-17-set-user	set_user	similar to SET ROLE but with added logging				4.2.0
+17	postgresql-17-show-plans	pg_show_plans	show query plans of all currently running SQL statements				2.1
+17	postgresql-17-similarity	pg_similarity	support similarity queries				1.0
+17	postgresql-17-slony1-2	__NO_CONTROL__
+17	postgresql-17-snakeoil	pg_snakeoil	The PostgreSQL Antivirus				1
+17	postgresql-17-squeeze	pg_squeeze	A tool to remove unused space from a relation.				1.9
+17	postgresql-17-statviz	pg_statviz	stats visualization and time series analysis				1.2
+17	postgresql-17-tablelog	table_log	Module to log changes on tables				0.6.1
+17	postgresql-17-tdigest	tdigest	Provides tdigest aggregate function.				1.4.7
+17	postgresql-17-tds-fdw	tds_fdw	Foreign data wrapper for querying a TDS database (Sybase or Microsoft SQL Server)				2.0.5
+17	postgresql-17-timescaledb	timescaledb	Enables scalable inserts and complex queries for time-series data		true		2.31.0
+17	postgresql-17-timestamp9	timestamp9	timestamp nanosecond resolution				1.4.0
+17	postgresql-17-toastinfo	toastinfo	show details on toasted datums				1
+17	postgresql-17-unit	unit	SI units extension	plpgsql			7
+17	postgresql-17-wal2json	__NO_CONTROL__
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	pgagent	pgagent	A PostgreSQL job scheduler			false	4.2
+18	postgresql-18	sslinfo	information about SSL certificates				1.2
+18	postgresql-18	intarray	functions, operators, and index support for 1-D arrays of integers		true		1.5
+18	postgresql-18	bloom	bloom access method - signature file based index				1.0
+18	postgresql-18	hstore	data type for storing sets of (key, value) pairs		true		1.8
+18	postgresql-18	tablefunc	functions that manipulate whole tables, including crosstab		true		1.0
+18	postgresql-18	pg_prewarm	prewarm relation data				1.2
+18	postgresql-18	btree_gin	support for indexing common datatypes in GIN		true		1.3
+18	postgresql-18	postgres_fdw	foreign-data wrapper for remote PostgreSQL servers				1.2
+18	postgresql-18	tsm_system_time	TABLESAMPLE method which accepts time in milliseconds as a limit		true		1.0
+18	postgresql-18	earthdistance	calculate great-circle distances on the surface of the Earth	cube			1.2
+18	postgresql-18	pg_stat_statements	track planning and execution statistics of all SQL statements executed				1.12
+18	postgresql-18	intagg	integer aggregator and enumerator (obsolete)				1.1
+18	postgresql-18	dblink	connect to other PostgreSQL databases from within a database				1.2
+18	postgresql-18	pg_freespacemap	examine the free space map (FSM)				1.3
+18	postgresql-18	pg_logicalinspect	functions to inspect logical decoding components				1.0
+18	postgresql-18	pg_walinspect	functions to inspect contents of PostgreSQL Write-Ahead Log				1.1
+18	postgresql-18	isn	data types for international product numbering standards		true		1.3
+18	postgresql-18	btree_gist	support for indexing common datatypes in GiST		true		1.8
+18	postgresql-18	autoinc	functions for autoincrementing fields				1.0
+18	postgresql-18	pg_visibility	examine the visibility map (VM) and page-level visibility info				1.2
+18	postgresql-18	file_fdw	foreign-data wrapper for flat file access				1.0
+18	postgresql-18	pgstattuple	show tuple-level statistics				1.5
+18	postgresql-18	ltree	data type for hierarchical tree-like structures		true		1.3
+18	postgresql-18	lo	Large Object maintenance		true		1.2
+18	postgresql-18	tsm_system_rows	TABLESAMPLE method which accepts number of rows as a limit		true		1.0
+18	postgresql-18	fuzzystrmatch	determine similarities and distance between strings		true		1.2
+18	postgresql-18	tcn	Triggered change notifications		true		1.0
+18	postgresql-18	dict_xsyn	text search dictionary template for extended synonym processing				1.0
+18	postgresql-18	moddatetime	functions for tracking last modification time				1.0
+18	postgresql-18	pg_buffercache	examine the shared buffer cache				1.6
+18	postgresql-18	unaccent	text search dictionary that removes accents		true		1.1
+18	postgresql-18	insert_username	functions for tracking who changed a table				1.0
+18	postgresql-18	plpgsql	PL/pgSQL procedural language		true	true	1.0
+18	postgresql-18	pageinspect	inspect the contents of database pages at a low level				1.13
+18	postgresql-18	pg_surgery	extension to perform surgery on a damaged relation				1.0
+18	postgresql-18	pgrowlocks	show row-level locking information				1.2
+18	postgresql-18	pgcrypto	cryptographic functions		true		1.4
+18	postgresql-18	citext	data type for case-insensitive character strings		true		1.8
+18	postgresql-18	uuid-ossp	generate universally unique identifiers (UUIDs)		true		1.1
+18	postgresql-18	pg_trgm	text similarity measurement and index searching based on trigrams		true		1.6
+18	postgresql-18	amcheck	functions for verifying relation integrity				1.5
+18	postgresql-18	dict_int	text search dictionary template for integers		true		1.0
+18	postgresql-18	seg	data type for representing line segments or floating-point intervals		true		1.4
+18	postgresql-18	xml2	XPath querying and XSLT				1.2
+18	postgresql-18	cube	data type for multidimensional cubes		true		1.5
+18	postgresql-18	refint	functions for implementing referential integrity (obsolete)				1.0
+18	postgresql-18-address-standardizer	address_standardizer	Parse addresses into constituent elements (street name, number, etc)				3.7
+18	postgresql-18-address-standardizer	address_standardizer_data_us	Address Standardizer US dataset example				3.7
+18	postgresql-18-age	age	AGE database extension				1.8.0
+18	postgresql-18-asn1oid	asn1oid	asn1oid extension				1
+18	postgresql-18-auto-failover	pgautofailover	pg_auto_failover	btree_gist			2.2
+18	postgresql-18-bgw-replstatus	__NO_CONTROL__
+18	postgresql-18-credcheck	credcheck	credcheck - postgresql plain text credential checker				6.0.0
+18	postgresql-18-cron	pg_cron	Job scheduler for PostgreSQL				1.6
+18	postgresql-18-db2fce	db2fce	DB2 compatibility environment for PostgreSQL				0.0.17
+18	postgresql-18-debversion	debversion	Debian version number data type				1.2
+18	postgresql-18-decoderbufs	decoderbufs	Logical decoding plugin that delivers WAL stream changes using a Protocol Buffer format				0.1.0
+18	postgresql-18-dirtyread	pg_dirtyread	Read dead but unvacuumed rows from table				2
+18	postgresql-18-documentdb	documentdb_extended_rum	DocumentDB Extended RUM index access method				1.0-0
+18	postgresql-18-documentdb	documentdb_core	Core API surface for DocumentDB on PostgreSQL			true	1.0-0
+18	postgresql-18-documentdb	documentdb	API surface for DocumentDB for PostgreSQL	documentdb_core, pg_cron, tsm_system_rows, vector, postgis		true	1.0-0
+18	postgresql-18-documentdb	documentdb_distributed	Multi-Node API surface for DocumentDB	citus, documentdb_core, documentdb		true	1.0-0
+18	postgresql-18-extra-window-functions	extra_window_functions	Extra window functions for PostgreSQL				2.0
+18	postgresql-18-first-last-agg	first_last_agg	first() and last() aggregate functions				0.1.4
+18	postgresql-18-h3	h3	H3 bindings for PostgreSQL				4.2.3
+18	postgresql-18-h3	h3_postgis	H3 PostGIS integration	h3, postgis, postgis_raster			4.2.3
+18	postgresql-18-hll	hll	type for storing hyperloglog data				2.21
+18	postgresql-18-http	http	HTTP client for PostgreSQL, allows web page retrieval inside the database.				1.7
+18	postgresql-18-hypopg	hypopg	Hypothetical indexes for PostgreSQL				1.4.5
+18	postgresql-18-icu-ext	icu_ext	Access ICU functions				1.11
+18	postgresql-18-ip4r	ip4r	data types and operators for storing, indexing, and manipulating IPv4 and IPv6 addresses and ranges				2.4
+18	postgresql-18-jsquery	jsquery	data type for jsonb inspection				1.1
+18	postgresql-18-londiste-sql	londiste	Londiste replication support code	pgq_node		true	3.8
+18	postgresql-18-mimeo	mimeo	Extension for specialized, per-table replication between PostgreSQL instances	dblink			1.5.1
+18	postgresql-18-mobilitydb	mobilitydb_datagen	MobilityDB random data generator functions	mobilitydb			1.3.1
+18	postgresql-18-mobilitydb	mobilitydb	MobilityDB geospatial trajectory data management & analysis platform	postgis			1.3.1
+18	postgresql-18-mongo-fdw	mongo_fdw	foreign data wrapper for MongoDB access				1.1
+18	postgresql-18-mysql-fdw	mysql_fdw	Foreign data wrapper for querying a MySQL server				1.2
+18	postgresql-18-numeral	numeral	numeral datatypes extension				1
+18	postgresql-18-ogr-fdw	ogr_fdw	foreign-data wrapper for GIS data access				1.1
+18	postgresql-18-oracle-fdw	oracle_fdw	foreign data wrapper for Oracle access				1.2
+18	postgresql-18-orafce	orafce	Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS				4.17
+18	postgresql-18-partman	pg_partman	Extension to manage partitioned tables by time or ID	plpgsql		false	5.5.0
+18	postgresql-18-periods	periods	Provide Standard SQL functionality for PERIODs and SYSTEM VERSIONING	btree_gist			1.2
+18	postgresql-18-pg-background	pg_background	Run SQL queries in the background				2.0
+18	postgresql-18-pg-catcheck	__NO_CONTROL__
+18	postgresql-18-pg-checksums	__NO_CONTROL__
+18	postgresql-18-pg-crash	__NO_CONTROL__
+18	postgresql-18-pg-csv	pg_csv					1.0.1
+18	postgresql-18-pg-failover-slots	__NO_CONTROL__
+18	postgresql-18-pg-gvm	pg-gvm	Functions for GVMd				22.6
+18	postgresql-18-pg-hint-plan	pg_hint_plan	optimizer hints for PostgreSQL				1.8.1
+18	postgresql-18-pg-ivm	pg_ivm	incremental view maintenance on PostgreSQL				1.17
+18	postgresql-18-pg-permissions	pg_permissions	view object permissions and compare them with the desired state			false	1.4
+18	postgresql-18-pg-pwhash	pg_pwhash	pg_pwhash - An extension for advanced password hashing				1.0
+18	postgresql-18-pg-qualstats	pg_qualstats	An extension collecting statistics about quals				2.1.4
+18	postgresql-18-pg-rewrite	pg_rewrite	Tool for maintenance that requires table rewriting.				2.2
+18	postgresql-18-pg-rrule	pg_rrule	RRULE field type for PostgreSQL				0.3.0
+18	postgresql-18-pg-stat-kcache	pg_stat_kcache	Kernel statistics gathering	pg_stat_statements			2.3.2
+18	postgresql-18-pg-stat-plans	pg_stat_plans	track per-plan call counts, execution times and EXPLAIN texts				2.1
+18	postgresql-18-pg-stat-tcpinfo	pg_stat_tcpinfo	Provides pg_stat_tcpinfo to show detailed TCP connection info for sockets owned by the server''s OS user on Linux.				1.1
+18	postgresql-18-pg-textsearch	pg_textsearch	Full-text search with BM25 ranking				1.5.1
+18	postgresql-18-pg-track-settings	pg_track_settings	Track settings changes			false	2.1.2
+18	postgresql-18-pg-uuidv7	pg_uuidv7	pg_uuidv7: create UUIDv7 values in postgres				1.7
+18	postgresql-18-pg-wait-sampling	pg_wait_sampling	sampling based statistics of wait events				1.1
+18	postgresql-18-pgaudit	pgaudit	provides auditing functionality				18.0
+18	postgresql-18-pgauditlogtofile	pgauditlogtofile	pgAudit addon to redirect audit entries to an independent file				1.8
+18	postgresql-18-pgextwlist	__NO_CONTROL__
+18	postgresql-18-pgfaceting	pgfaceting	fast faceting queries using an inverted index	roaringbitmap		false	0.2.0
+18	postgresql-18-pgfincore	pgfincore	examine and manage the os buffer cache				1.4
+18	postgresql-18-pglogical	pglogical_origin	Dummy extension for compatibility when upgrading from Postgres 9.4				1.0.0
+18	postgresql-18-pglogical	pglogical	PostgreSQL Logical Replication				2.4.8
+18	postgresql-18-pgmemcache	pgmemcache	memcached interface				2.3.0
+18	postgresql-18-pgmp	pgmp	Multiple Precision Arithmetic extension				1.1
+18	postgresql-18-pgnodemx	pg_proctab--0.0.10-compat	Provide compatibility for pg_proctab	pgnodemx			
+18	postgresql-18-pgnodemx	pgnodemx	SQL functions that allow capture of node OS metrics from PostgreSQL				2.0
+18	postgresql-18-pgnodemx	pg_proctab	Placeholder - see pg_proctab--0.0.10-compat.control				
+18	postgresql-18-pgpcre	pgpcre	Perl Compatible Regular Expression functions				1
+18	postgresql-18-pgpool2	pgpool_recovery	recovery functions for pgpool-II for V4.3				1.4
+18	postgresql-18-pgpool2	pgpool_regclass	replacement for regclass				1.0
+18	postgresql-18-pgpool2	pgpool_adm	Administrative functions for pgPool				1.6
+18	postgresql-18-pgq-node	pgq_node	Cascaded queue infrastructure	pgq		true	3.5
+18	postgresql-18-pgq3	pgq	Generic queue for PostgreSQL			true	3.5.1
+18	postgresql-18-pgrouting	__NO_CONTROL__
+18	postgresql-18-pgrouting-scripts	pgrouting	pgRouting Extension	plpgsql,postgis			4.0.2
+18	postgresql-18-pgsentinel	pgsentinel	active session history				1.5.2
+18	postgresql-18-pgsphere	pg_sphere	spherical objects with useful functions, operators and index support				1.5.2
+18	postgresql-18-pgtap	pgtap	Unit testing for PostgreSQL	plpgsql		false	1.3.4
+18	postgresql-18-pgtt	pgtt	Extension to add Global Temporary Tables feature to PostgreSQL				4.6.0
+18	postgresql-18-pgvector	vector	vector data type and ivfflat and hnsw access methods				0.8.7
+18	postgresql-18-pldebugger	pldbgapi	server-side support for debugging PL/pgSQL functions				1.1
+18	postgresql-18-pljava	pljava	PL/Java procedural language (https://tada.github.io/pljava/)				1.6.10
+18	postgresql-18-pljs	pljs	PL/JS trusted procedural language			true	1.0.5
+18	postgresql-18-pllua	hstore_pllua	Hstore transform for Lua	hstore, pllua			1.0
+18	postgresql-18-pllua	pllua	Lua as a procedural language				2.0
+18	postgresql-18-pllua	hstore_plluau	Hstore transform for untrusted Lua	hstore, plluau			1.0
+18	postgresql-18-pllua	plluau	Lua as an untrusted procedural language				2.0
+18	postgresql-18-plpgsql-check	plpgsql_check	extended check for plpgsql functions	plpgsql			2.10
+18	postgresql-18-plprofiler	plprofiler	server-side support for profiling PL/pgSQL functions				4.2
+18	postgresql-18-plproxy	plproxy	Database partitioning implemented as procedural language			true	2.12.0
+18	postgresql-18-plr	plr	load R interpreter and execute R script from within a database				8.4.8.10
+18	postgresql-18-plsh	plsh	PL/sh procedural language				2
+18	postgresql-18-pointcloud	pointcloud_postgis	integration for pointcloud LIDAR data and PostGIS geometry data	postgis, pointcloud		false	1.2.5
+18	postgresql-18-pointcloud	pointcloud	data type for lidar point clouds			true	1.2.5
+18	postgresql-18-postgis-3	__NO_CONTROL__
+18	postgresql-18-postgis-3-scripts	postgis_topology-3	PostGIS topology spatial types and functions	postgis			3.7.0
+18	postgresql-18-postgis-3-scripts	postgis_sfcgal-3	PostGIS SFCGAL functions	postgis			3.7.0
+18	postgresql-18-postgis-3-scripts	postgis_raster-3	PostGIS raster types and functions	postgis			3.7.0
+18	postgresql-18-postgis-3-scripts	postgis-3	PostGIS geometry and geography spatial types and functions				3.7.0
+18	postgresql-18-postgis-tiger-geocoder	postgis_tiger_geocoder	PostGIS tiger geocoder and reverse geocoder	postgis,fuzzystrmatch		false	2025.2
+18	postgresql-18-powa	powa	PostgreSQL Workload Analyser-core	plpgsql, pg_stat_statements, btree_gist		true	5.3.0
+18	postgresql-18-prefix	prefix	Prefix Range module for PostgreSQL				1.2.0
+18	postgresql-18-preprepare	pre_prepare	Pre Prepare your Statement server side				0.4
+18	postgresql-18-prioritize	prioritize	get and set the priority of PostgreSQL backends				1.0
+18	postgresql-18-q3c	q3c	q3c sky indexing plugin				2.0.5
+18	postgresql-18-rational	pg_rational	integer fractions				0.0.3
+18	postgresql-18-rdkit	rdkit	Cheminformatics functionality for PostgreSQL.				4.7.0
+18	postgresql-18-repack	pg_repack	Reorganize tables in PostgreSQL databases with minimal locks				1.5.3
+18	postgresql-18-repmgr	repmgr	Replication manager for PostgreSQL				5.5
+18	postgresql-18-roaringbitmap	roaringbitmap	support for Roaring Bitmaps				1.2
+18	postgresql-18-rum	rum	RUM index access method				1.3
+18	postgresql-18-semver	semver	Semantic version data type				0.42.0
+18	postgresql-18-set-user	set_user	similar to SET ROLE but with added logging				4.2.0
+18	postgresql-18-show-plans	pg_show_plans	show query plans of all currently running SQL statements				2.1
+18	postgresql-18-similarity	pg_similarity	support similarity queries				1.0
+18	postgresql-18-snakeoil	pg_snakeoil	The PostgreSQL Antivirus				1
+18	postgresql-18-squeeze	pg_squeeze	A tool to remove unused space from a relation.				1.9
+18	postgresql-18-stat-log	pg_stat_log	cumulative statistics about log messages				0.3
+18	postgresql-18-statviz	pg_statviz	stats visualization and time series analysis				1.2
+18	postgresql-18-tablelog	table_log	Module to log changes on tables				0.6.1
+18	postgresql-18-tdigest	tdigest	Provides tdigest aggregate function.				1.4.7
+18	postgresql-18-tds-fdw	tds_fdw	Foreign data wrapper for querying a TDS database (Sybase or Microsoft SQL Server)				2.0.5
+18	postgresql-18-timescaledb	timescaledb	Enables scalable inserts and complex queries for time-series data		true		2.31.0
+18	postgresql-18-timestamp9	timestamp9	timestamp nanosecond resolution				1.4.0
+18	postgresql-18-toastinfo	toastinfo	show details on toasted datums				1
+18	postgresql-18-unit	unit	SI units extension	plpgsql			7
+18	postgresql-18-wal2json	__NO_CONTROL__

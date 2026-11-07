@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime data, not source -- real bcrypt/Fernet-encrypted data in a dev
+# instance. Never belongs in version control regardless of environment.
+pgmon_users.db
+
+# Build output, not source.
+*.tar
+dist/
+packaging/windows/stage/
+packaging/rpm/vendor-wheels/

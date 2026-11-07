@@ -1,0 +1,30 @@
+[Unit]
+Description=pgmon - AI Postgres Monitor
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pgmon
+Group=pgmon
+WorkingDirectory=/opt/pgmon
+EnvironmentFile=/etc/pgmon/pgmon.env
+# --workers 1, deliberately: app/backup.py (and migration.py,
+# ora2pg_migration.py, repack.py, partitioning.py) track running jobs in a
+# plain in-process dict, not a shared store -- with more than one worker,
+# whichever one didn't handle the job-creating POST 404s on every status
+# poll that happens to land on it, rendering as "Backup: undefined (NaNh
+# NaNm elapsed)" in the UI. Confirmed as the actual cause, not guessed.
+# Single-process matches the Kubernetes deployment's own behavior (plain
+# uvicorn, no multi-worker) -- fine here too since these endpoints are
+# I/O-bound (async), not CPU-bound.
+ExecStart=/opt/pgmon/venv/bin/gunicorn app.main:app --worker-class uvicorn.workers.UvicornWorker --workers 1 --bind 127.0.0.1:8000 --timeout 120 --access-logfile - --error-logfile -
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/pgmon
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

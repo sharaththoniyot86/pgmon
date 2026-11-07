@@ -1,0 +1,8739 @@
+{
+ "address_standardizer": {
+  "comment": "Parse addresses into constituent elements (street name, number, etc)",
+  "contrib": false,
+  "deb": {
+   "by_major": {
+    "13": "postgresql-13-postgis-3-scripts",
+    "14": "postgresql-14-address-standardizer",
+    "15": "postgresql-15-address-standardizer",
+    "16": "postgresql-16-address-standardizer",
+    "17": "postgresql-17-address-standardizer",
+    "18": "postgresql-18-address-standardizer"
+   },
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  "default_version": "3.7",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "address_standardizer_data_us": {
+  "comment": "Address Standardizer US dataset example",
+  "contrib": false,
+  "deb": {
+   "by_major": {
+    "13": "postgresql-13-postgis-3-scripts",
+    "14": "postgresql-14-address-standardizer",
+    "15": "postgresql-15-address-standardizer",
+    "16": "postgresql-16-address-standardizer",
+    "17": "postgresql-17-address-standardizer",
+    "18": "postgresql-18-address-standardizer"
+   },
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ]
+  },
+  "default_version": "3.7",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "adminpack": {
+  "comment": "administrative functions for PostgreSQL",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "2.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "age": {
+  "comment": "AGE database extension",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-age"
+  },
+  "default_version": "1.8.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "age_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "age_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "amcheck": {
+  "comment": "functions for verifying relation integrity",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "anon": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "postgresql_anonymizer_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "postgresql_anonymizer_{v}"
+   }
+  }
+ },
+ "asn1oid": {
+  "comment": "asn1oid extension",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-asn1oid"
+  },
+  "default_version": "1",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "autoinc": {
+  "comment": "functions for autoincrementing fields",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "biscuit": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     16,
+     17,
+     18
+    ],
+    "package": "biscuit_{v}"
+   },
+   "el9": {
+    "majors": [
+     16,
+     17,
+     18
+    ],
+    "package": "biscuit_{v}"
+   }
+  }
+ },
+ "bloom": {
+  "comment": "bloom access method - signature file based index",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "bm25_native": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     17,
+     18
+    ],
+    "package": "pgx-bm25_{v}"
+   },
+   "el9": {
+    "majors": [
+     17,
+     18
+    ],
+    "package": "pgx-bm25_{v}"
+   }
+  }
+ },
+ "bool_plperl": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   }
+  }
+ },
+ "bool_plperlu": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   }
+  }
+ },
+ "btree_gin": {
+  "comment": "support for indexing common datatypes in GIN",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "btree_gist": {
+  "comment": "support for indexing common datatypes in GiST",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.8",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "citext": {
+  "comment": "data type for case-insensitive character strings",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.8",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "citus": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "citus_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "citus_{v}"
+   }
+  }
+ },
+ "citus_columnar": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "citus_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "citus_{v}"
+   }
+  }
+ },
+ "count_distinct": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "count_distinct_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "count_distinct_{v}"
+   }
+  }
+ },
+ "credcheck": {
+  "comment": "credcheck - postgresql plain text credential checker",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-credcheck"
+  },
+  "default_version": "6.0.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "credcheck_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "credcheck_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "cube": {
+  "comment": "data type for multidimensional cubes",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "datasketches": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "datasketches_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "datasketches_{v}"
+   }
+  }
+ },
+ "db2fce": {
+  "comment": "DB2 compatibility environment for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-db2fce"
+  },
+  "default_version": "0.0.17",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "dblink": {
+  "comment": "connect to other PostgreSQL databases from within a database",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "dbt2": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "dbt2-pg{v}-extensions"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "dbt2-pg{v}-extensions"
+   }
+  }
+ },
+ "ddlx": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "ddlx_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "ddlx_{v}"
+   }
+  }
+ },
+ "debversion": {
+  "comment": "Debian version number data type",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-debversion"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "decoderbufs": {
+  "comment": "Logical decoding plugin that delivers WAL stream changes using a Protocol Buffer format",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-decoderbufs"
+  },
+  "default_version": "0.1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgres-decoderbufs_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgres-decoderbufs_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "dict_int": {
+  "comment": "text search dictionary template for integers",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "dict_xsyn": {
+  "comment": "text search dictionary template for extended synonym processing",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "documentdb": {
+  "comment": "API surface for DocumentDB for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-documentdb"
+  },
+  "default_version": "1.0-0",
+  "requires": [
+   "documentdb_core",
+   "pg_cron",
+   "tsm_system_rows",
+   "vector",
+   "postgis"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "documentdb_core": {
+  "comment": "Core API surface for DocumentDB on PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-documentdb"
+  },
+  "default_version": "1.0-0",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "documentdb_distributed": {
+  "comment": "Multi-Node API surface for DocumentDB",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-documentdb"
+  },
+  "default_version": "1.0-0",
+  "requires": [
+   "citus",
+   "documentdb_core",
+   "documentdb"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "documentdb_extended_rum": {
+  "comment": "DocumentDB Extended RUM index access method",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-documentdb"
+  },
+  "default_version": "1.0-0",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "earthdistance": {
+  "comment": "calculate great-circle distances on the surface of the Earth",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [
+   "cube"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "emaj": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "e-maj_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "e-maj_{v}"
+   }
+  }
+ },
+ "extra_window_functions": {
+  "comment": "Extra window functions for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-extra-window-functions"
+  },
+  "default_version": "2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "extra_window_functions_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "extra_window_functions_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "faker": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql_faker_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql_faker_{v}"
+   }
+  }
+ },
+ "file_fdw": {
+  "comment": "foreign-data wrapper for flat file access",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "firebird_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14
+    ],
+    "package": "firebird_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "firebird_fdw_{v}"
+   }
+  }
+ },
+ "first_last_agg": {
+  "comment": "first() and last() aggregate functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-first-last-agg"
+  },
+  "default_version": "0.1.4",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "fuzzystrmatch": {
+  "comment": "determine similarities and distance between strings",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "geoip": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15
+    ],
+    "package": "geoip_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15
+    ],
+    "package": "geoip_{v}"
+   }
+  }
+ },
+ "gzip": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsql_gzip_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsql_gzip_{v}"
+   }
+  }
+ },
+ "h3": {
+  "comment": "H3 bindings for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-h3"
+  },
+  "default_version": "4.2.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "h3-pg_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "h3-pg_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "h3_postgis": {
+  "comment": "H3 PostGIS integration",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-h3"
+  },
+  "default_version": "4.2.3",
+  "requires": [
+   "h3",
+   "postgis",
+   "postgis_raster"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "h3-pg_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "h3-pg_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "hdfs_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "hdfs_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "hdfs_fdw_{v}"
+   }
+  }
+ },
+ "hll": {
+  "comment": "type for storing hyperloglog data",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-hll"
+  },
+  "default_version": "2.21",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "hll_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "hll_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "hstore": {
+  "comment": "data type for storing sets of (key, value) pairs",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.8",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "hstore_pllua": {
+  "comment": "Hstore transform for Lua",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pllua"
+  },
+  "default_version": "1.0",
+  "requires": [
+   "hstore",
+   "pllua"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "hstore_plluau": {
+  "comment": "Hstore transform for untrusted Lua",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pllua"
+  },
+  "default_version": "1.0",
+  "requires": [
+   "hstore",
+   "plluau"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "hstore_plperl": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  }
+ },
+ "hstore_plperlu": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  }
+ },
+ "hstore_plpython3u": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plpython3-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   }
+  }
+ },
+ "http": {
+  "comment": "HTTP client for PostgreSQL, allows web page retrieval inside the database.",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-http"
+  },
+  "default_version": "1.7",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsql_http_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsql_http_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "hypopg": {
+  "comment": "Hypothetical indexes for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-hypopg"
+  },
+  "default_version": "1.4.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "hypopg_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "hypopg_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "icu_ext": {
+  "comment": "Access ICU functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-icu-ext"
+  },
+  "default_version": "1.11",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "icu_ext_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "icu_ext_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "insert_username": {
+  "comment": "functions for tracking who changed a table",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "intagg": {
+  "comment": "integer aggregator and enumerator (obsolete)",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "intarray": {
+  "comment": "functions, operators, and index support for 1-D arrays of integers",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "ip4r": {
+  "comment": "data types and operators for storing, indexing, and manipulating IPv4 and IPv6 addresses and ranges",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-ip4r"
+  },
+  "default_version": "2.4",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "ip4r_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "ip4r_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "isn": {
+  "comment": "data types for international product numbering standards",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "jdbc_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "jdbc_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     18
+    ],
+    "package": "jdbc_fdw_{v}"
+   }
+  }
+ },
+ "jsonb_plperl": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  }
+ },
+ "jsonb_plperlu": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  }
+ },
+ "jsonb_plpython3u": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plpython3-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   }
+  }
+ },
+ "jsquery": {
+  "comment": "data type for jsonb inspection",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-jsquery"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "jsquery_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "jsquery_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "lo": {
+  "comment": "Large Object maintenance",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "logerrors": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "logerrors_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "logerrors_{v}"
+   }
+  }
+ },
+ "login_hook": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "login_hook_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "login_hook_{v}"
+   }
+  }
+ },
+ "londiste": {
+  "comment": "Londiste replication support code",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-londiste-sql"
+  },
+  "default_version": "3.8",
+  "requires": [
+   "pgq_node"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "ltree": {
+  "comment": "data type for hierarchical tree-like structures",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "ltree_plpython3u": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plpython3-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   }
+  }
+ },
+ "mimeo": {
+  "comment": "Extension for specialized, per-table replication between PostgreSQL instances",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-mimeo"
+  },
+  "default_version": "1.5.1",
+  "requires": [
+   "dblink"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "mobilitydb": {
+  "comment": "MobilityDB geospatial trajectory data management & analysis platform",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-mobilitydb"
+  },
+  "default_version": "1.3.1",
+  "requires": [
+   "postgis"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "mobilitydb_datagen": {
+  "comment": "MobilityDB random data generator functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-mobilitydb"
+  },
+  "default_version": "1.3.1",
+  "requires": [
+   "mobilitydb"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "moddatetime": {
+  "comment": "functions for tracking last modification time",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "mongo_fdw": {
+  "comment": "foreign data wrapper for MongoDB access",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-mongo-fdw"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "mongo_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "mongo_fdw_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "multicorn": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "multicorn2_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "multicorn2_{v}"
+   }
+  }
+ },
+ "mysql_fdw": {
+  "comment": "Foreign data wrapper for querying a MySQL server",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-mysql-fdw"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "mysql_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "mysql_fdw_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "mysqlcompat": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15
+    ],
+    "package": "mysqlcompat_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15
+    ],
+    "package": "mysqlcompat_{v}"
+   }
+  }
+ },
+ "nominatim_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "nominatim_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "nominatim_fdw_{v}"
+   }
+  }
+ },
+ "numeral": {
+  "comment": "numeral datatypes extension",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-numeral"
+  },
+  "default_version": "1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql-numeral_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql-numeral_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "odbc_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "odbc_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "odbc_fdw_{v}"
+   }
+  }
+ },
+ "ogr_fdw": {
+  "comment": "foreign-data wrapper for GIS data access",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-ogr-fdw"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "ogr_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "ogr_fdw_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "old_snapshot": {
+  "comment": "utilities in support of old_snapshot_threshold",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "omnidb_plpgsql_debugger": {
+  "comment": "PostgreSQL extension for enabling PL/pgSQL debugger in OmniDB",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17
+   ],
+   "package": "postgresql-{v}-omnidb"
+  },
+  "default_version": "1.0.0",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "oracle_fdw": {
+  "comment": "foreign data wrapper for Oracle access",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-oracle-fdw"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "orafce": {
+  "comment": "Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-orafce"
+  },
+  "default_version": "4.17",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "orafce_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "orafce_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "osm_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14
+    ],
+    "package": "osm_fdw_{v}"
+   }
+  }
+ },
+ "pageinspect": {
+  "comment": "inspect the contents of database pages at a low level",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.13",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "passwordpolicy": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "passwordpolicy_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "passwordpolicy_{v}"
+   }
+  }
+ },
+ "periods": {
+  "comment": "Provide Standard SQL functionality for PERIODs and SYSTEM VERSIONING",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-periods"
+  },
+  "default_version": "1.2",
+  "requires": [
+   "btree_gist"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "periods_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "periods_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg-gvm": {
+  "comment": "Functions for GVMd",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-gvm"
+  },
+  "default_version": "22.6",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_auth_mon": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_auth_mon_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_auth_mon_{v}"
+   }
+  }
+ },
+ "pg_background": {
+  "comment": "Run SQL queries in the background",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-background"
+  },
+  "default_version": "2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_background_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_background_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_bigm": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_bigm_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_bigm_{v}"
+   }
+  }
+ },
+ "pg_buffercache": {
+  "comment": "examine the shared buffer cache",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.6",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_bulkload": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     18
+    ],
+    "package": "pg_bulkload_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_bulkload_{v}"
+   }
+  }
+ },
+ "pg_cron": {
+  "comment": "Job scheduler for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-cron"
+  },
+  "default_version": "1.6",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_cron_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_cron_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_csv": {
+  "comment": "",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-csv"
+  },
+  "default_version": "1.0.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_csv_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_csv_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_curl": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_curl_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_curl_{v}"
+   }
+  }
+ },
+ "pg_dbms_errlog": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_errlog_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_errlog_{v}"
+   }
+  }
+ },
+ "pg_dbms_job": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_job_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_job_{v}"
+   }
+  }
+ },
+ "pg_dbms_lock": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_lock_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_lock_{v}"
+   }
+  }
+ },
+ "pg_dbms_metadata": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_metadata_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dbms_metadata_{v}"
+   }
+  }
+ },
+ "pg_dirtyread": {
+  "comment": "Read dead but unvacuumed rows from table",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-dirtyread"
+  },
+  "default_version": "2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dirtyread_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_dirtyread_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_extra_time": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_extra_time_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_extra_time_{v}"
+   }
+  }
+ },
+ "pg_fact_loader": {
+  "comment": "build fact tables with Postgres",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17
+   ],
+   "package": "postgresql-{v}-pg-fact-loader"
+  },
+  "default_version": "2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_fact_loader_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_fact_loader_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_fkpart": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_fkpart_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_fkpart_{v}"
+   }
+  }
+ },
+ "pg_freespacemap": {
+  "comment": "examine the free space map (FSM)",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_hint_plan": {
+  "comment": "optimizer hints for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-hint-plan"
+  },
+  "default_version": "1.8.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_hint_plan_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_hint_plan_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_incremental": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     16,
+     17,
+     18
+    ],
+    "package": "pg_incremental_{v}"
+   },
+   "el9": {
+    "majors": [
+     16,
+     17,
+     18
+    ],
+    "package": "pg_incremental_{v}"
+   }
+  }
+ },
+ "pg_ivm": {
+  "comment": "incremental view maintenance on PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-ivm"
+  },
+  "default_version": "1.17",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_ivm_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_ivm_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_jobmon": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_jobmon_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_jobmon_{v}"
+   }
+  }
+ },
+ "pg_kpart": {
+  "contrib": false,
+  "rpm": {
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_kpart_{v}"
+   }
+  }
+ },
+ "pg_logicalinspect": {
+  "comment": "functions to inspect logical decoding components",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_net": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "pg_net_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "pg_net_{v}"
+   }
+  }
+ },
+ "pg_parquet": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_parquet_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_parquet_{v}"
+   }
+  }
+ },
+ "pg_partman": {
+  "comment": "Extension to manage partitioned tables by time or ID",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-partman"
+  },
+  "default_version": "5.5.0",
+  "requires": [
+   "plpgsql"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_partman_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_partman_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "pg_permissions": {
+  "comment": "view object permissions and compare them with the desired state",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-permissions"
+  },
+  "default_version": "1.4",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_permissions_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_permissions_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "pg_prewarm": {
+  "comment": "prewarm relation data",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_proctab": {
+  "comment": "Placeholder - see pg_proctab--0.0.10-compat.control",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgnodemx"
+  },
+  "default_version": "",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgnodemx_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgnodemx_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_profile": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_profile_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_profile_{v}"
+   }
+  }
+ },
+ "pg_pwhash": {
+  "comment": "pg_pwhash - An extension for advanced password hashing",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-pwhash"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_pwhash_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_pwhash_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_qualstats": {
+  "comment": "An extension collecting statistics about quals",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-qualstats"
+  },
+  "default_version": "2.1.4",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_qualstats_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_qualstats_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_rational": {
+  "comment": "integer fractions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-rational"
+  },
+  "default_version": "0.0.3",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_readme": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_readme_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_readme_{v}"
+   }
+  }
+ },
+ "pg_readonly": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_readonly_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_readonly_{v}"
+   }
+  }
+ },
+ "pg_repack": {
+  "comment": "Reorganize tables in PostgreSQL databases with minimal locks",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-repack"
+  },
+  "default_version": "1.5.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_repack_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_repack_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_rewrite": {
+  "comment": "Tool for maintenance that requires table rewriting.",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-rewrite"
+  },
+  "default_version": "2.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_rewrite_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_rewrite_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_rrule": {
+  "comment": "RRULE field type for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-rrule"
+  },
+  "default_version": "0.3.0",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_show_plans": {
+  "comment": "show query plans of all currently running SQL statements",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-show-plans"
+  },
+  "default_version": "2.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_show_plans_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_show_plans_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_similarity": {
+  "comment": "support similarity queries",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-similarity"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     18
+    ],
+    "package": "pg_similarity_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_similarity_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_snakeoil": {
+  "comment": "The PostgreSQL Antivirus",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-snakeoil"
+  },
+  "default_version": "1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_snakeoil_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_snakeoil_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_sphere": {
+  "comment": "spherical objects with useful functions, operators and index support",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgsphere"
+  },
+  "default_version": "1.5.2",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_squeeze": {
+  "comment": "A tool to remove unused space from a relation.",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-squeeze"
+  },
+  "default_version": "1.9",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_squeeze_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_squeeze_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_stat_kcache": {
+  "comment": "Kernel statistics gathering",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-stat-kcache"
+  },
+  "default_version": "2.3.2",
+  "requires": [
+   "pg_stat_statements"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_kcache_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_kcache_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_stat_log": {
+  "comment": "cumulative statistics about log messages",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    18
+   ],
+   "package": "postgresql-{v}-stat-log"
+  },
+  "default_version": "0.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     18
+    ],
+    "package": "pg_stat_log_{v}"
+   },
+   "el9": {
+    "majors": [
+     18
+    ],
+    "package": "pg_stat_log_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_stat_monitor": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_monitor_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_monitor_{v}"
+   }
+  }
+ },
+ "pg_stat_plans": {
+  "comment": "track per-plan call counts, execution times and EXPLAIN texts",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-stat-plans"
+  },
+  "default_version": "2.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_plans_{v}"
+   },
+   "el9": {
+    "majors": [
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_plans_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_stat_statements": {
+  "comment": "track planning and execution statistics of all SQL statements executed",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.12",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_stat_tcpinfo": {
+  "comment": "Provides pg_stat_tcpinfo to show detailed TCP connection info for sockets owned by the server''s OS user on Linux.",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-stat-tcpinfo"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_tcpinfo_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_stat_tcpinfo_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_statviz": {
+  "comment": "stats visualization and time series analysis",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-statviz"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "pg_statviz_extension_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_statviz_extension_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_store_plans": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_store_plans_{v}"
+   },
+   "el9": {
+    "majors": [
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_store_plans_{v}"
+   }
+  }
+ },
+ "pg_surgery": {
+  "comment": "extension to perform surgery on a damaged relation",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_textsearch": {
+  "comment": "Full-text search with BM25 ranking",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-textsearch"
+  },
+  "default_version": "1.5.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     17,
+     18
+    ],
+    "package": "pg_textsearch_{v}"
+   },
+   "el9": {
+    "majors": [
+     17,
+     18
+    ],
+    "package": "pg_textsearch_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_tle": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_tle_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_tle_{v}"
+   }
+  }
+ },
+ "pg_track_settings": {
+  "comment": "Track settings changes",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-track-settings"
+  },
+  "default_version": "2.1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_track_settings_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_track_settings_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "pg_trgm": {
+  "comment": "text similarity measurement and index searching based on trigrams",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.6",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "pg_utl_smtp": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_utl_smtp_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_utl_smtp_{v}"
+   }
+  }
+ },
+ "pg_uuidv7": {
+  "comment": "pg_uuidv7: create UUIDv7 values in postgres",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-uuidv7"
+  },
+  "default_version": "1.7",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_uuidv7_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_uuidv7_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_visibility": {
+  "comment": "examine the visibility map (VM) and page-level visibility info",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_wait_sampling": {
+  "comment": "sampling based statistics of wait events",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pg-wait-sampling"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_wait_sampling_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_wait_sampling_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pg_walinspect": {
+  "comment": "functions to inspect contents of PostgreSQL Write-Ahead Log",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgagent": {
+  "comment": "A PostgreSQL job scheduler",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "pgagent"
+  },
+  "default_version": "4.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgagent_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgagent_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "pgaudit": {
+  "comment": "provides auditing functionality",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgaudit"
+  },
+  "default_version": "18.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "by_major": {
+     "14": "pgaudit16_14",
+     "15": "pgaudit17_15",
+     "16": "pgaudit_16",
+     "17": "pgaudit_17",
+     "18": "pgaudit_18"
+    },
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ]
+   },
+   "el9": {
+    "by_major": {
+     "14": "pgaudit16_14",
+     "15": "pgaudit17_15",
+     "16": "pgaudit_16",
+     "17": "pgaudit_17",
+     "18": "pgaudit_18"
+    },
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ]
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgauditlogtofile": {
+  "comment": "pgAudit addon to redirect audit entries to an independent file",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgauditlogtofile"
+  },
+  "default_version": "1.8",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgauditlogtofile_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgauditlogtofile_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgautofailover": {
+  "comment": "pg_auto_failover",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-auto-failover"
+  },
+  "default_version": "2.2",
+  "requires": [
+   "btree_gist"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pg_auto_failover_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pg_auto_failover_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgbouncer_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgbouncer_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgbouncer_fdw_{v}"
+   }
+  }
+ },
+ "pgbson": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresbson_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresbson_{v}"
+   }
+  }
+ },
+ "pgcrypto": {
+  "comment": "cryptographic functions",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.4",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "pgcryptokey": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pgcryptokey_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pgcryptokey_{v}"
+   }
+  }
+ },
+ "pgdisablelogerror": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgdisablelogerror_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgdisablelogerror_{v}"
+   }
+  }
+ },
+ "pgexporter_ext": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgexporter_ext_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgexporter_ext_{v}"
+   }
+  }
+ },
+ "pgfaceting": {
+  "comment": "fast faceting queries using an inverted index",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgfaceting"
+  },
+  "default_version": "0.2.0",
+  "requires": [
+   "roaringbitmap"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgfaceting_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgfaceting_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "pgfincore": {
+  "comment": "examine and manage the os buffer cache",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgfincore"
+  },
+  "default_version": "1.4",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pgfincore_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pgfincore_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgl_ddl_deploy": {
+  "comment": "automated ddl deployment using pglogical",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17
+   ],
+   "package": "postgresql-{v}-pgl-ddl-deploy"
+  },
+  "default_version": "2.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pgl_ddl_deploy_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pgl_ddl_deploy_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pglogical": {
+  "comment": "PostgreSQL Logical Replication",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pglogical"
+  },
+  "default_version": "2.4.8",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pglogical_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pglogical_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pglogical_origin": {
+  "comment": "Dummy extension for compatibility when upgrading from Postgres 9.4",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pglogical"
+  },
+  "default_version": "1.0.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pglogical_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pglogical_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pglogical_ticker": {
+  "comment": "Have an accurate view on pglogical replication delay",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17
+   ],
+   "package": "postgresql-{v}-pglogical-ticker"
+  },
+  "default_version": "1.4",
+  "requires": [
+   "pglogical"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "pgmemcache": {
+  "comment": "memcached interface",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgmemcache"
+  },
+  "default_version": "2.3.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmemcache_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmemcache_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgmeminfo": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmeminfo_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmeminfo_{v}"
+   }
+  }
+ },
+ "pgmp": {
+  "comment": "Multiple Precision Arithmetic extension",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgmp"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmp_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmp_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgmq": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmq_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgmq_{v}"
+   }
+  }
+ },
+ "pgnodemx": {
+  "comment": "SQL functions that allow capture of node OS metrics from PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgnodemx"
+  },
+  "default_version": "2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgnodemx_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgnodemx_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgpcre": {
+  "comment": "Perl Compatible Regular Expression functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgpcre"
+  },
+  "default_version": "1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpcre_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpcre_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgpdf": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpdf_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpdf_{v}"
+   }
+  }
+ },
+ "pgpool_adm": {
+  "comment": "Administrative functions for pgPool",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgpool2"
+  },
+  "default_version": "1.6",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpool-II-pg{v}-extensions"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpool-II-pg{v}-extensions"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgpool_recovery": {
+  "comment": "recovery functions for pgpool-II for V4.3",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgpool2"
+  },
+  "default_version": "1.4",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpool-II-pg{v}-extensions"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpool-II-pg{v}-extensions"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgpool_regclass": {
+  "comment": "replacement for regclass",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgpool2"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpool-II-pg{v}-extensions"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgpool-II-pg{v}-extensions"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgq": {
+  "comment": "Generic queue for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgq3"
+  },
+  "default_version": "3.5.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgq_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgq_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgq_node": {
+  "comment": "Cascaded queue infrastructure",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgq-node"
+  },
+  "default_version": "3.5",
+  "requires": [
+   "pgq"
+  ],
+  "superuser": true,
+  "trusted": false
+ },
+ "pgrouting": {
+  "comment": "pgRouting Extension",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgrouting-scripts"
+  },
+  "default_version": "4.0.2",
+  "requires": [
+   "plpgsql",
+   "postgis"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgrouting_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgrouting_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgrowlocks": {
+  "comment": "show row-level locking information",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgsentinel": {
+  "comment": "active session history",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgsentinel"
+  },
+  "default_version": "1.5.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsentinel_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsentinel_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgsodium": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsodium_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsodium_{v}"
+   }
+  }
+ },
+ "pgspider_ext": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     15,
+     16,
+     17
+    ],
+    "package": "pgspider_ext_{v}"
+   },
+   "el9": {
+    "majors": [
+     15,
+     16,
+     17
+    ],
+    "package": "pgspider_ext_{v}"
+   }
+  }
+ },
+ "pgsql_tweaks": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsql_tweaks_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgsql_tweaks_{v}"
+   }
+  }
+ },
+ "pgstattuple": {
+  "comment": "show tuple-level statistics",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pgtap": {
+  "comment": "Unit testing for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgtap"
+  },
+  "default_version": "1.3.4",
+  "requires": [
+   "plpgsql"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgtap_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgtap_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "pgtt": {
+  "comment": "Extension to add Global Temporary Tables feature to PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgtt"
+  },
+  "default_version": "4.6.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgtt_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgtt_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pldbgapi": {
+  "comment": "server-side support for debugging PL/pgSQL functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pldebugger"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pldebugger_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pldebugger_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pljava": {
+  "comment": "PL/Java procedural language (https://tada.github.io/pljava/)",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pljava"
+  },
+  "default_version": "1.6.10",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pljava_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pljava_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pljs": {
+  "comment": "PL/JS trusted procedural language",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pljs"
+  },
+  "default_version": "1.0.5",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "pllua": {
+  "comment": "Lua as a procedural language",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pllua"
+  },
+  "default_version": "2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pllua_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pllua_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "plluau": {
+  "comment": "Lua as an untrusted procedural language",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pllua"
+  },
+  "default_version": "2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pllua_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "pllua_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "plperl": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   }
+  }
+ },
+ "plperlu": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plperl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plperl"
+   }
+  }
+ },
+ "plpgsql": {
+  "comment": "PL/pgSQL procedural language",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-server"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-server"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "plpgsql_check": {
+  "comment": "extended check for plpgsql functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-plpgsql-check"
+  },
+  "default_version": "2.10",
+  "requires": [
+   "plpgsql"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plpgsql_check_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plpgsql_check_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "plpgsql_wrap": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plpgsql_wrap_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plpgsql_wrap_{v}"
+   }
+  }
+ },
+ "plprofiler": {
+  "comment": "server-side support for profiling PL/pgSQL functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-plprofiler"
+  },
+  "default_version": "4.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plprofiler_{v}-server"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plprofiler_{v}-server"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "plproxy": {
+  "comment": "Database partitioning implemented as procedural language",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-plproxy"
+  },
+  "default_version": "2.12.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plproxy_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plproxy_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "plpython3u": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-plpython3-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-plpython3"
+   }
+  }
+ },
+ "plr": {
+  "comment": "load R interpreter and execute R script from within a database",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-plr"
+  },
+  "default_version": "8.4.8.10",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plr_{v}"
+   },
+   "el9": {
+    "by_major": {
+     "14": "plr_16",
+     "15": "plr_16",
+     "16": "plr_16",
+     "17": "plr_17",
+     "18": "plr_18"
+    },
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ]
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "plsh": {
+  "comment": "PL/sh procedural language",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-plsh"
+  },
+  "default_version": "2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plsh_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plsh_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pltcl": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-pltcl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-pltcl"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-pltcl"
+   }
+  }
+ },
+ "pltclu": {
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-pltcl-{v}"
+  },
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-pltcl"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-pltcl"
+   }
+  }
+ },
+ "plxslt": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plxslt_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "plxslt_{v}"
+   }
+  }
+ },
+ "pointcloud": {
+  "comment": "data type for lidar point clouds",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pointcloud"
+  },
+  "default_version": "1.2.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pointcloud_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pointcloud_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pointcloud_postgis": {
+  "comment": "integration for pointcloud LIDAR data and PostGIS geometry data",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pointcloud"
+  },
+  "default_version": "1.2.5",
+  "requires": [
+   "postgis",
+   "pointcloud"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pointcloud_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pointcloud_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "postgis": {
+  "comment": "PostGIS geometry and geography spatial types and functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-postgis-3-scripts"
+  },
+  "default_version": "3.7.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis37_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "postgis_raster": {
+  "comment": "PostGIS raster types and functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-postgis-3-scripts"
+  },
+  "default_version": "3.7.0",
+  "requires": [
+   "postgis"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis37_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "postgis_sfcgal": {
+  "comment": "PostGIS SFCGAL functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-postgis-3-scripts"
+  },
+  "default_version": "3.7.0",
+  "requires": [
+   "postgis"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis37_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "postgis_tiger_geocoder": {
+  "comment": "PostGIS tiger geocoder and reverse geocoder",
+  "contrib": false,
+  "deb": {
+   "by_major": {
+    "13": "postgresql-13-postgis-3-scripts",
+    "16": "postgresql-16-postgis-tiger-geocoder",
+    "17": "postgresql-17-postgis-tiger-geocoder",
+    "18": "postgresql-18-postgis-tiger-geocoder"
+   },
+   "majors": [
+    13,
+    16,
+    17,
+    18
+   ]
+  },
+  "default_version": "2025.2",
+  "requires": [
+   "postgis",
+   "fuzzystrmatch"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   }
+  },
+  "superuser": false,
+  "trusted": false
+ },
+ "postgis_topology": {
+  "comment": "PostGIS topology spatial types and functions",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-postgis-3-scripts"
+  },
+  "default_version": "3.7.0",
+  "requires": [
+   "postgis"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis36_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgis37_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "postgres_fdw": {
+  "comment": "foreign-data wrapper for remote PostgreSQL servers",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "powa": {
+  "comment": "PostgreSQL Workload Analyser-core",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-powa"
+  },
+  "default_version": "5.3.0",
+  "requires": [
+   "plpgsql",
+   "pg_stat_statements",
+   "btree_gist"
+  ],
+  "rpm": {
+   "el8": {
+    "by_major": {
+     "14": "powa_14",
+     "15": "powa_15",
+     "16": "powa-archivist_16",
+     "17": "powa-archivist_17",
+     "18": "powa-archivist_18"
+    },
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ]
+   },
+   "el9": {
+    "by_major": {
+     "14": "powa_14",
+     "15": "powa_15",
+     "16": "powa-archivist_16",
+     "17": "powa-archivist_17",
+     "18": "powa-archivist_18"
+    },
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ]
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "pre_prepare": {
+  "comment": "Pre Prepare your Statement server side",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-preprepare"
+  },
+  "default_version": "0.4",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "prefix": {
+  "comment": "Prefix Range module for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-prefix"
+  },
+  "default_version": "1.2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "prefix_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "prefix_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "prioritize": {
+  "comment": "get and set the priority of PostgreSQL backends",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-prioritize"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_prioritize_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_prioritize_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "q3c": {
+  "comment": "q3c sky indexing plugin",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-q3c"
+  },
+  "default_version": "2.0.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "q3c_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "q3c_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "rdkit": {
+  "comment": "Cheminformatics functionality for PostgreSQL.",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-rdkit"
+  },
+  "default_version": "4.7.0",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "refint": {
+  "comment": "functions for implementing referential integrity (obsolete)",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "repmgr": {
+  "comment": "Replication manager for PostgreSQL",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-repmgr"
+  },
+  "default_version": "5.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "repmgr_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "repmgr_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "roaringbitmap": {
+  "comment": "support for Roaring Bitmaps",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-roaringbitmap"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_roaringbitmap_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pg_roaringbitmap_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "rum": {
+  "comment": "RUM index access method",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-rum"
+  },
+  "default_version": "1.3",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "rum_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "rum_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "safeupdate": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     16
+    ],
+    "package": "safeupdate_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "safeupdate_{v}"
+   }
+  }
+ },
+ "seg": {
+  "comment": "data type for representing line segments or floating-point intervals",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.4",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "semver": {
+  "comment": "Semantic version data type",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-semver"
+  },
+  "default_version": "0.42.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "semver_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "semver_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "sequential_uuids": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     18
+    ],
+    "package": "sequential_uuids_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "sequential_uuids_{v}"
+   }
+  }
+ },
+ "set_user": {
+  "comment": "similar to SET ROLE but with added logging",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-set-user"
+  },
+  "default_version": "4.2.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "set_user_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "set_user_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "sqlite_fdw": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "sqlite_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "sqlite_fdw_{v}"
+   }
+  }
+ },
+ "sslinfo": {
+  "comment": "information about SSL certificates",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "sslutils": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "sslutils_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "sslutils_{v}"
+   }
+  }
+ },
+ "system_stats": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "system_stats_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "system_stats_{v}"
+   }
+  }
+ },
+ "table_log": {
+  "comment": "Module to log changes on tables",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-tablelog"
+  },
+  "default_version": "0.6.1",
+  "requires": [],
+  "superuser": true,
+  "trusted": false
+ },
+ "table_version": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "table_version_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "table_version_{v}"
+   }
+  }
+ },
+ "tablefunc": {
+  "comment": "functions that manipulate whole tables, including crosstab",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "tcn": {
+  "comment": "Triggered change notifications",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "tdigest": {
+  "comment": "Provides tdigest aggregate function.",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-tdigest"
+  },
+  "default_version": "1.4.7",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "tdigest_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "tdigest_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "tds_fdw": {
+  "comment": "Foreign data wrapper for querying a TDS database (Sybase or Microsoft SQL Server)",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-tds-fdw"
+  },
+  "default_version": "2.0.5",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "tds_fdw_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "tds_fdw_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "temporal_tables": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16
+    ],
+    "package": "temporal_tables_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17
+    ],
+    "package": "temporal_tables_{v}"
+   }
+  }
+ },
+ "timescaledb": {
+  "comment": "Enables scalable inserts and complex queries for time-series data",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-timescaledb"
+  },
+  "default_version": "2.31.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "timescaledb_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "timescaledb_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "timestamp9": {
+  "comment": "timestamp nanosecond resolution",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-timestamp9"
+  },
+  "default_version": "1.4.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "timestamp9_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "timestamp9_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "toastinfo": {
+  "comment": "show details on toasted datums",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-toastinfo"
+  },
+  "default_version": "1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "toastinfo_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "toastinfo_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "topn": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "topn_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "topn_{v}"
+   }
+  }
+ },
+ "tsm_system_rows": {
+  "comment": "TABLESAMPLE method which accepts number of rows as a limit",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "tsm_system_time": {
+  "comment": "TABLESAMPLE method which accepts time in milliseconds as a limit",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.0",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "uint": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pguint_{v}"
+   },
+   "el9": {
+    "majors": [
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pguint_{v}"
+   }
+  }
+ },
+ "unaccent": {
+  "comment": "text search dictionary that removes accents",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "unit": {
+  "comment": "SI units extension",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-unit"
+  },
+  "default_version": "7",
+  "requires": [
+   "plpgsql"
+  ],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql-unit_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql-unit_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "uri": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pguri_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pguri_{v}"
+   }
+  }
+ },
+ "uuid-ossp": {
+  "comment": "generate universally unique identifiers (UUIDs)",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.1",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": true
+ },
+ "vector": {
+  "comment": "vector data type and ivfflat and hnsw access methods",
+  "contrib": false,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}-pgvector"
+  },
+  "default_version": "0.8.7",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgvector_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgvector_{v}"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ },
+ "vectorscale": {
+  "contrib": false,
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgvectorscale_{v}"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "pgvectorscale_{v}"
+   }
+  }
+ },
+ "xml2": {
+  "comment": "XPath querying and XSLT",
+  "contrib": true,
+  "deb": {
+   "majors": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+   ],
+   "package": "postgresql-{v}"
+  },
+  "default_version": "1.2",
+  "requires": [],
+  "rpm": {
+   "el8": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   },
+   "el9": {
+    "majors": [
+     14,
+     15,
+     16,
+     17,
+     18
+    ],
+    "package": "postgresql{v}-contrib"
+   }
+  },
+  "superuser": true,
+  "trusted": false
+ }
+}
